@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 // import Link from 'react-router-dom/Link'
 // import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 
 
 // MUI stuff
@@ -18,22 +19,41 @@ import Button from '@material-ui/core/Button';
 
 const Link = require("react-router-dom").Link
 
+const styles = {
+    navContainer: {
+        backgroundColor: "mediumturquoise"
+    },
+    navButtons: {
+        fontSize: "initial",
+        color: "dimgray",
+        fontWeight: "600"
+    },
+    title: {
+        flexGrow: 1,
+      }
+};
+
 export class Nav extends Component {
     render() {
         // const { authenticated } = this.props;
 
         return (
             <AppBar>
-                <Toolbar className="nav-container">
+                <Toolbar style={styles.navContainer}>
                     {/* <Fragment>
                         <Button color="inherit" component={Link} to="/" >Home</Button>
                         <Button color="inherit" component={Link} to="/login" >Login</Button>
                         <Button color="inherit" component={Link} to="signup" >Signup</Button>
                     </Fragment> */}
-                    <Fragment>
-                        <Button color="inherit" component={Link} to="/" >Home</Button>
-                        <Button color="inherit" component={Link} to="/login" >Login</Button>
-                        <Button color="inherit" component={Link} to="register" >Register</Button>
+                    <Typography variant="h6" style={styles.title}>
+                        <Button style={styles.navButtons} color="inherit" component={Link} to="/" >CM-Tracker</Button>
+                    </Typography>
+                    <Fragment >
+                        {/* <Button style={styles.navButtons} color="inherit" component={Link} to="/" >Home</Button> */}
+                        <Button style={styles.navButtons} color="inherit" component={Link} to="/login" >Login</Button>
+                        <Button style={styles.navButtons} color="inherit" component={Link} to="/registration" > Register</Button>
+                        <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
+
                     </Fragment>
                 </Toolbar>
             </AppBar>
