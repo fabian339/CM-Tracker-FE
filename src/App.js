@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
 import register from './components/pages/public/register';
-import registration from './components/pages/public/registration';
+import registration from './components/pages/registration/registration';
 
 
 
