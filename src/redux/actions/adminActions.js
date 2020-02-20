@@ -32,7 +32,7 @@ import axios from 'axios';
 
 
 export const adminRegistration = (newUserData, history) => (dispatch) => {
-    dispatch({ type: LOADING_UI });
+    // dispatch({ type: LOADING_UI });
     // axios.post('/signup', newUserData)
     // .then((res) => {
     //     setAuthorizationHeader(res.data.token);
@@ -47,6 +47,9 @@ export const adminRegistration = (newUserData, history) => (dispatch) => {
     //   })
 
     // });
+}
+
+export const organizationAction = (newUserData, history) => (dispatch) => {
 }
 
 

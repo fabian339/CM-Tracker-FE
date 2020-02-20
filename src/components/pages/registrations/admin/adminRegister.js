@@ -15,6 +15,15 @@ import MuiPhoneNumber from "material-ui-phone-number";
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import PanToolIcon from '@material-ui/icons/PanTool';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import InputLabel from '@material-ui/core/InputLabel';
+
+
+
 
 
 //redux stuff
@@ -39,6 +48,7 @@ class adminRegister extends Component {
             phone: '',
             organization: '',
             orgExist: false,
+            addrees: '',
             errors: {}
         }
     }
@@ -69,9 +79,15 @@ class adminRegister extends Component {
 
     handleChange = (event) => {
         console.log(event.target.name)
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        if (event.target.name === "orgExist"){
+            this.setState({
+                [event.target.name]: !this.state.orgExist
+            })
+        } else {
+            this.setState({
+                [event.target.name]: event.target.value
+            })
+        }
     }
 
     handlePhoneChange = (value) => {
@@ -86,42 +102,51 @@ class adminRegister extends Component {
         // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
         // console.log(errors);
         return (
-            <Grid container style={styles.form}>
+        <Grid >
+            <header>
+                <div style={styles.logoContainer}>
+                    <img src={appLogo} alt="icon" style={{width: 250}}/>
+                </div>                    
+                <Typography variant="h4" style={styles.pageTitle} >
+                    Flexibility at your 
+                    <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                    hands
+                    <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                    when becoming an Admin
+                </Typography>
+            </header>
+            <Grid container>
                 <Grid item sm />
                 <Grid item sm>
-                    <div style={styles.logoContainer}>
-                        <img src={appLogo} alt="icon" style={{width: 250}}/>
-                    </div>                    
-                    <Typography variant="h4" style={styles.pageTitle} >
-                        Control it all, Become an Admin
-                    </Typography>
-                    <form noValidate onSubmit={this.handleSubmit}>
+                    <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
+                        
                         <TextField
                         id='First'
                         name='firstN'
                         type="firstN"
                         label="First Name"
-                        style={{margin: "auto 20px"}}
+                        // style={{margin: "auto 10px auto auto"}}
+                        style={{width: "37.5%", marginRight: "2.5%"}}
                         required
                         // helperText={errors.email}
                         // error={errors.email ? true : false}
                         value={this.state.firstN}
                         onChange={this.handleChange}
-                         />
+                        />
 
                         <TextField
                         id='Last'
                         name='lastN'
                         type="lastN"
                         label="Last Name"
-                        style={{margin: "auto 20px"}}
+                        style={{width: "37.5%", marginLeft: "2.5%"}}
                         required
                         // variant="outlined"
                         // helperText={errors.email}
                         // error={errors.email ? true : false}
                         value={this.state.lastN}
                         onChange={this.handleChange}
-                         />
+                        />
                          
 
 
@@ -170,7 +195,7 @@ class adminRegister extends Component {
                         label="Birthday"
                         type="date"
                         InputLabelProps={{ shrink: true }}
-                        style={{margin: "10px 20px"}}
+                        style={{width: "37.5%", marginRight: "2.5%"}}
                         // helperText={errors.handle}
                         // error={errors.handle ? true : false}
                         value={this.state.dob}
@@ -182,48 +207,42 @@ class adminRegister extends Component {
                         label="Phone Number"
                         data-cy="user-phone"
                         defaultCountry={"us"}
-                        style={{margin: "10px 20px"}}
+                        style={{width: "37.5%", marginLeft: "2.5%"}}
                         // helperText={errors.handle}
                         // error={errors.handle ? true : false}
                         value={this.state.phone}
                         onChange={this.handlePhoneChange}
                          />
 
-                        <Typography variant="h6" style={{marginTop: "10px"}}>
+                        <Typography variant="h6" style={{margin: "20px auto 10px auto"}}>
                             ORGANIZATION
                         </Typography>
 
-                        <TextField
-                        id='organization'
-                        name='organization'
-                        type="text"
-                        label="Organization Name"
-                        style={styles.textField}
-                        variant="outlined" 
-                        required
-                        // helperText={errors.email}
-                        // error={errors.email ? true : false}
-                        value={this.state.organization}
-                        onChange={this.handleChange}
-                        fullWidth />
-
-                        <div style={{display: 'inline-flex'}}>
-                            <Typography variant="subtitle1" style={{margin: "20px 20px"}}>
-                                Is this organization already register with us?
+                        <div>
+                            <Typography variant="subtitle1">
+                                Is your organization register with us?
                             </Typography>
-                            <FormControl>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select-outlined"
-                                    value={this.state.orgExist}
-                                    onChange={this.handleChange}
-                                    name="orgExist"
-                                    style={{margin: "10px 20px"}}
-                                    >
-                                    <MenuItem value={true}>Yes</MenuItem>
-                                    <MenuItem value={false}>No</MenuItem>
-                                </Select>
-                            </FormControl>
+                            {/* <FormControlLabel label="No" /> */}
+                            <div >
+                                <Grid 
+                                component="label" 
+                                container 
+                                alignItems="center"
+                                style={{margin: "auto 40%"}}
+                                >
+                                    <Grid item>No</Grid>
+                                        <Grid item>
+                                            <Switch
+                                                name="orgExist"
+                                                checked={this.state.orgExist}
+                                                onChange={this.handleChange}
+                                                value={this.state.orgExist}
+                                                color="primary"
+                                            />
+                                        </Grid>
+                                    <Grid item>Yes</Grid>
+                                </Grid>
+                            </div>
                         </div>
 
                         {this.state.orgExist ? (
@@ -231,10 +250,74 @@ class adminRegister extends Component {
                                An email has been sent to other admins, please verify
                             </Typography>
                         ) : (
-                            <Typography variant="body2">
-                                Will you like to register this organization?
-                            </Typography>
-                        )}
+                            <Grid >
+                                <Typography variant="subtitle1">
+                                    Lest register your organization
+                                </Typography>
+                                <TextField
+                                    id='organization'
+                                    name='organization'
+                                    type="text"
+                                    label="Organization/Business Name"
+                                    style={styles.textField}
+                                    variant="outlined" 
+                                    required
+                                    // helperText={errors.email}
+                                    // error={errors.email ? true : false}
+                                    value={this.state.organization}
+                                    onChange={this.handleChange}
+                                    fullWidth 
+                                    /> 
+
+                                <TextField
+                                    id='addrees'
+                                    name='addrees'
+                                    type="text"
+                                    label="Address: 123 Street Ave, New York, NY, 10022"
+                                    style={styles.textField}
+                                    required
+                                    // helperText={errors.email}
+                                    // error={errors.email ? true : false}
+                                    value={this.state.address}
+                                    onChange={this.handleChange}
+                                    fullWidth 
+                                    /> 
+                                
+                                <MuiPhoneNumber
+                                name="orgPhone"
+                                label="Main Phone Number"
+                                data-cy="user-phone"
+                                defaultCountry={"us"}
+                                style={{width: "37.5%", marginLeft: "2.5%"}}
+                                // helperText={errors.handle}
+                                // error={errors.handle ? true : false}
+                                value={this.state.phone}
+                                onChange={this.handlePhoneChange}
+                                />
+
+                            <FormControl>
+                                <InputLabel htmlFor="age-native-simple">Organization Type</InputLabel>
+                                <Select
+                                native
+                                value={this.state.orgType}
+                                style={{width: "37.5%"}}
+                                onChange={this.handleChange}
+                                inputProps={{
+                                    name: 'orgType',
+                                    id: 'age-native-simple',
+                                }}
+                                >
+                                <option value="" />
+                                <option value={10}>Ten</option>
+                                <option value={20}>Twenty</option>
+                                <option value={30}>Thirty</option>
+                                </Select>
+                            </FormControl>
+
+
+                            </Grid>
+                            )
+                        }
 
                         {/* {errors.general && (
                             <Typography variant="body2" style={styles.customError}>
@@ -262,6 +345,7 @@ class adminRegister extends Component {
                 <Grid item sm/>
 
             </Grid>
+        </Grid>
 
         )
     }

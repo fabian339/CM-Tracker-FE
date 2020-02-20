@@ -11,7 +11,10 @@ export default {
     pageTitle: {
         marginTop: "-10px",
         marginBottom: "10px",
-        textAlign: "center"
+        textAlign: "center",
+        background: "-webkit-linear-gradient(#eee, #333)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent"
     },
     button: {
         marginTop: 20,
