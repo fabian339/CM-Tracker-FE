@@ -1,18 +1,14 @@
-import { SET_USER, 
+import { 
+    SET_USER, 
     SET_AUTHENTICATED, 
     SET_UNAUTHENTICATED, 
     LOADING_USER, 
-    LIKE_SECRET,
-    UNLIKE_SECRET,
-    MARCK_NOTIFICATIONS_READ,
  } from '../types';
 
 const initialState = {
     authenticated: false,
     loading: false,
-    credentials: {},
-    likes: [],
-    notifications: [],
+    admin: false
 }
 
 export default function(state = initialState, action){
@@ -36,27 +32,6 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 loading: true,
-            }
-        case LIKE_SECRET:
-            return {
-                ...state,
-                likes: [
-                    ...state.likes,
-                    {
-                        userHandle: state.credentials.handle,
-                        secretId: action.payload.secretId
-                    }
-                ]
-            }
-        case UNLIKE_SECRET:
-            return {
-                ...state,
-                likes: state.likes.filter(like => like.secretId !== action.payload.secretId)
-            }
-        case MARCK_NOTIFICATIONS_READ:
-            state.notifications.forEach(not => not.read = true);
-            return{
-                ...state
             }
         default:
             return state;

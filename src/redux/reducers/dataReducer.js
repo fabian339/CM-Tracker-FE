@@ -1,20 +1,14 @@
 import { 
-    SET_SECRETS, 
+    SET_CLIENTS, 
     LOADING_DATA, 
-    LIKE_SECRET, 
-    UNLIKE_SECRET,
-    DELETE_SECRET,
-    POST_SECRET,
-    SET_SECRET,
-    SUBMIT_COMMENT,
-    ON_IMAGE_UPDATED
+    ADD_CLIENT,
+    SET_CLIENT
  } from '../types';
 
 const initialState = {
-    secrets: [],
-    secret: {},
+    clients: [],
+    clients: {},
     loading: false,
-    imageUpdated: false
 }
 
 
@@ -27,57 +21,24 @@ export default function(state = initialState, action){
                 ...state,
                 loading: true
             };
-        case SET_SECRETS:
+        case SET_CLIENTS:
             return {
                 ...state,
-                secrets: action.payload,
+                clients: action.payload,
                 loading: false,
-                imageUpdated: false
             };
-        case SET_SECRET:
+        case SET_CLIENT:
                 return {
                     ...state,
                     secret: action.payload,
-                };
-        case ON_IMAGE_UPDATED:
+                };                 
+        case ADD_CLIENT: 
             return {
                 ...state,
-                imageUpdated: true
-            };                    
-        case LIKE_SECRET:
-        case UNLIKE_SECRET:
-           let index = state.secrets.findIndex((secret) => secret.secretId === action.payload.secretId);
-            state.secrets[index] = action.payload;
-            if(state.secret.secretId === action.payload.secretId){
-                //added comments to the action payload
-                let comments = state.secret.comments;
-                state.secret = action.payload
-                state.secret.comments = comments;
-            }
-            return {
-                ...state,
-            }
-        case DELETE_SECRET:
-            index = state.secrets.findIndex(secret => secret.secretId === action.payload);
-            state.secrets.splice(index, 1);
-            return {
-                ...state
-            }
-        case POST_SECRET: 
-            return {
-                ...state,
-                secrets: [
+                clients: [
                     action.payload,
                     ...state.secrets
                 ]
-            }
-        case SUBMIT_COMMENT: 
-            return{
-                ...state,
-                secret: {
-                    ...state.secret,
-                    comments: [action.payload, ...state.secret.comments]
-                }
             }
         default:
             return state;
