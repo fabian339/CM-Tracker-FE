@@ -40,7 +40,7 @@ class registration extends Component {
         const  {adminHover, userHover, clientHover } = this.state;
 
         return (
-            <FadeIn duration={4}>
+            <FadeIn duration={2}>
                 <Grid container>
                     <Grid item xs={12}>
                         <div style={styles.logoContainer}>

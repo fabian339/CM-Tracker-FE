@@ -17,13 +17,22 @@ export default {
         WebkitTextFillColor: "transparent"
     },
     button: {
-        marginTop: 20,
-        width: 200,
+        marginTop: 15,
+        width: 250,
         position: 'relative'
     },
     form: {
         textAlign : 'center',
         // width: '80%'
     },
+    orgTypes: {
+        width: "37.5%", 
+        margin: "15px 2.5% 15px 0"
+    },
+    orgFound: {
+        marginTop: 20,
+        color: "green"
+    }
+    
 
 }
