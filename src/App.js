@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
 import adminRegister from './components/pages/registrations/admin/adminRegister';
+import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
+
 import registration from './components/pages/registrations/modules/registration';
 //REDUX
 import { Provider } from 'react-redux';
@@ -30,6 +32,7 @@ function App() {
               <Route exact path="/users/:handle" component={user} />
               <Route exact path="/users/:handle/secret/:secretId" component={user} /> */}
               <Route exact path="/admin-register" component={adminRegister} />
+              <Route exact path="/org-register" component={orgRegister} />
               <Route exact path="/registration" component={registration} />
               <Route exact path="/login" component={login} />
               {/* <Route exact path="/register" component={register} /> */}

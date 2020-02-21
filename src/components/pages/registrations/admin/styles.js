@@ -17,7 +17,7 @@ export default {
         WebkitTextFillColor: "transparent"
     },
     button: {
-        marginTop: 15,
+        marginTop: 20,
         width: 250,
         position: 'relative'
     },

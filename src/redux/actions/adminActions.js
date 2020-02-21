@@ -38,7 +38,7 @@ export const adminRegistration = (newUserData, history) => (dispatch) => {
     //     setAuthorizationHeader(res.data.token);
     //     dispatch(getUserData());
     //     dispatch({ type: CLEAR_ERRORS});
-    //     history.push('/');
+        history.push('/org-register');
     // })
     // .catch(err => {
     //   dispatch({

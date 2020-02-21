@@ -25,8 +25,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 
-
-
 //redux stuff
 //Redux stuf
 import { connect } from 'react-redux';
@@ -40,7 +38,6 @@ class adminRegister extends Component {
     constructor(){
         super();
         this.state = {
-            //ADMIN INFO
             firstN: '',
             lastN: '',
             email: '',
@@ -48,12 +45,6 @@ class adminRegister extends Component {
             confirmPassword: '',
             dob: '',
             phone: '',
-            //ORGANIZATION INFO
-            orgName: '',
-            orgPhone: '',
-            orgAddrees: '',
-            orgExist: false,
-            orgFound: false,
             //errors
             errors: {}
         }
@@ -73,14 +64,16 @@ class adminRegister extends Component {
             loading: true
         });
 
-        const newUserData = {
-            email: this.state.email,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword,
-            handle: this.state.handle
-        }
+        // const newUserData = {
+        //     email: this.state.email,
+        //     password: this.state.password,
+        //     confirmPassword: this.state.confirmPassword,
+        //     handle: this.state.handle
+        // }
             //call to add the new admin
     //    this.props.signupUser(newUserData, this.props.history);
+       this.props.adminRegistration({}, this.props.history);
+
     }
 
     handleChange = (event) => {
@@ -100,25 +93,6 @@ class adminRegister extends Component {
     handlePhoneChange = (value) => {
         if (value) {
           this.setState({ phone: value });
-        }
-      }
-
-
-    handleOrganizationChange = (event) => {
-        console.log(event.target.name)
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-        //Query wheter and organization exist or not
-        if(this.state.orgExist){
-            this.setState({ orgFound: true });
-        }
-    }
-
-
-    handleOrganizationPhoneChange = (value) => {
-        if (value) {
-          this.setState({ orgPhone: value });
         }
       }
 
@@ -239,147 +213,6 @@ class adminRegister extends Component {
                         value={this.state.phone}
                         onChange={this.handlePhoneChange}
                          />
-
-                        <Typography variant="h6" style={{margin: "20px auto 10px auto"}}>
-                            ORGANIZATION
-                        </Typography>
-
-                        <div>
-                            <Typography variant="subtitle1">
-                                Is your organization register with us?
-                            </Typography>
-                            {/* <FormControlLabel label="No" /> */}
-                            <div >
-                                <Grid 
-                                component="label" 
-                                container 
-                                alignItems="center"
-                                style={{margin: "auto 40%"}}
-                                >
-                                    <Grid item>No</Grid>
-                                        <Grid item>
-                                            <Switch
-                                                name="orgExist"
-                                                checked={this.state.orgExist}
-                                                onChange={this.handleChange}
-                                                value={this.state.orgExist}
-                                                color="primary"
-                                            />
-                                        </Grid>
-                                    <Grid item>Yes</Grid>
-                                </Grid>
-                            </div>
-                        </div>
-                        {this.state.orgExist ? (
-                            <Grid>
-                                <FormControl style={{width: "80%"}} >
-                                    <InputLabel>*Choose an existing organization*</InputLabel>
-                                    <Select
-                                        native
-                                        value={this.state.orgName}
-                                        onChange={this.handleOrganizationChange}
-                                        variant="outlined" 
-
-                                        inputProps={{
-                                            name: 'orgName',
-                                            id: 'age-native-simple',
-                                        }}
-                                        >
-                                        <option value="" />
-                                        <option value="Apple">Apple</option>
-                                        <option value="East Side House">East Side House</option>
-                                        <option value="Jericco">Jericco</option>
-                                        <option value="Amazon">Amazon</option>
-                                    </Select>
-                                </FormControl>
-                                
-                                {(this.state.orgExist && this.state.orgFound) && (
-                                    <Bounce> 
-                                        <Grid>
-                                            <Typography variant="body2" style={styles.orgFound}>
-                                                Organization found! 
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                <EmojiEmotionsIcon style={{color: "royalblue"}} /> 
-                                            </Typography>
-                                        </Grid>
-                                    </Bounce>
-                                )}
-
-                            </Grid>
-                        ) : (
-                            <Grid >
-                                <Typography variant="subtitle1">
-                                    Great, lest register your Organization/Business
-                                </Typography>
-                                <TextField
-                                    id='organization'
-                                    name='orgName'
-                                    type="text"
-                                    label="Organization/Business Name"
-                                    style={styles.textField}
-                                    variant="outlined" 
-                                    required
-                                    // helperText={errors.email}
-                                    // error={errors.email ? true : false}
-                                    value={this.state.orgName}
-                                    onChange={this.handleChange}
-                                    fullWidth 
-                                    /> 
-
-                                <TextField
-                                    id='addrees'
-                                    name='orgAddrees'
-                                    type="text"
-                                    label="Main Address: 123 Street Ave, New York, NY, 10022"
-                                    style={{width:"80%", marginTop:"-7px"}}
-                                    required
-                                    // helperText={errors.email}
-                                    // error={errors.email ? true : false}
-                                    value={this.state.orgAddrees}
-                                    onChange={this.handleChange}
-                                    fullWidth 
-                                    /> 
-                                
-                                <FormControl style={styles.orgTypes} >
-                                    <InputLabel>Organization Type</InputLabel>
-                                    <Select
-                                        native
-                                        value={this.state.orgType}
-                                        onChange={this.handleChange}
-                                        inputProps={{
-                                            name: 'orgType',
-                                            id: 'age-native-simple',
-                                        }}
-                                        >
-                                        <option value="" />
-                                        <option value="Educational">Educational</option>
-                                        <option value="Merchandise Business">Merchandise Business</option>
-                                        <option value="Manufacture Business">Manufacture Business</option>
-                                        <option value="Non-Profit">Non-Profit</option>
-                                        <option value="Insurance">Insurance</option>
-                                        <option value="Service Business">Service Business</option>
-                                        <option value="Other">Other</option>
-                                    </Select>
-                                </FormControl>
-
-                                <MuiPhoneNumber
-                                name="orgPhone"
-                                label="Organization Phone#"
-                                data-cy="user-phone"
-                                defaultCountry={"us"}
-                                style={{
-                                    width: "37.5%", 
-                                    margin: "15px 0 15px 2.5%",
-                                }}
-                                // helperText={errors.handle}
-                                // error={errors.handle ? true : false}
-                                value={this.state.orgPhone}
-                                onChange={this.handleOrganizationPhoneChange}
-                                />
-                            </Grid>
-                            )
-                        }
 
                         {/* {errors.general && (
                             <Typography variant="body2" style={styles.customError}>
