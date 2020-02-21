@@ -51,10 +51,9 @@ class adminRegister extends Component {
             //ORGANIZATION INFO
             orgName: '',
             orgPhone: '',
-            organizationName: '',
+            orgAddrees: '',
             orgExist: false,
             orgFound: false,
-            orgAddrees: '',
             //errors
             errors: {}
         }
@@ -277,12 +276,12 @@ class adminRegister extends Component {
                                     <InputLabel>*Choose an existing organization*</InputLabel>
                                     <Select
                                         native
-                                        value={this.state.organizationName}
+                                        value={this.state.orgName}
                                         onChange={this.handleOrganizationChange}
                                         variant="outlined" 
 
                                         inputProps={{
-                                            name: 'organizationName',
+                                            name: 'orgName',
                                             id: 'age-native-simple',
                                         }}
                                         >
@@ -315,7 +314,7 @@ class adminRegister extends Component {
                                 </Typography>
                                 <TextField
                                     id='organization'
-                                    name='organizationName'
+                                    name='orgName'
                                     type="text"
                                     label="Organization/Business Name"
                                     style={styles.textField}
@@ -323,7 +322,7 @@ class adminRegister extends Component {
                                     required
                                     // helperText={errors.email}
                                     // error={errors.email ? true : false}
-                                    value={this.state.organizationName}
+                                    value={this.state.orgName}
                                     onChange={this.handleChange}
                                     fullWidth 
                                     /> 
