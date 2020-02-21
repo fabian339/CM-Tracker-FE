@@ -32,6 +32,12 @@ export default {
     orgFound: {
         marginTop: 20,
         color: "green"
+    },
+    progress: {
+        position: 'absolute',
+        color: "chartreuse",
+        width: "40px",
+        height: "40px"
     }
     
 

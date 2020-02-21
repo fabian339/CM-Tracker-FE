@@ -51,8 +51,8 @@ export const adminRegistration = (newAdminData, history) => (dispatch) => {
     });
 }
 
-export const organizationAction = (newUserData, history) => (dispatch) => {
-}
+// export const organizationAction = (newUserData, history) => (dispatch) => {
+// }
 
 
 
@@ -66,6 +66,7 @@ export const logoutAdminUser = () => (dispatch) => {
 
 export const getAdminData = () => (dispatch) => {
     dispatch({ type: LOADING_ADMIN });
+            console.log("Calledd")
     axios.get('/admin')
     .then((res) => {
         dispatch({

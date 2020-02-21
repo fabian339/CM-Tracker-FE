@@ -109,7 +109,6 @@ class orgRegister extends Component {
     render() {
 
         // const { styles, UI: { loading } } = this.props;
-        // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
         // console.log(errors);
         return (
         <Shake>
@@ -280,7 +279,9 @@ class orgRegister extends Component {
                         color="primary"
                         style={styles.button}
                         disabled={false}
-                        > register
+                        > 
+                        {}
+                        register organization
                         {/* {loading && (
                             <CircularProgress size={30} style={styles.progress} />
                         )} */}

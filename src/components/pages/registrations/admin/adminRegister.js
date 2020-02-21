@@ -101,9 +101,10 @@ class adminRegister extends Component {
 
     render() {
 
-        // const { styles, UI: { loading } } = this.props;
+        const {  UI: { loading } } = this.props;
+        const { errors } = this.state;
         // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
-        // console.log(errors);
+        console.log(this.props);
         return (
         <Flash>
             <Grid >
@@ -131,8 +132,8 @@ class adminRegister extends Component {
                         label="First Name"
                         style={{width: "37.5%", marginRight: "2.5%"}}
                         required
-                        // helperText={errors.email}
-                        // error={errors.email ? true : false}
+                        helperText={errors.firstN}
+                        error={errors.firstN ? true : false}
                         value={this.state.firstN}
                         onChange={this.handleChange}
                         />
@@ -145,8 +146,8 @@ class adminRegister extends Component {
                         style={{width: "37.5%", marginLeft: "2.5%"}}
                         required
                         // variant="outlined"
-                        // helperText={errors.email}
-                        // error={errors.email ? true : false}
+                        helperText={errors.lastN}
+                        error={errors.lastN ? true : false}
                         value={this.state.lastN}
                         onChange={this.handleChange}
                         />
@@ -160,8 +161,8 @@ class adminRegister extends Component {
                         label="Email"
                         style={styles.textField}
                         required
-                        // helperText={errors.email}
-                        // error={errors.email ? true : false}
+                        helperText={errors.email}
+                        error={errors.email ? true : false}
                         value={this.state.email}
                         onChange={this.handleChange}
                         fullWidth />
@@ -173,8 +174,8 @@ class adminRegister extends Component {
                         label="Password"
                         required
                         style={styles.textField}
-                        // helperText={errors.password}
-                        // error={errors.password ? true : false}
+                        helperText={errors.password}
+                        error={errors.password ? true : false}
                         value={this.state.password}
                         onChange={this.handleChange}
                         fullWidth />
@@ -186,8 +187,8 @@ class adminRegister extends Component {
                         label="Confirm Password"
                         required
                         style={styles.textField}
-                        // helperText={errors.confirmPassword}
-                        // error={errors.confirmPassword ? true : false}
+                        helperText={errors.confirmPassword}
+                        error={errors.confirmPassword ? true : false}
                         value={this.state.confirmPassword}
                         onChange={this.handleChange}
                         fullWidth />
@@ -199,8 +200,8 @@ class adminRegister extends Component {
                         type="date"
                         InputLabelProps={{ shrink: true }}
                         style={{width: "37.5%", marginRight: "2.5%"}}
-                        // helperText={errors.handle}
-                        // error={errors.handle ? true : false}
+                        helperText={errors.dob}
+                        error={errors.dob ? true : false}
                         value={this.state.dob}
                         onChange={this.handleChange}
                          />
@@ -211,17 +212,17 @@ class adminRegister extends Component {
                         data-cy="user-phone"
                         defaultCountry={"us"}
                         style={{width: "37.5%", marginLeft: "2.5%"}}
-                        // helperText={errors.handle}
-                        // error={errors.handle ? true : false}
+                        helperText={errors.phone}
+                        error={errors.phone ? true : false}
                         value={this.state.phone}
                         onChange={this.handlePhoneChange}
                          />
 
-                        {/* {errors.general && (
+                        {errors.general && (
                             <Typography variant="body2" style={styles.customError}>
                                 {errors.general}
                             </Typography>
-                        )} */}
+                        )}
 
                         <Button
                         type="submit"
@@ -230,9 +231,9 @@ class adminRegister extends Component {
                         style={styles.button}
                         disabled={false}
                         > register
-                        {/* {loading && (
+                        {loading && (
                             <CircularProgress size={30} style={styles.progress} />
-                        )} */}
+                        )}
                         </Button>
                         <br/>
                         <footer style={{margin: "20px auto"}}>
@@ -252,13 +253,13 @@ class adminRegister extends Component {
 }
 
 adminRegister.propTypes = {
-    admin: PropTypes.object.isRequired,
+    // admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     adminRegistration: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
+    // admin: state.admin,
     UI: state.UI
 });
 
