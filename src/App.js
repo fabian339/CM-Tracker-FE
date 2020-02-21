@@ -4,20 +4,35 @@ import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
 import adminRegister from './components/pages/registrations/admin/adminRegister';
 import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
+import jwtDecode from 'jwt-decode';
+import './App.css';
 
 import registration from './components/pages/registrations/modules/registration';
 //REDUX
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED } from './redux/types';
-// import { logoutUser, getUserData } from './redux/actions/userActions'
+import { logoutAdminUser, getAdminData } from './redux/actions/adminActions'
+import axios from 'axios';
 
 
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 
-import './App.css';
+const token = localStorage.FBIdToken;
+if(token){
+  const decodedtoken = jwtDecode(token);
+  // console.log(decodedtoken.exp);
+  if(decodedtoken.exp * 1000 < Date.now()){
+    store.dispatch(logoutAdminUser());
+    window.location.href = '/login';
+  } else {
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch(getAdminData());
+  }
+}
 
 function App() {
   return (

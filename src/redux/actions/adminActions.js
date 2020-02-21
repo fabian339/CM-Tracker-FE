@@ -1,10 +1,10 @@
 import { 
-    SET_USER, 
+    SET_ADMIN, 
     SET_ERRORS, 
     CLEAR_ERRORS, 
     LOADING_UI, 
     SET_UNAUTHENTICATED, 
-    LOADING_USER, 
+    LOADING_ADMIN, 
     MARCK_NOTIFICATIONS_READ,
     } from '../types';
 
@@ -31,22 +31,24 @@ import axios from 'axios';
 // }
 
 
-export const adminRegistration = (newUserData, history) => (dispatch) => {
-    // dispatch({ type: LOADING_UI });
-    // axios.post('/signup', newUserData)
-    // .then((res) => {
-    //     setAuthorizationHeader(res.data.token);
-    //     dispatch(getUserData());
-    //     dispatch({ type: CLEAR_ERRORS});
-        history.push('/org-register');
-    // })
-    // .catch(err => {
-    //   dispatch({
-    //       type: SET_ERRORS,
-    //       payload: err.response.data
-    //   })
+export const adminRegistration = (newAdminData, history) => (dispatch) => {
 
-    // });
+    dispatch({ type: LOADING_UI });
+    axios.post('/registerAdmin', newAdminData)
+    .then((res) => {
+        setAuthorizationHeader(res.data.token);
+        dispatch(getAdminData());
+        dispatch({ type: CLEAR_ERRORS});
+        history.push('/org-register');
+    })
+    .catch(err => {
+        console.log(err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
+
+    });
 }
 
 export const organizationAction = (newUserData, history) => (dispatch) => {
@@ -54,28 +56,28 @@ export const organizationAction = (newUserData, history) => (dispatch) => {
 
 
 
-// export const logoutUser = () => (dispatch) => {
-//     localStorage.removeItem('FBIdToken');
-//     delete axios.defaults.headers.common['Authorization'];
-//     dispatch({ type: SET_UNAUTHENTICATED });
-// }
+export const logoutAdminUser = () => (dispatch) => {
+    localStorage.removeItem('FBIdToken');
+    delete axios.defaults.headers.common['Authorization'];
+    dispatch({ type: SET_UNAUTHENTICATED });
+}
 
 
 
-// export const getUserData = () => (dispatch) => {
-//     dispatch({ type: LOADING_USER });
-//     axios.get('/user')
-//     .then((res) => {
-//         dispatch({
-//             type: SET_USER,
-//             payload: res.data
-//         })
-//         // console.log("PayloadData-->", res.data)
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// }
+export const getAdminData = () => (dispatch) => {
+    dispatch({ type: LOADING_ADMIN });
+    axios.get('/admin')
+    .then((res) => {
+        dispatch({
+            type: SET_ADMIN,
+            payload: res.data
+        })
+        // console.log("PayloadData-->", res.data)
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
 
 // export const uploadImage = (formData) => (dispatch) => {
 //     // dispatch( { type: ON_IMAGE_CHANGE });
@@ -110,8 +112,8 @@ export const organizationAction = (newUserData, history) => (dispatch) => {
 // }
 
 
-// const setAuthorizationHeader = (token) => {
-//     const FBIdToken = `Bearer ${token}`;
-//     localStorage.setItem('FBIdToken', FBIdToken);
-//     axios.defaults.headers.common['Authorization'] = FBIdToken;
-// }
+const setAuthorizationHeader = (token) => {
+    const FBIdToken = `Bearer ${token}`;
+    localStorage.setItem('FBIdToken', FBIdToken);
+    axios.defaults.headers.common['Authorization'] = FBIdToken;
+}

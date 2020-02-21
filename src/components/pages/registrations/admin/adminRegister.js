@@ -64,15 +64,18 @@ class adminRegister extends Component {
             loading: true
         });
 
-        // const newUserData = {
-        //     email: this.state.email,
-        //     password: this.state.password,
-        //     confirmPassword: this.state.confirmPassword,
-        //     handle: this.state.handle
-        // }
+        const newAdminData = {
+            firstN: this.state.firstN,
+            lastN: this.state.lastN,
+            email: this.state.email,
+            password: this.state.password,
+            confirmPassword: this.state.confirmPassword,
+            dob: this.state.dob,
+            phone: this.state.phone
+        }
             //call to add the new admin
     //    this.props.signupUser(newUserData, this.props.history);
-       this.props.adminRegistration({}, this.props.history);
+       this.props.adminRegistration(newAdminData, this.props.history);
 
     }
 
