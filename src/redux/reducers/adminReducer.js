@@ -3,12 +3,15 @@ import {
     SET_AUTHENTICATED, 
     SET_UNAUTHENTICATED, 
     LOADING_ADMIN, 
+    SET_ORGANIZATION,
+    ADD_ORGANIZATION
  } from '../types';
 
 const initialState = {
     authenticated: false,
     loading: false,
-    admin: true
+    admin: true,
+    organization: {}
 }
 
 export default function(state = initialState, action){
@@ -27,6 +30,17 @@ export default function(state = initialState, action){
                 authenticated: true,
                 loading: false,
                 ...action.payload
+            }
+        case ADD_ORGANIZATION:
+            console.log("REDUCERR",action.payload)
+            return {
+                ...state,
+                organization: action.payload,
+            }
+        case SET_ORGANIZATION:
+            return {
+                ...state,
+                organization: action.payload,
             }
         case LOADING_ADMIN:
             return {

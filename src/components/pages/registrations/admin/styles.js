@@ -38,7 +38,12 @@ export default {
         color: "chartreuse",
         width: "40px",
         height: "40px"
-    }
+    },
+    customError: {
+        color: 'red',
+        fontSize: '1rem',
+        marginTop: 10
+    },
     
 
 }

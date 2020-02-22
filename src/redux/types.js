@@ -20,8 +20,11 @@ export const STOP_LOADING_UI = "STOP_LOADING_UI";
 export const SET_CLIENTS = "SET_CLIENTS";
 export const SET_CLIENT = "SET_CLIENT";
 // export const LIKE_SECRET = "LIKE_SECRET";
-// export const UNLIKE_SECRET = "UNLIKE_SECRET";
 // export const DELETE_SECRET = "DELETE_SECRET";
 export const ADD_CLIENT = "ADD_CLIENT";
-// export const SUBMIT_COMMENT = "SUBMIT_COMMENT";
+
+
+//organization reducer types
+export const SET_ORGANIZATION = "SET_ORGANIZATION";
+export const ADD_ORGANIZATION = "ADD_ORGANIZATION";
 // export const ON_IMAGE_UPDATED = "ON_IMAGE_UPDATED";

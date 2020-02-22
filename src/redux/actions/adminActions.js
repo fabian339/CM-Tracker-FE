@@ -4,8 +4,11 @@ import {
     CLEAR_ERRORS, 
     LOADING_UI, 
     SET_UNAUTHENTICATED, 
-    LOADING_ADMIN, 
+    LOADING_ADMIN,
+    STOP_LOADING_UI,
+    SET_ORGANIZATION, 
     MARCK_NOTIFICATIONS_READ,
+    ADD_ORGANIZATION
     } from '../types';
 
     import {getSecrets} from './dataActions'
@@ -51,14 +54,18 @@ export const adminRegistration = (newAdminData, history) => (dispatch) => {
     });
 }
 
-export const registerOrg = (newOrgData, history) => (dispatch) => {
+export const registerOrg = (newOrgData, adminName, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/orgRegister', newOrgData)
     .then((res) => {
-        // setAuthorizationHeader(res.data.token);
-        // dispatch(getAdminData());
+        console.log("CALLED")
+        dispatch({
+            type: ADD_ORGANIZATION,
+            payload: res.data
+        });
+
         dispatch({ type: CLEAR_ERRORS});
-        history.push('/modules');
+        // history.push('/admin-modules');
     })
     .catch(err => {
         console.log(err)
@@ -66,9 +73,26 @@ export const registerOrg = (newOrgData, history) => (dispatch) => {
           type: SET_ERRORS,
           payload: err.response.data
       })
-
+    //   console.log(err.response)
     });
 }
+
+
+export const mergeAdminWithOrg = () => dispatch => {
+
+}
+// export const getOrgData = (orgId) => (dispatch) => {
+//     dispatch({ type: LOADING_UI });
+//     axios.get(`/organization/${orgId}`)
+//     .then((res) => {
+//         dispatch({
+//             type: SET_ORGANIZATION,
+//             payload: res.data
+//         });
+//         dispatch({ type: STOP_LOADING_UI })
+//     })
+//     .catch(err =>  console.log(err) );
+// }
 
 
 

@@ -24,13 +24,9 @@ import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
-
-
-
-//redux stuff
 //Redux stuf
 import { connect } from 'react-redux';
-import { adminRegistration } from '../../../../../redux/actions/adminActions'
+import { registerOrg } from '../../../../../redux/actions/adminActions'
 
 const Link = require("react-router-dom").Link
 
@@ -43,7 +39,8 @@ class orgRegister extends Component {
             //ORGANIZATION INFO
             orgName: '',
             orgPhone: '',
-            orgAddrees: '',
+            orgAddress: '',
+            orgType: '',
             orgExist: false,
             orgFound: false,
             //errors
@@ -65,18 +62,22 @@ class orgRegister extends Component {
             loading: true
         });
 
-        const newUserData = {
-            email: this.state.email,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword,
-            handle: this.state.handle
+        const newOrgData = {
+            orgName: this.state.orgName,
+            orgPhone: this.state.orgPhone,
+            orgAddress: this.state.orgAddress,
+            orgType: this.state.orgType
         }
-            //call to add the new admin
-    //    this.props.signupUser(newUserData, this.props.history);
+
+        // const { firtN, lastN } = this.p
+                console.log(this.props);
+        let adminName;
+            //call to add the new Organization
+       this.props.registerOrg(newOrgData, adminName ,this.props.history);
     }
 
     handleChange = (event) => {
-        console.log(event.target.name)
+        // console.log(event.target.name)
         if (event.target.name === "orgExist"){
             this.setState({
                 [event.target.name]: !this.state.orgExist
@@ -89,7 +90,7 @@ class orgRegister extends Component {
     }
 
     handleOrganizationChange = (event) => {
-        console.log(event.target.name)
+        // console.log(event.target.name)
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -108,8 +109,10 @@ class orgRegister extends Component {
 
     render() {
 
-        // const { styles, UI: { loading } } = this.props;
-        // console.log(errors);
+        const { UI: { loading } } = this.props;
+        const { errors } = this.state;
+
+        // console.log(this.props);
         return (
         <Shake>
             <Grid >
@@ -206,8 +209,8 @@ class orgRegister extends Component {
                                     style={styles.textField}
                                     variant="outlined" 
                                     required
-                                    // helperText={errors.email}
-                                    // error={errors.email ? true : false}
+                                    helperText={errors.orgName}
+                                    error={errors.orgName ? true : false}
                                     value={this.state.orgName}
                                     onChange={this.handleChange}
                                     fullWidth 
@@ -215,24 +218,30 @@ class orgRegister extends Component {
 
                                 <TextField
                                     id='addrees'
-                                    name='orgAddrees'
+                                    name='orgAddress'
                                     type="text"
                                     label="Main Address: 123 Street Ave, New York, NY, 10022"
                                     style={{width:"80%", marginTop:"-7px"}}
                                     required
-                                    // helperText={errors.email}
-                                    // error={errors.email ? true : false}
-                                    value={this.state.orgAddrees}
+                                    helperText={errors.orgAddress}
+                                    error={errors.orgAddress ? true : false}
+                                    value={this.state.orgAddress}
                                     onChange={this.handleChange}
                                     fullWidth 
                                     /> 
                                 
                                 <FormControl style={styles.orgTypes} >
-                                    <InputLabel>Organization Type</InputLabel>
+                                    {errors.orgType ? (
+                                        <InputLabel>{errors.orgType}</InputLabel>  
+                                    ) : (
+                                        <InputLabel>Organization Type</InputLabel>
+                                    )}
                                     <Select
                                         native
                                         value={this.state.orgType}
                                         onChange={this.handleChange}
+                                        // helperText={errors.orgType}
+                                        error={errors.orgType ? true : false}
                                         inputProps={{
                                             name: 'orgType',
                                             id: 'age-native-simple',
@@ -247,6 +256,7 @@ class orgRegister extends Component {
                                         <option value="Service Business">Service Business</option>
                                         <option value="Other">Other</option>
                                     </Select>
+                                    
                                 </FormControl>
 
                                 <MuiPhoneNumber
@@ -258,8 +268,8 @@ class orgRegister extends Component {
                                     width: "37.5%", 
                                     margin: "15px 0 15px 2.5%",
                                 }}
-                                // helperText={errors.handle}
-                                // error={errors.handle ? true : false}
+                                helperText={errors.orgPhone}
+                                error={errors.orgPhone ? true : false}
                                 value={this.state.orgPhone}
                                 onChange={this.handleOrganizationPhoneChange}
                                 />
@@ -267,11 +277,11 @@ class orgRegister extends Component {
                             )
                         }
 
-                        {/* {errors.general && (
+                        {errors.general && (
                             <Typography variant="body2" style={styles.customError}>
                                 {errors.general}
                             </Typography>
-                        )} */}
+                        )}
 
                         <Button
                         type="submit"
@@ -282,9 +292,9 @@ class orgRegister extends Component {
                         > 
                         {}
                         register organization
-                        {/* {loading && (
+                        {loading && (
                             <CircularProgress size={30} style={styles.progress} />
-                        )} */}
+                        )}
                         </Button>
                         <br/>
                         <footer style={{margin: "20px auto"}}>
@@ -306,7 +316,7 @@ class orgRegister extends Component {
 orgRegister.propTypes = {
     admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
-    adminRegistration: PropTypes.func.isRequired
+    registerOrg: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -314,4 +324,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { adminRegistration })(orgRegister);
+export default connect(mapStateToProps, { registerOrg })(orgRegister);
