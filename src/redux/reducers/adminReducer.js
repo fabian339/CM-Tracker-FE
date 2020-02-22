@@ -35,6 +35,7 @@ export default function(state = initialState, action){
             console.log("REDUCERR",action.payload)
             return {
                 ...state,
+                loading: true,
                 organization: action.payload,
             }
         case SET_ORGANIZATION:

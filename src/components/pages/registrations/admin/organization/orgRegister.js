@@ -68,12 +68,13 @@ class orgRegister extends Component {
             orgAddress: this.state.orgAddress,
             orgType: this.state.orgType
         }
+        console.log("propssss", this.props)
+        const { firstN, lastN } = this.props.admin.information;
+        let fullname = firstN+"_"+lastN;
 
-        // const { firtN, lastN } = this.p
-                console.log(this.props);
-        let adminName;
-            //call to add the new Organization
-       this.props.registerOrg(newOrgData, adminName ,this.props.history);
+        const newPath = `/merge/admin/${fullname}/organization/`;
+        //call to add the new organization and redirect to new path
+       this.props.registerOrg(newOrgData ,this.props.history, newPath);
     }
 
     handleChange = (event) => {
@@ -112,7 +113,7 @@ class orgRegister extends Component {
         const { UI: { loading } } = this.props;
         const { errors } = this.state;
 
-        // console.log(this.props);
+        console.log(this.props);
         return (
         <Shake>
             <Grid >

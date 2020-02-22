@@ -31,18 +31,22 @@ import { mergeAdminWithOrg } from '../../../../../redux/actions/adminActions'
 const Link = require("react-router-dom").Link
 
 
-class loadingData extends Component {
+const mergingAdminWithOrg = (props) => {
+ 
+
+    let currentPath = window.location.pathname;
+    props.mergeAdminWithOrg(currentPath);
 
    
-    render() {
-        return (
-            <p>Loading</p>
-        )
-    }
+
+    return (
+        <p style={{fontSize:"100px"}}>Loading</p>
+    )
+    
 
 }
 
-loadingData.propTypes = {
+mergingAdminWithOrg.propTypes = {
     admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     mergeAdminWithOrg: PropTypes.func.isRequired
@@ -53,4 +57,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { mergeAdminWithOrg })(loadingData);
+export default connect(mapStateToProps, { mergeAdminWithOrg })(mergingAdminWithOrg);

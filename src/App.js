@@ -1,10 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
+
+//componets
 import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
 import adminRegister from './components/pages/registrations/admin/adminRegister';
 import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
-import loadingData from './components/pages/registrations/admin/loadingData/loadingData';
+import mergingAdminWithOrg from './components/pages/registrations/admin/merging/mergingAdminWithOrg';
+import AuthRoute from  './util/AuthRoute'
 
 import jwtDecode from 'jwt-decode';
 import './App.css';
@@ -46,13 +49,12 @@ function App() {
               {/* <Route exact path="/" component={home} /> */}
               {/* <AuthRoute exact path="/login" component={login} /> */}
               {/* <AuthRoute exact path="/signup" component={signup} />
-              <Route exact path="/users/:handle" component={user} />*/}
-              <Route exact path="/merge/admin/:fullname/organization/:orgId" component={loadingData} /> 
-              <Route exact path="/admin-register" component={adminRegister} />
-              <Route exact path="/org-register" component={orgRegister} />
+              <Route exact path="/admin/:fullname/modules" component={user} />*/}
+              <Route exact path="/merge/admin/:fullname/organization/:orgId" component={mergingAdminWithOrg} /> 
+              <AuthRoute exact path="/admin-register" component={adminRegister} />
+              <Route exact path="/admin/:fullname/org-register" component={orgRegister} />
               <Route exact path="/registration" component={registration} />
-              <Route exact path="/login" component={login} />
-              {/* <Route exact path="/register" component={register} /> */}
+              <AuthRoute exact path="/login" component={login} />
             </Switch>
           </div>
       </Router>

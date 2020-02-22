@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import appLogo from '../../../../images/ori_logo.png';
 import styles from './styles';
 import { Bounce, Shake, FadeIn, FadeOut, Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 
 //mui studd
@@ -73,14 +74,17 @@ class adminRegister extends Component {
             dob: this.state.dob,
             phone: this.state.phone
         }
-            //call to add the new admin
-    //    this.props.signupUser(newUserData, this.props.history);
-       this.props.adminRegistration(newAdminData, this.props.history);
 
+        let fullname = newAdminData.firstN+"_"+newAdminData.lastN;
+
+        const newPath = `/admin/${fullname}/org-register`;
+
+        //call to add the new admin and redirect to new path
+       this.props.adminRegistration(newAdminData, this.props.history, newPath);
     }
 
     handleChange = (event) => {
-        console.log(event.target.name)
+        // console.log(event.target.name)
         if (event.target.name === "orgExist"){
             this.setState({
                 [event.target.name]: !this.state.orgExist
@@ -103,8 +107,9 @@ class adminRegister extends Component {
 
         const {  UI: { loading } } = this.props;
         const { errors } = this.state;
+        // console.log(this.props);
+
         // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
-        console.log(this.props);
         return (
         <Flash>
             <Grid >

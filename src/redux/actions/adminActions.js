@@ -34,7 +34,7 @@ import axios from 'axios';
 // }
 
 
-export const adminRegistration = (newAdminData, history) => (dispatch) => {
+export const adminRegistration = (newAdminData, history, newPath) => (dispatch) => {
 
     dispatch({ type: LOADING_UI });
     axios.post('/registerAdmin', newAdminData)
@@ -42,7 +42,7 @@ export const adminRegistration = (newAdminData, history) => (dispatch) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getAdminData());
         dispatch({ type: CLEAR_ERRORS});
-        history.push('/org-register');
+        history.push(newPath);
     })
     .catch(err => {
         console.log(err)
@@ -54,7 +54,7 @@ export const adminRegistration = (newAdminData, history) => (dispatch) => {
     });
 }
 
-export const registerOrg = (newOrgData, adminName, history) => (dispatch) => {
+export const registerOrg = (newOrgData, history, newPath) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/orgRegister', newOrgData)
     .then((res) => {
@@ -63,9 +63,8 @@ export const registerOrg = (newOrgData, adminName, history) => (dispatch) => {
             type: ADD_ORGANIZATION,
             payload: res.data
         });
-
         dispatch({ type: CLEAR_ERRORS});
-        // history.push('/admin-modules');
+        history.push(newPath+res.data.orgId);
     })
     .catch(err => {
         console.log(err)
@@ -78,8 +77,21 @@ export const registerOrg = (newOrgData, adminName, history) => (dispatch) => {
 }
 
 
-export const mergeAdminWithOrg = () => dispatch => {
-
+export const mergeAdminWithOrg = (currentPath) => dispatch => {
+    dispatch({ type: LOADING_UI });
+    axios.put(currentPath)
+    .then(res => {
+        // console.log(res)
+        dispatch(getAdminData());
+        dispatch({ type: CLEAR_ERRORS});
+    })
+    .catch(err => {
+        console.log(err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
+    })
 }
 // export const getOrgData = (orgId) => (dispatch) => {
 //     dispatch({ type: LOADING_UI });
