@@ -51,8 +51,24 @@ export const adminRegistration = (newAdminData, history) => (dispatch) => {
     });
 }
 
-// export const organizationAction = (newUserData, history) => (dispatch) => {
-// }
+export const registerOrg = (newOrgData, history) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/orgRegister', newOrgData)
+    .then((res) => {
+        // setAuthorizationHeader(res.data.token);
+        // dispatch(getAdminData());
+        dispatch({ type: CLEAR_ERRORS});
+        history.push('/modules');
+    })
+    .catch(err => {
+        console.log(err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
+
+    });
+}
 
 
 
@@ -79,6 +95,7 @@ export const getAdminData = () => (dispatch) => {
         console.log(err);
     })
 }
+
 
 // export const uploadImage = (formData) => (dispatch) => {
 //     // dispatch( { type: ON_IMAGE_CHANGE });
