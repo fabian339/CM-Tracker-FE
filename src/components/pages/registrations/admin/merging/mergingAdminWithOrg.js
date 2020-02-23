@@ -32,17 +32,17 @@ const Link = require("react-router-dom").Link
 
 
 const mergingAdminWithOrg = (props) => {
- 
-
-    let currentPath = window.location.pathname;
-    props.mergeAdminWithOrg(currentPath);
 
    
-
-    return (
-        <p style={{fontSize:"100px"}}>Loading</p>
-    )
-    
+  
+        console.log("PROPSSS",props)
+        // const p =    setInterval(() => <p style={{fontSize:"100px"}}>Loading</p>, 1000);
+        
+        return (
+            <p style={{fontSize:"100px"}}>Loading</p>
+ 
+        )
+   
 
 }
 

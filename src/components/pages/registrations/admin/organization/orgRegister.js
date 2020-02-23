@@ -26,7 +26,7 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { registerOrg } from '../../../../../redux/actions/adminActions'
+import { registerOrg, getOrgWithName } from '../../../../../redux/actions/adminActions'
 
 const Link = require("react-router-dom").Link
 
@@ -72,9 +72,13 @@ class orgRegister extends Component {
         const { firstN, lastN } = this.props.admin.information;
         let fullname = firstN+"_"+lastN;
 
-        const newPath = `/merge/admin/${fullname}/organization/`;
+        // const fullname = `/merge/admin/${fullname}/organization/`;
         //call to add the new organization and redirect to new path
-       this.props.registerOrg(newOrgData ,this.props.history, newPath);
+        if(this.state.orgExist && this.state.orgName){
+            this.props.getOrgWithName(newOrgData.orgName ,this.props.history, fullname);
+        } else {
+            this.props.registerOrg(newOrgData ,this.props.history, fullname);
+        }
     }
 
     handleChange = (event) => {
@@ -91,7 +95,7 @@ class orgRegister extends Component {
     }
 
     handleOrganizationChange = (event) => {
-        // console.log(event.target.name)
+        console.log(event.target.name)
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -163,13 +167,19 @@ class orgRegister extends Component {
                         {this.state.orgExist ? (
                             <Grid>
                                 <FormControl style={{width: "80%"}} >
-                                    <InputLabel>*Choose an existing organization*</InputLabel>
+                                    {errors.orgName ? (
+                                        <InputLabel>*Must not be empty*</InputLabel>
+                                    ) : (
+                                        <InputLabel>*Choose an existing organization*</InputLabel>
+                                    )}
                                     <Select
                                         native
                                         value={this.state.orgName}
                                         onChange={this.handleOrganizationChange}
                                         variant="outlined" 
-
+                                        // helperText={errors.orgName}
+                                        error={errors.orgName ? true : false}
+                                        // value={this.state.orgName}
                                         inputProps={{
                                             name: 'orgName',
                                             id: 'age-native-simple',
@@ -317,7 +327,8 @@ class orgRegister extends Component {
 orgRegister.propTypes = {
     admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
-    registerOrg: PropTypes.func.isRequired
+    registerOrg: PropTypes.func.isRequired,
+    getOrgWithName: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -325,4 +336,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { registerOrg })(orgRegister);
+export default connect(mapStateToProps, { registerOrg, getOrgWithName })(orgRegister);

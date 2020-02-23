@@ -54,7 +54,7 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
     });
 }
 
-export const registerOrg = (newOrgData, history, newPath) => (dispatch) => {
+export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/orgRegister', newOrgData)
     .then((res) => {
@@ -64,7 +64,31 @@ export const registerOrg = (newOrgData, history, newPath) => (dispatch) => {
             payload: res.data
         });
         dispatch({ type: CLEAR_ERRORS});
-        history.push(newPath+res.data.orgId);
+        dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
+        history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
+    })
+    .catch(err => {
+        console.log(err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
+    //   console.log(err.response)
+    });
+}
+
+//get organization with name
+export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.get(`/organization/${orgName}`)
+    .then((res) => {
+        console.log("CALLED")
+        dispatch({
+            type: SET_ORGANIZATION,
+            payload: res.data
+        });
+        dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
+        history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
         console.log(err)
@@ -77,13 +101,14 @@ export const registerOrg = (newOrgData, history, newPath) => (dispatch) => {
 }
 
 
-export const mergeAdminWithOrg = (currentPath) => dispatch => {
+
+export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
     dispatch({ type: LOADING_UI });
-    axios.put(currentPath)
+    axios.put(`/merge/admin/${fullname}/organization/${orgId}`)
     .then(res => {
-        // console.log(res)
+        console.log(res)
         dispatch(getAdminData());
-        dispatch({ type: CLEAR_ERRORS});
+        // dispatch({ type: CLEAR_ERRORS});
     })
     .catch(err => {
         console.log(err)

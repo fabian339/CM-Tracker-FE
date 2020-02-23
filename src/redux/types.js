@@ -27,4 +27,6 @@ export const ADD_CLIENT = "ADD_CLIENT";
 //organization reducer types
 export const SET_ORGANIZATION = "SET_ORGANIZATION";
 export const ADD_ORGANIZATION = "ADD_ORGANIZATION";
+// export const SET_ORGANIZATION = "SET_ORGANIZATION";
+
 // export const ON_IMAGE_UPDATED = "ON_IMAGE_UPDATED";
