@@ -23,10 +23,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { registerOrg, getOrgWithName } from '../../../../../redux/actions/adminActions'
+import { registerOrg, getOrgWithName, getOrganizations } from '../../../../../redux/actions/adminActions'
 
 const Link = require("react-router-dom").Link
 
@@ -43,9 +44,15 @@ class orgRegister extends Component {
             orgType: '',
             orgExist: false,
             orgFound: false,
+            //organizations
+            organizations: [],
             //errors
             errors: {}
         }
+    }
+
+    componentDidMount(){
+        this.props.getOrganizations();
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
@@ -82,11 +89,13 @@ class orgRegister extends Component {
     }
 
     handleChange = (event) => {
-        // console.log(event.target.name)
+        console.log(event.target.name)
         if (event.target.name === "orgExist"){
+            console.log("HERREE")
             this.setState({
-                [event.target.name]: !this.state.orgExist
-            })
+                orgExist: !this.state.orgExist,
+                organizations: this.props.admin.organizations
+            });
         } else {
             this.setState({
                 [event.target.name]: event.target.value
@@ -94,15 +103,17 @@ class orgRegister extends Component {
         }
     }
 
-    handleOrganizationChange = (event) => {
-        console.log(event.target.name)
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-        //Query wheter and organization exist or not
-        if(this.state.orgExist){
-            this.setState({ orgFound: true });
-        }
+    handleOrganizationChangeOnSearchBar = (event, value) => {
+        this.setState({orgName: value})
+        // console.log(value.length === 0)
+
+        
+////////////////////HERREEEEEEEEEEEEEEE???????????????????????????????????????????//////////////
+        // //Query wheter and organization exist or not
+        // if(this.state.orgExist && !(value.length === 0)){
+        //     const orgFound = (this.state.organizations.find(org => org.orgName === value).orgName === (value));
+        //     this.setState({orgFound})
+        // }
     }
 
 
@@ -115,8 +126,13 @@ class orgRegister extends Component {
     render() {
 
         const { UI: { loading } } = this.props;
-        const { errors } = this.state;
-
+        const { organizations,errors } = this.state;
+        const top100Films = [
+            { title: 'The Shawshank Redemption', year: 1994 },
+            { title: 'The Godfather', year: 1972 },
+            { title: 'Apple', year: 1972 },
+            { title: 'Monty Python and the Holy Grail', year: 1975 },
+          ];
         console.log(this.props);
         return (
         <Shake>
@@ -132,7 +148,7 @@ class orgRegister extends Component {
             <Grid container>
                 <Grid item sm />
                 <Grid item sm>
-                    <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
+                    <form noValidate onSubmit={this.handleSubmit} style={styles.form} >
 
                         <Typography variant="h6" style={{margin: "20px auto 10px auto"}}>
                             ORGANIZATION
@@ -162,11 +178,44 @@ class orgRegister extends Component {
                                         </Grid>
                                     <Grid item>Yes</Grid>
                                 </Grid>
+                                {this.state.orgExist && (
+                                    <small>
+                                        Switch to No to register organization
+                                    </small>
+                                )}
                             </div>
                         </div>
                         {this.state.orgExist ? (
                             <Grid>
-                                <FormControl style={{width: "80%"}} >
+
+                                    <Autocomplete
+                                        // freeSolo
+                                        id="free-solo-2-demo"
+                                        // disableClearable
+                                        // disableCloseOnSelect
+                                        // defaultValue = {"company"}
+                                        options={ organizations ? organizations.map(org => org.orgName) : ["Amazon"] }
+                                        // autoSelect={true}
+                                        value={this.state.orgName}
+
+                                        onInputChange={this.handleOrganizationChangeOnSearchBar}
+                                        name='orgName'
+
+                                        renderInput={params => (
+                                        <TextField
+                                            {...params}
+                                            label="Search for an organization"
+                                            margin="normal"
+                                            variant="outlined"
+                                            // style={styles.textField}
+                                            // helperText={errors.orgName}
+                                            error={errors.orgName ? true : false}
+                                            InputProps={{ ...params.InputProps, type: 'search' }}
+                                        />
+                                        )}
+                                    />
+
+                                {/* <FormControl style={{width: "80%"}} >
                                     {errors.orgName ? (
                                         <InputLabel>*Must not be empty*</InputLabel>
                                     ) : (
@@ -191,7 +240,7 @@ class orgRegister extends Component {
                                         <option value="Jericco">Jericco</option>
                                         <option value="Amazon">Amazon</option>
                                     </Select>
-                                </FormControl>
+                                </FormControl> */}
                                 
                                 {(this.state.orgExist && this.state.orgFound) && (
                                     <Bounce> 
@@ -328,7 +377,8 @@ orgRegister.propTypes = {
     admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     registerOrg: PropTypes.func.isRequired,
-    getOrgWithName: PropTypes.func.isRequired
+    getOrgWithName: PropTypes.func.isRequired,
+    getOrganizations: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -336,4 +386,11 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { registerOrg, getOrgWithName })(orgRegister);
+const mapActionsToProps = { 
+    registerOrg, 
+    getOrgWithName,
+    getOrganizations
+};
+
+
+export default connect(mapStateToProps, mapActionsToProps)(orgRegister);

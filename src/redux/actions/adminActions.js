@@ -8,7 +8,10 @@ import {
     STOP_LOADING_UI,
     SET_ORGANIZATION, 
     MARCK_NOTIFICATIONS_READ,
-    ADD_ORGANIZATION
+    ADD_ORGANIZATION,
+    SET_ORGANIZATIONS,
+    LOADING_DATA
+    
     } from '../types';
 
     import {getSecrets} from './dataActions'
@@ -100,6 +103,25 @@ export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
     });
 }
 
+
+//get all organizations
+export const getOrganizations = () => (dispatch) => {
+        // console.log("BEIN CALLED");
+        dispatch( { type: LOADING_DATA });
+        axios.get('/organizations')
+        .then((res) => {
+            dispatch({
+                type: SET_ORGANIZATIONS,
+                payload: res.data
+            });
+        })
+        .catch(err => {
+            dispatch({
+                type: SET_ORGANIZATIONS,
+                payload: []
+            });
+        });
+    }
 
 
 export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {

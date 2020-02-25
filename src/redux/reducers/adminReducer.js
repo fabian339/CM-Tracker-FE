@@ -4,6 +4,7 @@ import {
     SET_UNAUTHENTICATED, 
     LOADING_ADMIN, 
     SET_ORGANIZATION,
+    SET_ORGANIZATIONS,
     ADD_ORGANIZATION,
  } from '../types';
 
@@ -11,6 +12,7 @@ const initialState = {
     authenticated: false,
     loading: false,
     admin: true,
+    organizations: [],
     organization: {}
 }
 
@@ -39,10 +41,11 @@ export default function(state = initialState, action){
                 loading: false,
                 organization: action.payload,
             }
-        case SET_ORGANIZATION:
+        case SET_ORGANIZATIONS:
             return {
                 ...state,
-                organization: action.payload,
+                organizations: action.payload,
+                loading: false
             }
         case LOADING_ADMIN:
             return {
