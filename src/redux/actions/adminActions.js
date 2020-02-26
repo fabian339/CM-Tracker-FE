@@ -18,23 +18,30 @@ import {
 
 import axios from 'axios';
 
-// export const loginUser = (userData, history) => (dispatch) => {
-//     dispatch({ type: LOADING_UI });
-//     axios.post('/login', userData)
-//     .then((res) => {
-//         setAuthorizationHeader(res.data.token);
-//         dispatch(getUserData());
-//         dispatch({ type: CLEAR_ERRORS});
-//         history.push('/');
-//     })
-//     .catch(err => {
-//       dispatch({
-//           type: SET_ERRORS,
-//           payload: err.response.data
-//       })
+export const loginFunc = (userData, history) => (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios.post('/login', userData)
+    .then((res) => {
+        setAuthorizationHeader(res.data.token);
+        if(res.data.accountType === "admin"){
+            console.log("Data Back", res.data);
+            dispatch(getAdminData());
+            dispatch({ type: CLEAR_ERRORS});
+            history.push(`/admin/${res.data.fullname}/modules`);
+        } else {
+            dispatch(getAdminData());
+            dispatch({ type: CLEAR_ERRORS});
+            history.push('/');
+        }
+    })
+    .catch(err => {
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
 
-//     });
-// }
+    });
+}
 
 
 export const adminRegistration = (newAdminData, history, newPath) => (dispatch) => {

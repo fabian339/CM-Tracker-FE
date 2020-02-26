@@ -14,12 +14,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiPhoneNumber from "material-ui-phone-number";
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import PanToolIcon from '@material-ui/icons/PanTool';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
@@ -68,25 +63,33 @@ class orgRegister extends Component {
         this.setState({
             loading: true
         });
-
-        const newOrgData = {
-            orgName: this.state.orgName,
-            orgPhone: this.state.orgPhone,
-            orgAddress: this.state.orgAddress,
-            orgType: this.state.orgType
+        
+        const { orgName, orgPhone, orgAddress, orgType, orgExist, organizations } = this.state;
+        let delay = 0;
+        if(organizations) {
+            const org = organizations.find(org => org.orgName === orgName);
+            const orgFound = (org ? org.orgName === orgName : false)
+            this.setState({orgFound});
+            delay = orgFound ? 4000 : 0;
         }
+
+        const newOrgData = { orgName, orgPhone, orgAddress, orgType };
         console.log("propssss", this.props)
         const { firstN, lastN } = this.props.admin.information;
         let fullname = firstN+"_"+lastN;
-
-        // const fullname = `/merge/admin/${fullname}/organization/`;
+        
         //call to add the new organization and redirect to new path
-        if(this.state.orgExist && this.state.orgName){
-            this.props.getOrgWithName(newOrgData.orgName ,this.props.history, fullname);
-        } else {
-            this.props.registerOrg(newOrgData ,this.props.history, fullname);
-        }
+        //set timeout for emotion when finding organizations
+        setTimeout(() => { 
+        if(orgExist && orgName){
+                this.props.getOrgWithName(orgName ,this.props.history, fullname);
+            } else {
+                this.props.registerOrg(newOrgData ,this.props.history, fullname);
+            }
+        }, delay);
+
     }
+
 
     handleChange = (event) => {
         console.log(event.target.name)
@@ -105,15 +108,6 @@ class orgRegister extends Component {
 
     handleOrganizationChangeOnSearchBar = (event, value) => {
         this.setState({orgName: value})
-        // console.log(value.length === 0)
-
-        
-////////////////////HERREEEEEEEEEEEEEEE???????????????????????????????????????????//////////////
-        // //Query wheter and organization exist or not
-        // if(this.state.orgExist && !(value.length === 0)){
-        //     const orgFound = (this.state.organizations.find(org => org.orgName === value).orgName === (value));
-        //     this.setState({orgFound})
-        // }
     }
 
 
@@ -126,7 +120,7 @@ class orgRegister extends Component {
     render() {
 
         const { UI: { loading } } = this.props;
-        const { organizations,errors } = this.state;
+        const { organizations, errors } = this.state;
         const top100Films = [
             { title: 'The Shawshank Redemption', year: 1994 },
             { title: 'The Godfather', year: 1972 },
@@ -158,7 +152,6 @@ class orgRegister extends Component {
                             <Typography variant="subtitle1">
                                 Is your organization register with us?
                             </Typography>
-                            {/* <FormControlLabel label="No" /> */}
                             <div >
                                 <Grid 
                                 component="label" 
@@ -192,58 +185,26 @@ class orgRegister extends Component {
                                         // freeSolo
                                         id="free-solo-2-demo"
                                         // disableClearable
-                                        // disableCloseOnSelect
-                                        // defaultValue = {"company"}
                                         options={ organizations ? organizations.map(org => org.orgName) : ["Amazon"] }
-                                        // autoSelect={true}
                                         value={this.state.orgName}
-
                                         onInputChange={this.handleOrganizationChangeOnSearchBar}
                                         name='orgName'
-
                                         renderInput={params => (
                                         <TextField
                                             {...params}
                                             label="Search for an organization"
                                             margin="normal"
                                             variant="outlined"
-                                            // style={styles.textField}
+                                            style={styles.textField}
                                             // helperText={errors.orgName}
                                             error={errors.orgName ? true : false}
                                             InputProps={{ ...params.InputProps, type: 'search' }}
                                         />
                                         )}
                                     />
-
-                                {/* <FormControl style={{width: "80%"}} >
-                                    {errors.orgName ? (
-                                        <InputLabel>*Must not be empty*</InputLabel>
-                                    ) : (
-                                        <InputLabel>*Choose an existing organization*</InputLabel>
-                                    )}
-                                    <Select
-                                        native
-                                        value={this.state.orgName}
-                                        onChange={this.handleOrganizationChange}
-                                        variant="outlined" 
-                                        // helperText={errors.orgName}
-                                        error={errors.orgName ? true : false}
-                                        // value={this.state.orgName}
-                                        inputProps={{
-                                            name: 'orgName',
-                                            id: 'age-native-simple',
-                                        }}
-                                        >
-                                        <option value="" />
-                                        <option value="Apple">Apple</option>
-                                        <option value="East Side House">East Side House</option>
-                                        <option value="Jericco">Jericco</option>
-                                        <option value="Amazon">Amazon</option>
-                                    </Select>
-                                </FormControl> */}
                                 
                                 {(this.state.orgExist && this.state.orgFound) && (
-                                    <Bounce> 
+                                    <Bounce duration={3}> 
                                         <Grid>
                                             <Typography variant="body2" style={styles.orgFound}>
                                                 Organization found! 

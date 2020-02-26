@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 // import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
-// import AppIcon from '../images/ori_logo.png';
+import appLogo from '../../../images/ori_logo.png';
 import Typography from '@material-ui/core/Typography';
+import styles from './styles';
 
 
 //mui studd
@@ -13,8 +14,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 
 //Redux stuf
-// import { connect } from 'react-redux';
-// import { loginUser } from '../redux/actions/userActions'
+import { connect } from 'react-redux';
+import { loginFunc } from '../../../redux/actions/adminActions'
 
 
 
@@ -32,21 +33,21 @@ class login extends Component {
         }
     }
 
-    // UNSAFE_componentWillReceiveProps(nextProps){
-    //     if(nextProps.UI.errors) {
-    //         this.setState({ errors: nextProps.UI.errors })
-    //     }
-    // }
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors) {
+            this.setState({ errors: nextProps.UI.errors })
+        }
+    }
 
-    // handleSubmit = (event) => {
+    handleSubmit = (event) => {
 
-    //     event.preventDefault();
-    //     const userData = {
-    //         email: this.state.email,
-    //         password: this.state.password
-    //     }
-    //     this.props.loginUser(userData, this.props.history);
-    // }
+        event.preventDefault();
+        const userData = {
+            email: this.state.email,
+            password: this.state.password
+        }
+        this.props.loginFunc(userData, this.props.history);
+    }
 
     handleChange = (event) => {
         this.setState({
@@ -55,29 +56,31 @@ class login extends Component {
     }
 
     render() {
-        // const { classes, UI: { loading } } = this.props;
-        // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
-        // let { errors } = this.state;
+        const { UI: { loading } } = this.props;
+        let { errors } = this.state;
 
-
-        // console.log(errors);
         return (
-            <Grid container >
+            <Grid>
+                <header>
+                    <div style={styles.logoContainer}>
+                        <img src={appLogo} alt="icon" style={{width: 250}}/>
+                    </div>                    
+                    <Typography variant="h4" style={styles.pageTitle} >
+                        Log In
+                    </Typography>
+                </header>
+                <Grid container >
                 <Grid item sm />
                 <Grid item sm>
-                    {/* <img src={AppIcon} alt="icon" className={image}/> */}
-                    <Typography variant="h3" >
-                        Login
-                    </Typography>
-                    <form noValidate onSubmit={this.handleSubmit} >
+                    <form noValidate onSubmit={this.handleSubmit} style={styles.form} >
                         <TextField
                         id='email'
                         name='email'
                         type="email"
                         label="Email"
-                        // className={TextField}
-                        helperText={''}
-                        error={false}
+                        style={styles.textField}
+                        helperText={errors.email}
+                        error={errors.email ? true : false}
                         value={this.state.email}
                         onChange={this.handleChange}
                         fullWidth />
@@ -87,44 +90,60 @@ class login extends Component {
                         name='password'
                         type="password"
                         label="Password"
-                        // className={TextField}
-                        helperText={''}
-                        error={false}
+                        style={styles.textField}
+                        helperText={errors.password}
+                        error={errors.password ? true : false}
                         value={this.state.password}
                         onChange={this.handleChange}
                         fullWidth />
-
-                      {/* {errors.general && (
-                            <Typography variant="body2" className={}>
-                                {}
+                        
+                        {errors.general && (
+                            <Typography variant="body2" style={styles.customError}>
+                                {errors.general}
                             </Typography>
-                        )} */}
+                        )}
 
                         <Button
                         type="submit"
                         variant="contained"
                         color="primary"
-                        // className={button}
+                        style={styles.button}
                         // disabled={false}
                         > Login
-                        {/* {loading && (
-                            <CircularProgress size={30} className={classes.progress} />
-                        )} */}
+                        {loading && (
+                            <CircularProgress size={30} style={styles.progress} />
+                        )}
                         </Button>
                         <br/>
-                        <small>
-                            Do not have an account!! Don't wait Sign Up <Link to="/register">Here</Link>
-                        </small>
+                        <footer style={{margin: "20px auto"}}>
+                            <small>
+                                Already have an account? Log In <Link to="/login">Here</Link>
+                            </small>
+                        </footer>
                     </form>
                 </Grid>
                 <Grid item sm/>
 
             </Grid>
-
+            </Grid>
         )
     }
 }
 
 
+login.propTypes = {
+    loginFunc: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired
+}
 
-export default (login);
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI
+});
+
+const mapActionsToProps = {
+    loginFunc
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(login);
