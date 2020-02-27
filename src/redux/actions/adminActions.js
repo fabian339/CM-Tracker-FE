@@ -31,7 +31,7 @@ export const loginFunc = (userData, history) => (dispatch) => {
         } else {
             dispatch(getAdminData());
             dispatch({ type: CLEAR_ERRORS});
-            history.push('/');
+            history.push(`/user/${res.data.fullname}/page`);
         }
     })
     .catch(err => {
