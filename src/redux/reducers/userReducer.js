@@ -20,6 +20,7 @@ export default function(state = initialState, action){
                 authenticated: true
             };
         case SET_UNAUTHENTICATED_USER:
+            console.log("COMING HEREE")
             return initialState;
                     
         case SET_USER:

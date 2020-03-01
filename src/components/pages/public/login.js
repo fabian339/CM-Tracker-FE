@@ -133,17 +133,12 @@ class login extends Component {
 
 login.propTypes = {
     loginFunc: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    user: state.user,
     UI: state.UI
 });
 
-const mapActionsToProps = {
-    loginFunc
-}
 
-export default connect(mapStateToProps, mapActionsToProps)(login);
+export default connect(mapStateToProps, { loginFunc })(login);

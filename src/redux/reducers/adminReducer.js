@@ -25,6 +25,8 @@ export default function(state = initialState, action){
                 authenticated: true
             };
         case SET_UNAUTHENTICATED_ADMIN:
+            console.log("COMING HEREE")
+
             return initialState;
                     
         case SET_ADMIN:

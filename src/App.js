@@ -7,12 +7,13 @@ import login from './components/pages/public/login';
 import adminRegister from './components/pages/registrations/admin/adminRegister';
 import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
 import mergingAdminWithOrg from './components/pages/registrations/admin/merging/mergingAdminWithOrg';
+import adminModules from './components/pages/adminPages/adminModules/adminModules';
 import AuthRoute from  './util/AuthRoute'
 
 import jwtDecode from 'jwt-decode';
 import './App.css';
 
-import registration from './components/pages/registrations/modules/registration';
+import registration from './components/pages/registrations/registerOptions/registration';
 //REDUX
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -52,13 +53,9 @@ function App() {
         <Navbar />
           <div className="container">
             <Switch>
-              {/* <Route exact path="/" component={home} /> */}
-              {/* <AuthRoute exact path="/login" component={login} /> */}
-              {/* <AuthRoute exact path="/signup" component={signup} />
-              <Route exact path="/admin/:fullname/modules" component={user} />*/}
               <Route exact path="/merge/admin/:fullname/organization/:orgId" component={mergingAdminWithOrg} /> 
               <Route exact path="/admin-register" component={adminRegister} />
-              <Route exact path="/user/:fullname/page" component={mergingAdminWithOrg} />
+              <Route exact path="/admin/:fullname/modules" component={adminModules} />
               <Route exact path="/admin/:fullname/org-register" component={orgRegister} />
               <AuthRoute exact path="/registration" component={registration} />
               <AuthRoute exact path="/login" component={login} />

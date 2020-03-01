@@ -40,7 +40,7 @@ export class Nav extends Component {
 
     handleLogOut = () => {
         console.log("logout called")
-        this.props.logoutAdmin();
+        // this.props.logoutAdmin();
     }
 
 
@@ -92,7 +92,7 @@ export class Nav extends Component {
 Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
     authenticatedAdmin: PropTypes.bool.isRequired,
-    logoutAdmin: PropTypes.func.isRequired
+    // logoutAdmin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -100,4 +100,4 @@ const mapStateToProps = (state) => ({
     authenticatedAdmin: state.admin.authenticated
 })
 
-export default connect(mapStateToProps, {logoutAdmin})(Nav);
+export default connect(mapStateToProps)(Nav);

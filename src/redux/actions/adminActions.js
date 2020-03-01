@@ -18,9 +18,9 @@ import {
 
 import axios from 'axios';
 
-export const loginFunc = (userData, history) => (dispatch) => {
+export const loginFunc = (data, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.post('/login', userData)
+    axios.post('/login', data)
     .then((res) => {
         setAuthorizationHeader(res.data.token, res.data.accountType);
         if(res.data.accountType === "admin"){
