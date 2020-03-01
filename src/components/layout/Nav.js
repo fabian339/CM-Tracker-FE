@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-
+import { logoutAdmin } from '../../redux/actions/adminActions'
 
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
@@ -37,6 +37,13 @@ const styles = {
 };
 
 export class Nav extends Component {
+
+    handleLogOut = () => {
+        console.log("logout called")
+        this.props.logoutAdmin();
+    }
+
+
     render() {
         const { authenticatedUser, authenticatedAdmin } = this.props;
         console.log("NAvv", this.props);
@@ -44,11 +51,6 @@ export class Nav extends Component {
         return (
             <AppBar>
                 <Toolbar style={styles.navContainer}>
-                    {/* <Fragment>
-                        <Button color="inherit" component={Link} to="/" >Home</Button>
-                        <Button color="inherit" component={Link} to="/login" >Login</Button>
-                        <Button color="inherit" component={Link} to="signup" >Signup</Button>
-                    </Fragment> */}
                     <Typography variant="h6" style={styles.title}>
                         <Button style={styles.navButtons} color="inherit" component={Link} to="/" >CM-Tracker</Button>
                     </Typography>
@@ -56,7 +58,7 @@ export class Nav extends Component {
                         <Fragment>
                             <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
                             <Tooltip title="Log Out" aria-label="add">
-                                <Button>
+                                <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
                                     <KeyboardReturnIcon />
                                 </Button>
                             </Tooltip>
@@ -66,10 +68,10 @@ export class Nav extends Component {
                             <Fragment>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
                                 <Tooltip title="Log Out" aria-label="add">
-                                <Button>
-                                    <KeyboardReturnIcon />
-                                </Button>
-                            </Tooltip>
+                                    <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
+                                        <KeyboardReturnIcon />
+                                    </Button>
+                                </Tooltip>
                             </Fragment>
                         ) : (
                             <Fragment >
@@ -89,7 +91,8 @@ export class Nav extends Component {
 
 Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
-    authenticatedAdmin: PropTypes.bool.isRequired
+    authenticatedAdmin: PropTypes.bool.isRequired,
+    logoutAdmin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -97,4 +100,4 @@ const mapStateToProps = (state) => ({
     authenticatedAdmin: state.admin.authenticated
 })
 
-export default connect(mapStateToProps)(Nav);
+export default connect(mapStateToProps, {logoutAdmin})(Nav);

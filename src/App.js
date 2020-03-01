@@ -17,7 +17,7 @@ import registration from './components/pages/registrations/modules/registration'
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN } from './redux/types';
-import { logoutAdminUser, getAdminData } from './redux/actions/adminActions';
+import { getAdminData, logoutAdmin } from './redux/actions/adminActions';
 import { getUserData } from './redux/actions/userActions';
 
 import axios from 'axios';
@@ -30,7 +30,7 @@ if(token){
   const decodedtoken = jwtDecode(token);
   // console.log(decodedtoken.exp);
   if(decodedtoken.exp * 1000 < Date.now()){
-    store.dispatch(logoutAdminUser());
+    store.dispatch(logoutAdmin());
     window.location.href = '/login';
   }
 } else {
@@ -57,10 +57,11 @@ function App() {
               {/* <AuthRoute exact path="/signup" component={signup} />
               <Route exact path="/admin/:fullname/modules" component={user} />*/}
               <Route exact path="/merge/admin/:fullname/organization/:orgId" component={mergingAdminWithOrg} /> 
-              <AuthRoute exact path="/admin-register" component={adminRegister} />
+              <Route exact path="/admin-register" component={adminRegister} />
+              <Route exact path="/user/:fullname/page" component={mergingAdminWithOrg} />
               <Route exact path="/admin/:fullname/org-register" component={orgRegister} />
-              <Route exact path="/registration" component={registration} />
-              <Route exact path="/login" component={login} />
+              <AuthRoute exact path="/registration" component={registration} />
+              <AuthRoute exact path="/login" component={login} />
             </Switch>
           </div>
       </Router>

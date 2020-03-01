@@ -3,7 +3,7 @@ import {
     SET_ERRORS, 
     CLEAR_ERRORS, 
     LOADING_UI, 
-    SET_UNAUTHENTICATED, 
+    SET_UNAUTHENTICATED_ADMIN, 
     LOADING_ADMIN,
     STOP_LOADING_UI,
     SET_ORGANIZATION, 
@@ -14,7 +14,7 @@ import {
     
     } from '../types';
 
-    import {getUserData} from './userActions'
+    import {getUserData, logoutUser} from './userActions'
 
 import axios from 'axios';
 
@@ -49,7 +49,7 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
     dispatch({ type: LOADING_UI });
     axios.post('/registerAdmin', newAdminData)
     .then((res) => {
-        setAuthorizationHeader(res.data.token);
+        setAuthorizationHeader(res.data.token, 'admin');
         dispatch(getAdminData());
         dispatch({ type: CLEAR_ERRORS});
         history.push(newPath);
@@ -162,10 +162,14 @@ export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
 
 
 
-export const logoutAdminUser = () => (dispatch) => {
-    localStorage.removeItem('FBIdToken');
-    delete axios.defaults.headers.common['Authorization'];
-    dispatch({ type: SET_UNAUTHENTICATED });
+export const logoutAdmin = () => (dispatch) => {
+    if (localStorage.accType === "admin"){
+        localStorage.removeItem('FBIdToken');
+        delete axios.defaults.headers.common['Authorization'];
+        dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
+    } else {
+        dispatch(logoutUser());
+    }
 }
 
 

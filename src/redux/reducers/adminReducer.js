@@ -1,7 +1,7 @@
 import { 
     SET_ADMIN, 
     SET_AUTHENTICATED_ADMIN, 
-    SET_UNAUTHENTICATED, 
+    SET_UNAUTHENTICATED_ADMIN, 
     LOADING_ADMIN, 
     SET_ORGANIZATION,
     SET_ORGANIZATIONS,
@@ -24,7 +24,7 @@ export default function(state = initialState, action){
                 ...state,
                 authenticated: true
             };
-        case SET_UNAUTHENTICATED:
+        case SET_UNAUTHENTICATED_ADMIN:
             return initialState;
                     
         case SET_ADMIN:

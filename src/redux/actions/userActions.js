@@ -3,7 +3,7 @@ import {
     SET_ERRORS, 
     CLEAR_ERRORS, 
     LOADING_UI, 
-    SET_UNAUTHENTICATED, 
+    SET_UNAUTHENTICATED_USER, 
     LOADING_USER, 
     // MARCK_NOTIFICATIONS_READ,
     } from '../types';
@@ -54,7 +54,7 @@ export const adminRegistration = (newUserData, history) => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization'];
-    dispatch({ type: SET_UNAUTHENTICATED });
+    dispatch({ type: SET_UNAUTHENTICATED_USER });
 }
 
 
