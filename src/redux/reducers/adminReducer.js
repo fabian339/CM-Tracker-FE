@@ -1,6 +1,6 @@
 import { 
     SET_ADMIN, 
-    SET_AUTHENTICATED, 
+    SET_AUTHENTICATED_ADMIN, 
     SET_UNAUTHENTICATED, 
     LOADING_ADMIN, 
     SET_ORGANIZATION,
@@ -19,7 +19,7 @@ const initialState = {
 export default function(state = initialState, action){
     // console.log("USER Actionn -->",action);
     switch(action.type){
-        case SET_AUTHENTICATED:
+        case SET_AUTHENTICATED_ADMIN:
             return {
                 ...state,
                 authenticated: true

@@ -16,11 +16,11 @@ import registration from './components/pages/registrations/modules/registration'
 //REDUX
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { SET_AUTHENTICATED } from './redux/types';
-import { logoutAdminUser, getAdminData } from './redux/actions/adminActions'
+import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN } from './redux/types';
+import { logoutAdminUser, getAdminData } from './redux/actions/adminActions';
+import { getUserData } from './redux/actions/userActions';
+
 import axios from 'axios';
-
-
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
@@ -32,10 +32,16 @@ if(token){
   if(decodedtoken.exp * 1000 < Date.now()){
     store.dispatch(logoutAdminUser());
     window.location.href = '/login';
-  } else {
-    store.dispatch({ type: SET_AUTHENTICATED });
+  }
+} else {
+    if(localStorage.accType === "admin") {
+      store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
+      axios.defaults.headers.common['Authorization'] = token;
+      store.dispatch(getAdminData());
+  } else if(localStorage.accType === "user") {
+    store.dispatch({ type: SET_AUTHENTICATED_USER });
     axios.defaults.headers.common['Authorization'] = token;
-    store.dispatch(getAdminData());
+    store.dispatch(getUserData());
   }
 }
 
@@ -54,7 +60,7 @@ function App() {
               <AuthRoute exact path="/admin-register" component={adminRegister} />
               <Route exact path="/admin/:fullname/org-register" component={orgRegister} />
               <Route exact path="/registration" component={registration} />
-              <AuthRoute exact path="/login" component={login} />
+              <Route exact path="/login" component={login} />
             </Switch>
           </div>
       </Router>

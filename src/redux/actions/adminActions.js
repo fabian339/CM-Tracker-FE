@@ -14,7 +14,7 @@ import {
     
     } from '../types';
 
-    import {getSecrets} from './dataActions'
+    import {getUserData} from './userActions'
 
 import axios from 'axios';
 
@@ -22,14 +22,14 @@ export const loginFunc = (userData, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/login', userData)
     .then((res) => {
-        setAuthorizationHeader(res.data.token);
+        setAuthorizationHeader(res.data.token, res.data.accountType);
         if(res.data.accountType === "admin"){
-            console.log("Data Back", res.data);
+            // console.log("Data Back", res.data);
             dispatch(getAdminData());
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/admin/${res.data.fullname}/modules`);
         } else {
-            dispatch(getAdminData());
+            dispatch(getUserData());
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/user/${res.data.fullname}/page`);
         }
@@ -220,8 +220,9 @@ export const getAdminData = () => (dispatch) => {
 // }
 
 
-const setAuthorizationHeader = (token) => {
+const setAuthorizationHeader = (token, accType) => {
     const FBIdToken = `Bearer ${token}`;
     localStorage.setItem('FBIdToken', FBIdToken);
+    localStorage.setItem('accType', accType);
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 }
