@@ -33,6 +33,7 @@ export const loginFunc = (data, history) => (dispatch) => {
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/user/${res.data.fullname}/page`);
         }
+        // window.location.reload(false);
     })
     .catch(err => {
       dispatch({
@@ -170,6 +171,7 @@ export const logoutAdmin = () => (dispatch) => {
     } else {
         dispatch(logoutUser());
     }
+    localStorage.removeItem('accType');
 }
 
 
