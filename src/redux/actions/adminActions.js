@@ -3,7 +3,9 @@ import {
     SET_ERRORS, 
     CLEAR_ERRORS, 
     LOADING_UI, 
+    SET_AUTHENTICATED_ADMIN,
     SET_UNAUTHENTICATED_ADMIN, 
+    SET_AUTHENTICATED_USER,
     LOADING_ADMIN,
     STOP_LOADING_UI,
     SET_ORGANIZATION, 
@@ -26,14 +28,15 @@ export const loginFunc = (data, history) => (dispatch) => {
         if(res.data.accountType === "admin"){
             // console.log("Data Back", res.data);
             dispatch(getAdminData());
+            dispatch({type: SET_AUTHENTICATED_ADMIN});
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/admin/${res.data.fullname}/modules`);
         } else {
             dispatch(getUserData());
+            dispatch({type: SET_AUTHENTICATED_USER});
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/user/${res.data.fullname}/page`);
         }
-        // window.location.reload(false);
     })
     .catch(err => {
       dispatch({
@@ -52,6 +55,7 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
     .then((res) => {
         setAuthorizationHeader(res.data.token, 'admin');
         dispatch(getAdminData());
+        dispatch({type: SET_AUTHENTICATED_ADMIN});
         dispatch({ type: CLEAR_ERRORS});
         history.push(newPath);
     })

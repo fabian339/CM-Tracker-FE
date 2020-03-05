@@ -20,13 +20,12 @@ export default function(state = initialState, action){
     // console.log("USER Actionn -->",action);
     switch(action.type){
         case SET_AUTHENTICATED_ADMIN:
+            console.log("SET_AUTHE")
             return {
                 ...state,
                 authenticated: true
             };
         case SET_UNAUTHENTICATED_ADMIN:
-            console.log("COMING HEREE")
-
             return initialState;
                     
         case SET_ADMIN:
