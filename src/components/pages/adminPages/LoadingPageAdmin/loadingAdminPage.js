@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // import AppIcon from '../images/ori_logo.png';
 import Typography from '@material-ui/core/Typography';
-import appLogo from '../../../../../images/ori_logo.png';
+// import appLogo from '../../../../../images/ori_logo.png';
 // import styles from '../styles';
 import { Bounce, Shake, FadeIn, FadeOut, Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
 
@@ -27,7 +27,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { mergeAdminWithOrg } from '../../../../../redux/actions/adminActions'
+import { mergeAdminWithOrg } from '../../../../redux/actions/adminActions'
 
 const Link = require("react-router-dom").Link
 
@@ -37,30 +37,21 @@ const styles = {
         width: "80%",
         height: '400px',
         margin: "10% 10%",
-        position: "relative",
-        // border: "2px solid"
+        position: "relative"
     },
     circleProgress: {
-        // width: "",
         width: "400px",
         height: "400px",
         borderRadius: "15px",
-        // border: "2px solid white",
-        // marginTop: "60px"
-
     },
     showPercent: {
         fontSize: "90px",
-        // margin: "300px auto",
         color: "darkslategray",
         position: "absolute",
         left: "45%",
         marginLeft: "-50px",
         top: "45%",
-        marginTop: "-50px",
-        // WebkitBackgroundClip: "text",
-        // WebkitTextFillColor: "transparent"
-        
+        marginTop: "-50px"
     },
     message: {
         textAlign: "center",
@@ -68,10 +59,6 @@ const styles = {
         marginTop: "15px",
         color: "dimgray",
         fontFamily: "'Nosifer', cursive"
-
-        // WebkitBackgroundClip: "text",
-        // WebkitTextFillColor: "transparent"
-        
     }
 }
 

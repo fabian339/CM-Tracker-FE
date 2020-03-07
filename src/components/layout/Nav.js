@@ -45,8 +45,15 @@ export class Nav extends Component {
 
 
     render() {
-        const { authenticatedUser, authenticatedAdmin } = this.props;
+        const { 
+            authenticatedUser, 
+            authenticatedAdmin,
+            adminFullname
+        } = this.props;
         console.log("NAvv", this.props);
+        var name = adminFullname.replace(/_/g, " ");
+
+        // console.log("NAvv", this.props.admin.information.admin);
 
         return (
             <AppBar>
@@ -66,6 +73,10 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
+                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to="/" > MY ORGANIZATION</Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > MY CLIENTS</Button> */}
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {name} </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
                                 <Tooltip title="Log Out" aria-label="add">
                                     <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
@@ -92,12 +103,14 @@ export class Nav extends Component {
 Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
     authenticatedAdmin: PropTypes.bool.isRequired,
+    adminFullname: PropTypes.string.isRequired,
     logoutAdmin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
     authenticatedUser: state.user.authenticated,
-    authenticatedAdmin: state.admin.authenticated
+    authenticatedAdmin: state.admin.authenticated,
+    adminFullname: state.admin.fullname
 })
 
 export default connect(mapStateToProps, {logoutAdmin})(Nav);

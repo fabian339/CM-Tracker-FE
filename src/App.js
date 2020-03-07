@@ -6,7 +6,7 @@ import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
 import adminRegister from './components/pages/registrations/admin/adminRegister';
 import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
-import loadingAdminPage from './components/pages/registrations/admin/LoadingPageAdmin/loadingAdminPage';
+import loadingAdminPage from './components/pages/adminPages/LoadingPageAdmin/loadingAdminPage';
 import adminModules from './components/pages/adminPages/adminModules/adminModules';
 import PrivateAdminRoute from  './util/authRoutes/PrivateAdminRoute';
 import PrivateUserRoute from  './util/authRoutes/PrivateUserRoute';

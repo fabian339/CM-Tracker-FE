@@ -13,7 +13,8 @@ const initialState = {
     loading: false,
     admin: true,
     organizations: [],
-    organization: {}
+    organization: {},
+    fullname: ''
 }
 
 export default function(state = initialState, action){
@@ -23,15 +24,17 @@ export default function(state = initialState, action){
             console.log("SET_AUTHE")
             return {
                 ...state,
-                authenticated: true
+                authenticated: true,
             };
         case SET_UNAUTHENTICATED_ADMIN:
             return initialState;
                     
         case SET_ADMIN:
+            // console.log(action.payload.information.fullname)
             return {
                 authenticated: true,
                 loading: false,
+                fullname: action.payload.information.fullname,
                 ...action.payload
             }
         case SET_ORGANIZATION:
