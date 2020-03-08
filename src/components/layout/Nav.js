@@ -65,7 +65,7 @@ export class Nav extends Component {
             authenticatedUser, 
             authenticatedAdmin,
         } = this.props;
-        const { adminFullname } = this.state;
+        // const { adminFullname } = this.state;
         // console.log("NAvv", this.props);
 
         return (
@@ -86,8 +86,8 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {adminFullname.replace(/_/g, " ")} </Button>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${adminFullname}/modules`} > MODULES </Button>
+                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {adminFullname.replace(/_/g, " ")} </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${adminFullname}/modules`} > MODULES </Button> */}
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
 
@@ -116,14 +116,14 @@ export class Nav extends Component {
 Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
     authenticatedAdmin: PropTypes.bool.isRequired,
-    adminFullname: PropTypes.string.isRequired,
+    // adminFullname: PropTypes.string.isRequired,
     logoutAdmin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
     authenticatedUser: state.user.authenticated,
     authenticatedAdmin: state.admin.authenticated,
-    adminFullname: state.admin.fullname
+    // adminFullname: state.admin.fullname
 })
 
 export default connect(mapStateToProps, {logoutAdmin})(Nav);

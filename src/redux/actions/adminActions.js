@@ -12,7 +12,8 @@ import {
     MARCK_NOTIFICATIONS_READ,
     ADD_ORGANIZATION,
     SET_ORGANIZATIONS,
-    LOADING_DATA
+    LOADING_DATA,
+    SET_AUTHENTICATED_PATHNAMES
     
     } from '../types';
 
@@ -26,14 +27,22 @@ export const loginFunc = (data, history) => (dispatch) => {
     .then((res) => {
         setAuthorizationHeader(res.data.token, res.data.accountType);
         if(res.data.accountType === "admin"){
-            // console.log("Data Back", res.data);
+            console.log("Data Back", res.data.fullname, "History", history);
             dispatch(getAdminData());
+            let pathName = `/admin/${res.data.fullname}/modules`
             dispatch({type: SET_AUTHENTICATED_ADMIN});
+            dispatch({
+                type: SET_AUTHENTICATED_PATHNAMES,
+                payload: pathName
+            })
             dispatch({ type: CLEAR_ERRORS});
-            history.push(`/admin/${res.data.fullname}/modules`);
+            history.push(pathName);
         } else {
             dispatch(getUserData());
-            dispatch({type: SET_AUTHENTICATED_USER});
+            dispatch({
+                type: SET_AUTHENTICATED_ADMIN,
+                payload: res.data.fullame
+            });
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/user/${res.data.fullname}/page`);
         }
@@ -57,6 +66,10 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
         dispatch(getAdminData());
         dispatch({type: SET_AUTHENTICATED_ADMIN});
         dispatch({ type: CLEAR_ERRORS});
+        dispatch({
+            type: SET_AUTHENTICATED_PATHNAMES,
+            payload: newPath
+        })
         history.push(newPath);
     })
     .catch(err => {
@@ -80,7 +93,12 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
         });
         dispatch({ type: CLEAR_ERRORS});
         dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
-        history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
+        let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
+        dispatch({
+            type: SET_AUTHENTICATED_PATHNAMES,
+            payload: pathName
+        })
+        history.push(pathName);
     })
     .catch(err => {
         console.log(err)
@@ -103,6 +121,11 @@ export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
             payload: res.data
         });
         dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
+        let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
+        dispatch({
+            type: SET_AUTHENTICATED_PATHNAMES,
+            payload: pathName
+        })
         history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
