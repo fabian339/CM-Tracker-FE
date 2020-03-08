@@ -37,6 +37,22 @@ const styles = {
 };
 
 export class Nav extends Component {
+    constructor(){
+        super();
+        this.state = {
+            adminFullname: '',
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.adminFullname !== this.props.adminFullname) {
+            console.log("NAV Next props",nextProps)
+            this.setState({ 
+                adminFullname: nextProps.adminFullname,
+            })
+        }
+    }
+
 
     handleLogOut = () => {
         console.log("logout called")
@@ -48,12 +64,9 @@ export class Nav extends Component {
         const { 
             authenticatedUser, 
             authenticatedAdmin,
-            adminFullname
         } = this.props;
-        console.log("NAvv", this.props);
-        var name = adminFullname.replace(/_/g, " ");
-
-        // console.log("NAvv", this.props.admin.information.admin);
+        const { adminFullname } = this.state;
+        // console.log("NAvv", this.props);
 
         return (
             <AppBar>
@@ -73,11 +86,11 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
-                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to="/" > MY ORGANIZATION</Button>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > MY CLIENTS</Button> */}
-                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {name} </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {adminFullname.replace(/_/g, " ")} </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${adminFullname}/modules`} > MODULES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
+
                                 <Tooltip title="Log Out" aria-label="add">
                                     <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
                                         <KeyboardReturnIcon />

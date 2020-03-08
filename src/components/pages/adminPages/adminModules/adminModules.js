@@ -25,14 +25,23 @@ const Link = require("react-router-dom").Link
 
 
 export class adminModule extends Component {
-
     render() {
+        // console.log("moduless", this.props);
 
         return (
             <p style={{fontSize:"100px"}}>Moduless</p>
         )
     }
 }
-  
 
-export default adminModule
+adminModule.propTypes = {
+    admin: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    admin: state.admin
+});
+
+
+
+export default connect(mapStateToProps)(adminModule);
