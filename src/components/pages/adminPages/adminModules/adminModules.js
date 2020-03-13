@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-// import { logoutAdmin } from '../../redux/actions/adminActions'
 
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
@@ -25,6 +24,15 @@ const Link = require("react-router-dom").Link
 
 
 export class adminModule extends Component {
+
+    UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors) {
+            // console.log("PROPSs", nextProps)
+            // nextProps.history.push("/UNAUTHORIZED")
+            // this.setState({ errors: nextProps.UI.errors })
+        }
+    }
+
     render() {
         // console.log("moduless", this.props);
 
@@ -35,11 +43,13 @@ export class adminModule extends Component {
 }
 
 adminModule.propTypes = {
-    admin: PropTypes.object.isRequired
+    // admin: PropTypes.object.isRequired,
+    UI: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin
+    // admin: state.admin,
+    UI: state.UI
 });
 
 

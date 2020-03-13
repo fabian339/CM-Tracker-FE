@@ -37,21 +37,16 @@ const styles = {
 };
 
 export class Nav extends Component {
-    constructor(){
-        super();
-        this.state = {
-            adminFullname: '',
-        }
-    }
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.adminFullname !== this.props.adminFullname) {
-            console.log("NAV Next props",nextProps)
-            this.setState({ 
-                adminFullname: nextProps.adminFullname,
-            })
-        }
-    }
+
+    // UNSAFE_componentWillReceiveProps(nextProps){
+    //     if(nextProps.adminFullname !== this.props.adminFullname) {
+    //         console.log("NAV Next props",nextProps)
+    //         this.setState({ 
+    //             adminFullname: nextProps.adminFullname,
+    //         })
+    //     }
+    // }
 
 
     handleLogOut = () => {
@@ -65,7 +60,6 @@ export class Nav extends Component {
             authenticatedUser, 
             authenticatedAdmin,
         } = this.props;
-        // const { adminFullname } = this.state;
         // console.log("NAvv", this.props);
 
         return (
@@ -86,8 +80,8 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
-                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {adminFullname.replace(/_/g, " ")} </Button>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${adminFullname}/modules`} > MODULES </Button> */}
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {localStorage.fullname.replace(/_/g, " ")} </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
 

@@ -10,6 +10,7 @@ import loadingAdminPage from './components/pages/adminPages/LoadingPageAdmin/loa
 import adminModules from './components/pages/adminPages/adminModules/adminModules';
 import PrivateAdminRoute from  './util/authRoutes/PrivateAdminRoute';
 import PrivateUserRoute from  './util/authRoutes/PrivateUserRoute';
+import unauthPage from './components/pages/public/unauthPage'
 
 
 import jwtDecode from 'jwt-decode';
@@ -41,7 +42,9 @@ if(token){
         // console.log("settiong headers");
         store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
         axios.defaults.headers.common['Authorization'] = token;
-        store.dispatch(getAdminData());
+        var query = window.location.search.substring(localStorage.fullname);
+        console.log("APPPPP", query);
+        store.dispatch(getAdminData("hhhh"));
     } else if(localStorage.accType === "user") {
       store.dispatch({ type: SET_AUTHENTICATED_USER });
       axios.defaults.headers.common['Authorization'] = token;
@@ -50,9 +53,11 @@ if(token){
   }
 }
 
+            console.log("Called", "getAdminData")
 
 function App() {
   return (
+    
     <Provider store={store}>
       <Router>
         <Navbar />
@@ -65,6 +70,7 @@ function App() {
               <Route exact path="/admin-register" component={adminRegister} />
               <Route exact path="/registration" component={registration} />
               <Route exact path="/login" component={login} />
+              <Route exact path="/UNAUTHORIZED" component={unauthPage} />
             </Switch>
           </div>
       </Router>

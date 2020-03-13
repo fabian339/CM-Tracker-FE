@@ -31,7 +31,7 @@ export class PrivateAdminRoute extends Component {
         //fix authentication with fullname && id
         // let adminAuthentication = (authenticated && (fullname === pathAdminName));
         // console.log("This is trueee",fullname, pathAdminName)
-        // console.log("provate route", fullname, props);
+        console.log("private route");
 
         let adminRoute = (authenticated) ? (
             <Route component={component} />
@@ -50,7 +50,7 @@ PrivateAdminRoute.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
+    // admin: state.admin,
     authenticated: state.admin.authenticated,
     // adminFullname: state.admin.fullname
 

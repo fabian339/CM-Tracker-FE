@@ -4,25 +4,25 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 // import appLogo from '../../../../../images/ori_logo.png';
 // import styles from '../styles';
-import { Bounce, Shake, FadeIn, FadeOut, Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
+import { Bounce, Shake, FadeOut } from 'react-motions' //https://github.com/raphamorim/react-motions
 
 
 //mui studd
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import MuiPhoneNumber from "material-ui-phone-number";
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import PanToolIcon from '@material-ui/icons/PanTool';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import LinearProgress from '@material-ui/core/LinearProgress';
+// import Grid from '@material-ui/core/Grid'
+// import TextField from '@material-ui/core/TextField';
+// import Button from '@material-ui/core/Button';
+// import MuiPhoneNumber from "material-ui-phone-number";
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
+// import PanToolIcon from '@material-ui/icons/PanTool';
+// import Radio from '@material-ui/core/Radio';
+// import RadioGroup from '@material-ui/core/RadioGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Switch from '@material-ui/core/Switch';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+// import LinearProgress from '@material-ui/core/LinearProgress';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 //Redux stuf

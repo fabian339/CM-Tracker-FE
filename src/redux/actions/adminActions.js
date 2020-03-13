@@ -25,27 +25,30 @@ export const loginFunc = (data, history) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios.post('/login', data)
     .then((res) => {
-        setAuthorizationHeader(res.data.token, res.data.accountType);
+        // console.log(res.data)
+        setAuthorizationHeader(res.data.token, res.data.accountType, res.data.fullname);
         if(res.data.accountType === "admin"){
             console.log("Data Back", res.data.fullname, "History", history);
-            dispatch(getAdminData());
+            console.log("Called", "getAdminData")
+            dispatch(getAdminData(res.data.fullname));
             let pathName = `/admin/${res.data.fullname}/modules`
             dispatch({type: SET_AUTHENTICATED_ADMIN});
-            dispatch({
-                type: SET_AUTHENTICATED_PATHNAMES,
-                payload: pathName
-            })
+            // dispatch({
+            //     type: SET_AUTHENTICATED_PATHNAMES,
+            //     payload: pathName
+            // })
             dispatch({ type: CLEAR_ERRORS});
             history.push(pathName);
-        } else {
-            dispatch(getUserData());
-            dispatch({
-                type: SET_AUTHENTICATED_ADMIN,
-                payload: res.data.fullame
-            });
-            dispatch({ type: CLEAR_ERRORS});
-            history.push(`/user/${res.data.fullname}/page`);
         }
+        // } else {
+        //     dispatch(getUserData());
+        //     dispatch({
+        //         type: SET_AUTHENTICATED_ADMIN,
+        //         payload: res.data.fullame
+        //     });
+        //     dispatch({ type: CLEAR_ERRORS});
+        //     history.push(`/user/${res.data.fullname}/page`);
+        // }
     })
     .catch(err => {
       dispatch({
@@ -63,13 +66,15 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
     axios.post('/registerAdmin', newAdminData)
     .then((res) => {
         setAuthorizationHeader(res.data.token, 'admin');
+        console.log("Called", "getAdminData")
+
         dispatch(getAdminData());
         dispatch({type: SET_AUTHENTICATED_ADMIN});
         dispatch({ type: CLEAR_ERRORS});
-        dispatch({
-            type: SET_AUTHENTICATED_PATHNAMES,
-            payload: newPath
-        })
+        // dispatch({
+        //     type: SET_AUTHENTICATED_PATHNAMES,
+        //     payload: newPath
+        // })
         history.push(newPath);
     })
     .catch(err => {
@@ -94,10 +99,10 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
         dispatch({ type: CLEAR_ERRORS});
         dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
         let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
-        dispatch({
-            type: SET_AUTHENTICATED_PATHNAMES,
-            payload: pathName
-        })
+        // dispatch({
+        //     type: SET_AUTHENTICATED_PATHNAMES,
+        //     payload: pathName
+        // })
         history.push(pathName);
     })
     .catch(err => {
@@ -122,10 +127,10 @@ export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
         });
         dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
         let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
-        dispatch({
-            type: SET_AUTHENTICATED_PATHNAMES,
-            payload: pathName
-        })
+        // dispatch({
+        //     type: SET_AUTHENTICATED_PATHNAMES,
+        //     payload: pathName
+        // })
         history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
@@ -161,10 +166,12 @@ export const getOrganizations = () => (dispatch) => {
 
 export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
     dispatch({ type: LOADING_UI });
+    console.log("Called", "getAdminData")
+
     axios.put(`/merge/admin/${fullname}/organization/${orgId}`)
     .then(res => {
         console.log(res)
-        dispatch(getAdminData());
+        dispatch(getAdminData(fullname));
         // dispatch({ type: CLEAR_ERRORS});
     })
     .catch(err => {
@@ -199,14 +206,17 @@ export const logoutAdmin = () => (dispatch) => {
         dispatch(logoutUser());
     }
     localStorage.removeItem('accType');
+    localStorage.removeItem('fullname');
 }
 
 
 
-export const getAdminData = () => (dispatch) => {
+export const getAdminData = (fullname) => (dispatch) => {
     dispatch({ type: LOADING_ADMIN });
-            console.log("Calledd")
-    axios.get('/admin')
+    //HEREEE
+    console.log("this call", fullname);
+
+    axios.get(`/admin/${fullname}`)
     .then((res) => {
         dispatch({
             type: SET_ADMIN,
@@ -215,7 +225,11 @@ export const getAdminData = () => (dispatch) => {
         // console.log("PayloadData-->", res.data)
     })
     .catch(err => {
-        console.log(err);
+        console.log(err.response.data)
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        })
     })
 }
 
@@ -253,9 +267,10 @@ export const getAdminData = () => (dispatch) => {
 // }
 
 
-const setAuthorizationHeader = (token, accType) => {
+const setAuthorizationHeader = (token, accType, fullname) => {
     const FBIdToken = `Bearer ${token}`;
     localStorage.setItem('FBIdToken', FBIdToken);
     localStorage.setItem('accType', accType);
+    localStorage.setItem('fullname', fullname);
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 }

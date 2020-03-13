@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import appLogo from '../../../../images/ori_logo.png';
 import styles from './styles';
-import { Bounce, Shake, FadeIn, FadeOut, Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
+import { Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 
@@ -14,16 +14,16 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MuiPhoneNumber from "material-ui-phone-number";
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
 import PanToolIcon from '@material-ui/icons/PanTool';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+// import Radio from '@material-ui/core/Radio';
+// import RadioGroup from '@material-ui/core/RadioGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Switch from '@material-ui/core/Switch';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 
 //redux stuff
