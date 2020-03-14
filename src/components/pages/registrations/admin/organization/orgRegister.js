@@ -74,17 +74,14 @@ class orgRegister extends Component {
         }
 
         const newOrgData = { orgName, orgPhone, orgAddress, orgType };
-        console.log("propssss", this.props)
-        const { firstN, lastN } = this.props.admin.information;
-        let fullname = firstN+"_"+lastN;
         
         //call to add the new organization and redirect to new path
         //set timeout for emotion when finding organizations
         setTimeout(() => { 
         if(orgExist && orgName){
-                this.props.getOrgWithName(orgName ,this.props.history, fullname);
+                this.props.getOrgWithName(orgName ,this.props.history, localStorage.fullname);
             } else {
-                this.props.registerOrg(newOrgData ,this.props.history, fullname);
+                this.props.registerOrg(newOrgData ,this.props.history, localStorage.fullname);
             }
         }, delay);
 

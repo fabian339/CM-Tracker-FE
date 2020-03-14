@@ -60,15 +60,38 @@ export const loginFunc = (data, history) => (dispatch) => {
 }
 
 
+export const getAdminData = (fullname) => (dispatch) => {
+    dispatch({ type: LOADING_ADMIN });
+    //HEREEE
+    console.log("this call", fullname);
+
+    axios.get(`/admin/${fullname}`)
+    .then((res) => {
+        dispatch({
+            type: SET_ADMIN,
+            payload: res.data
+        })
+        // console.log("PayloadData-->", res.data)
+    })
+    .catch(err => {
+        console.log(err.response.data)
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        })
+    })
+}
+
+
 export const adminRegistration = (newAdminData, history, newPath) => (dispatch) => {
 
     dispatch({ type: LOADING_UI });
     axios.post('/registerAdmin', newAdminData)
     .then((res) => {
-        setAuthorizationHeader(res.data.token, 'admin');
-        console.log("Called", "getAdminData")
+        setAuthorizationHeader(res.data.token, res.data.accountType, res.data.fullname);
+        console.log("Calleddddd", res.data)
 
-        dispatch(getAdminData());
+        dispatch(getAdminData(res.data.fullname));
         dispatch({type: SET_AUTHENTICATED_ADMIN});
         dispatch({ type: CLEAR_ERRORS});
         // dispatch({
@@ -210,28 +233,6 @@ export const logoutAdmin = () => (dispatch) => {
 }
 
 
-
-export const getAdminData = (fullname) => (dispatch) => {
-    dispatch({ type: LOADING_ADMIN });
-    //HEREEE
-    console.log("this call", fullname);
-
-    axios.get(`/admin/${fullname}`)
-    .then((res) => {
-        dispatch({
-            type: SET_ADMIN,
-            payload: res.data
-        })
-        // console.log("PayloadData-->", res.data)
-    })
-    .catch(err => {
-        console.log(err.response.data)
-        dispatch({
-            type: SET_ERRORS,
-            payload: err.response.data
-        })
-    })
-}
 
 
 // export const uploadImage = (formData) => (dispatch) => {

@@ -91,9 +91,8 @@ class loadingAdminPage extends Component {
         reset = () => {
             document.body.style = 'background: #ffff;';
             clearInterval(this.state.intervalId);
-            const { firstN , lastN } = this.props.admin.information;
 
-            this.props.history.push(`/admin/${firstN+"_"+lastN}/modules`)
+            this.props.history.push(`/admin/${localStorage.fullname}/modules`)
         }
 
         runTimer = () => {

@@ -20,7 +20,7 @@ import registration from './components/pages/registrations/registerOptions/regis
 //REDUX
 import { Provider } from 'react-redux';
 import store from './redux/store';
-import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN } from './redux/types';
+import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN, SET_ERRORS } from './redux/types';
 import { getAdminData, logoutAdmin } from './redux/actions/adminActions';
 import { getUserData } from './redux/actions/userActions';
 
@@ -42,10 +42,8 @@ if(token){
         // console.log("settiong headers");
         store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
         axios.defaults.headers.common['Authorization'] = token;
-        var query = window.location.search.substring(localStorage.fullname);
-        console.log("APPPPP", query);
-        store.dispatch(getAdminData("hhhh"));
-    } else if(localStorage.accType === "user") {
+        store.dispatch(getAdminData(localStorage.fullname));
+      } else if(localStorage.accType === "user") {
       store.dispatch({ type: SET_AUTHENTICATED_USER });
       axios.defaults.headers.common['Authorization'] = token;
       store.dispatch(getUserData());
