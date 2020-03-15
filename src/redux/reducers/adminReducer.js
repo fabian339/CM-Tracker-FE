@@ -5,8 +5,7 @@ import {
     LOADING_ADMIN, 
     SET_ORGANIZATION,
     SET_ORGANIZATIONS,
-    ADD_ORGANIZATION,
-    SET_AUTHENTICATED_PATHNAMES
+    ADD_ORGANIZATION
  } from '../types';
 
 const initialState = {
@@ -15,15 +14,12 @@ const initialState = {
     admin: true,
     organizations: [],
     organization: {},
-    fullname: '',
-    pathNames: []
 }
 
 export default function(state = initialState, action){
     // console.log("USER Actionn -->",action);
     switch(action.type){
         case SET_AUTHENTICATED_ADMIN:
-            console.log("NAMEE",action.payload)
             return {
                 ...state,
                 authenticated: true
@@ -32,18 +28,11 @@ export default function(state = initialState, action){
             return initialState;
                     
         case SET_ADMIN:
-            // console.log(action.payload.information.fullname)
+            console.log("NAMEE", action.payload)
             return {
                 authenticated: true,
                 loading: false,
                 ...action.payload,
-                fullname: action.payload.information.fullname
-            }
-        case SET_AUTHENTICATED_PATHNAMES:
-            return {
-                ...state,
-                //HEREEEE
-                pathNames: state.pathNames.push(action.payload)
             }
         case SET_ORGANIZATION:
         case ADD_ORGANIZATION:

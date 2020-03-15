@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 // import AppIcon from '../images/ori_logo.png';
 import Typography from '@material-ui/core/Typography';
 // import appLogo from '../../../../../images/ori_logo.png';

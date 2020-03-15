@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import {Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 export class PrivateAdminRoute extends Component {
     render() {
         const { authenticated, component} = this.props;
-        console.log("private route");
+        // console.log("private route");
         var authUrl = window.location.pathname.includes(localStorage.fullname);
 
         let adminRoute = (authenticated && authUrl) ? (

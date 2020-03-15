@@ -47,8 +47,6 @@ class login extends Component {
             password: this.state.password
         }
         this.props.loginFunc(userData, this.props.history);
-        // window.location.reload(false);
-
     }
 
     handleChange = (event) => {

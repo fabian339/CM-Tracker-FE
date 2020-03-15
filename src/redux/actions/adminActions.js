@@ -12,9 +12,7 @@ import {
     MARCK_NOTIFICATIONS_READ,
     ADD_ORGANIZATION,
     SET_ORGANIZATIONS,
-    LOADING_DATA,
-    SET_AUTHENTICATED_PATHNAMES
-    
+    LOADING_DATA,    
     } from '../types';
 
     import {getUserData, logoutUser} from './userActions'
@@ -28,17 +26,10 @@ export const loginFunc = (data, history) => (dispatch) => {
         // console.log(res.data)
         setAuthorizationHeader(res.data.token, res.data.accountType, res.data.fullname);
         if(res.data.accountType === "admin"){
-            console.log("Data Back", res.data.fullname, "History", history);
-            console.log("Called", "getAdminData")
             dispatch(getAdminData(res.data.fullname));
-            let pathName = `/admin/${res.data.fullname}/modules`
             dispatch({type: SET_AUTHENTICATED_ADMIN});
-            // dispatch({
-            //     type: SET_AUTHENTICATED_PATHNAMES,
-            //     payload: pathName
-            // })
             dispatch({ type: CLEAR_ERRORS});
-            history.push(pathName);
+            history.push(`/admin/${res.data.fullname}/modules`);
         }
         // } else {
         //     dispatch(getUserData());
@@ -55,7 +46,6 @@ export const loginFunc = (data, history) => (dispatch) => {
           type: SET_ERRORS,
           payload: err.response.data
       })
-
     });
 }
 
@@ -63,10 +53,11 @@ export const loginFunc = (data, history) => (dispatch) => {
 export const getAdminData = (fullname) => (dispatch) => {
     dispatch({ type: LOADING_ADMIN });
     //HEREEE
-    console.log("this call", fullname);
+    // console.log("this call", fullname);
 
     axios.get(`/admin/${fullname}`)
     .then((res) => {
+        console.log("getting data", res.data)
         dispatch({
             type: SET_ADMIN,
             payload: res.data

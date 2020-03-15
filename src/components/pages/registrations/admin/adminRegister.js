@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import appLogo from '../../../../images/ori_logo.png';
 import styles from './styles';
 import { Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+// import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 
 //mui studd

@@ -80,10 +80,12 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
+                                
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {localStorage.fullname.replace(/_/g, " ")} </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/organization/id`} > ORGANIZATION </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > Documentation</Button>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > resources </Button>
 
                                 <Tooltip title="Log Out" aria-label="add">
                                     <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
