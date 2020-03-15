@@ -26,7 +26,7 @@ import { getUserData } from './redux/actions/userActions';
 
 import axios from 'axios';
 
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, useParams} from 'react-router-dom'
 
 
 const token = localStorage.FBIdToken;
@@ -39,10 +39,10 @@ if(token){
     window.location.href = '/login';
   } else {
       if(localStorage.accType === "admin") {
-        // console.log("settiong headers");
+        // console.log("settiong headers", window);
         store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
         axios.defaults.headers.common['Authorization'] = token;
-        store.dispatch(getAdminData(localStorage.fullname));
+        // store.dispatch(getAdminData(localStorage.fullname));
       } else if(localStorage.accType === "user") {
       store.dispatch({ type: SET_AUTHENTICATED_USER });
       axios.defaults.headers.common['Authorization'] = token;

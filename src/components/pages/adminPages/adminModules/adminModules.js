@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 // import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
+
 // import Typography from '@material-ui/core/Typography';
 
 // MUI stuff
@@ -19,18 +20,36 @@ import PropTypes from 'prop-types';
 
 
 
-const Link = require("react-router-dom").Link
+// const Link = require("react-router-dom").Link
 
 
 
-export class adminModule extends Component {
+export default class adminModule extends Component {
 
-    UNSAFE_componentWillReceiveProps(nextProps){
-        if(nextProps.UI.errors) {
-            // console.log("PROPSs", nextProps)
-            // nextProps.history.push("/UNAUTHORIZED")
-            // this.setState({ errors: nextProps.UI.errors })
-        }
+    // UNSAFE_componentWillReceiveProps(nextProps){
+    //     if(nextProps.UI.errors) {
+    //         // console.log("PROPSs", nextProps)
+    //         // nextProps.history.push("/UNAUTHORIZED")
+    //         // this.setState({ errors: nextProps.UI.errors })
+    //     }
+    // }
+
+    componentDidMount(){
+        console.log("moduless", this.props);
+
+        // console.log("DATAAAA PROPSSS", this.props);
+        // const handle = this.props.match.params.handle;
+        // const secretId = this.props.match.params.secretId;
+        // if(secretId) this.setState({ secretIdParam: secretId});
+
+        // this.props.getUserData(handle);
+        // axios.get(`/user/${handle}`)
+        // .then(res => {
+        //     this.setState({
+        //         profile: res.data.user
+        //     })
+        // })
+        // .catch(err => console.log(err));
     }
 
     render() {
@@ -42,16 +61,17 @@ export class adminModule extends Component {
     }
 }
 
-adminModule.propTypes = {
-    // admin: PropTypes.object.isRequired,
-    UI: PropTypes.object.isRequired
-}
+// adminModule.propTypes = {
+//     admin: PropTypes.object.isRequired,
+//     UI: PropTypes.object.isRequired
+// }
 
-const mapStateToProps = (state) => ({
-    // admin: state.admin,
-    UI: state.UI
-});
+// const mapStateToProps = (state) => ({
+//     admin: state.admin,
+//     UI: state.UI
+// });
 
 
 
-export default connect(mapStateToProps)(adminModule);
+// export default connect(mapStateToProps)(adminModule);
+// export default (adminModule);
