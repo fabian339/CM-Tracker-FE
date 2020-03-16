@@ -10,7 +10,7 @@ import loadingAdminPage from './components/pages/adminPages/LoadingPageAdmin/loa
 import adminModules from './components/pages/adminPages/adminModules/adminModules';
 import PrivateAdminRoute from  './util/authRoutes/PrivateAdminRoute';
 import PrivateUserRoute from  './util/authRoutes/PrivateUserRoute';
-import unauthPage from './components/pages/public/unauthPage'
+import UNAUTHORIZEDPAGE from './components/pages/public/UNAUTHORIZEDPAGE'
 
 
 import jwtDecode from 'jwt-decode';
@@ -67,7 +67,7 @@ function App() {
               <Route exact path="/admin-register" component={adminRegister} />
               <Route exact path="/registration" component={registration} />
               <Route exact path="/login" component={login} />
-              <Route exact path="/UNAUTHORIZED" component={unauthPage} />
+              <Route exact path="/UNAUTHORIZED" component={UNAUTHORIZEDPAGE} />
             </Switch>
           </div>
       </Router>

@@ -2,7 +2,10 @@ import React, { Component, Fragment } from 'react'
 // import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import UNAUTHORIZEDPAGE from '../../public/UNAUTHORIZEDPAGE'
+import {Redirect} from 'react-router-dom'
+
+// import axios from 'axios';
 // import Typography from '@material-ui/core/Typography';
 
 // MUI stuff
@@ -29,7 +32,6 @@ export class adminModule extends Component {
     constructor(){
         super();
         this.state = {
-            adminData: {},
             errors: {}
         }
     }
@@ -49,10 +51,17 @@ export class adminModule extends Component {
     render() {
         console.log("moduless state", this.state);
         console.log("Modules component",this.props)
+        const {errors} = this.state
 
         return (
-            <p style={{fontSize:"100px"}}>Moduless</p>
+            <div>
+                {errors.error && (
+                    <p style={{fontSize:"100px"}}>{errors.error}</p>
+                )}
+                <p style={{fontSize:"100px"}}>Moduless</p>
+            </div>
         )
+        
     }
 }
 

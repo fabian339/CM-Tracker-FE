@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 
 
-export class unauthPage extends Component {
+export class UNAUTHORIZEDPAGE extends Component {
 
 
     render() {
@@ -17,4 +17,4 @@ export class unauthPage extends Component {
 
 
 
-export default unauthPage;
+export default UNAUTHORIZEDPAGE;

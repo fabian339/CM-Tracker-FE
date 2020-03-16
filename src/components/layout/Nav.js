@@ -39,7 +39,7 @@ const styles = {
     menuItem: {
         fontSize: "13px",
         fontWeight: "600",
-        color: "dimgray"
+        color: "dimgray" ,
     }   
 };
 
@@ -55,11 +55,9 @@ export class Nav extends Component {
         this.setState({ open: true, anchorEl: event.currentTarget});
     };
 
-    handleHoverItem = event => {
-        this.setState({hover : true})
-    }
 
-    handleRequestClose = () => {
+    handleRequestClose = (even) => {
+        console.log("Nav", even)
         this.setState({ open: false });
     };
 
@@ -76,8 +74,6 @@ export class Nav extends Component {
             authenticatedAdmin,
         } = this.props;
         console.log("NAvv", this.props);
-        const styledListItem = this.state.hover ? {backgroundColor: "black"} : "none";
-console.log("docc", document)
         return (
             <AppBar>
                 <Toolbar style={styles.navContainer}>
@@ -102,11 +98,6 @@ console.log("docc", document)
                                 <Button
                                     aria-controls="customized-menu"
                                     aria-haspopup="true"
-                                    // variant="contained"
-                                    // color="primary"
-                                    // onClick={handleClick}
-                                    // aria-owns={this.state.open ? 'simple-menu' : null}
-                                    // aria-haspopup="true"
                                     style={styles.navButtons}
                                     onClick={this.handleClick}
                                     onMouseOver={this.handleClick}
@@ -129,22 +120,12 @@ console.log("docc", document)
                                     open={this.state.open}
                                     onClose={this.handleRequestClose}
                                     >
-                                    <div style={{backgroundColor: "mediumturquoise"}}>
-                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>{localStorage.fullname.replace(/_/g, " ").toUpperCase()}</MenuItem>
-                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>USERS</MenuItem>
-                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>CLIENTS</MenuItem>
-                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>ORGANIZATION</MenuItem>
-                                    </div>
+                                    <MenuItem style={styles.menuItem} onClick={this.handleRequestClose} component={Link} to="/lol">{localStorage.fullname.replace(/_/g, " ").toUpperCase()}</MenuItem>
+                                    <MenuItem style={styles.menuItem} onClick={this.handleRequestClose} component={Link} to="/lol">USER</MenuItem>
+                                    <MenuItem style={styles.menuItem} onClick={this.handleRequestClose} component={Link} to="/lol">CLIENTS</MenuItem>
+                                    <MenuItem style={styles.menuItem} onClick={this.handleRequestClose} component={Link} to="/lol">ORGANIZATION</MenuItem>
+
                                 </Menu>
-                                {/* <div className="image-wrapper">
-                                    <img src={imageUrl} alt="profile" className="profile-image"/>
-                                    <input 
-                                    type="file" 
-                                    id="imageInput" 
-                                    onChange={this.handleImageChange} 
-                                    hidden="hidden"
-                                    />
-                                </div> */}
 
                                 <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
