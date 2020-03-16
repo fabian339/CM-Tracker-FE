@@ -37,21 +37,9 @@ export class adminModule extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getAdminData(params.fullname);
-        // console.log("Modules component",this.props)
-        // axios.get(`/admin/${params.fullname}`)
-        //   .then(res => {
-        //     console.log('Admin Data', res.data);
-
-        //     this.setState({adminData: res.data.information})
-      
-        //     // this.setState({ user });
-        //   })
-        //   .catch(err =>{
-        //     console.log(err);
-        //     this.setState({errors: err.response.data})
-        //   })
-
       }
+
+      
       UNSAFE_componentWillReceiveProps(nextProps){
         if(nextProps.UI.errors) {
             this.setState({ errors: nextProps.UI.errors })

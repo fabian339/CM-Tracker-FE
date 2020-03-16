@@ -11,7 +11,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
-
+import PersonIcon from '@material-ui/icons/Person';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 //icons 
 // import LocationOn from '@material-ui/icons/LocationOn'
 // import AddIcon from '@material-ui/icons/Add'
@@ -33,20 +35,33 @@ const styles = {
     },
     title: {
         flexGrow: 1,
-      }
+      },
+    menuItem: {
+        fontSize: "13px",
+        fontWeight: "600",
+        color: "dimgray"
+    }   
 };
 
 export class Nav extends Component {
 
 
-    // UNSAFE_componentWillReceiveProps(nextProps){
-    //     if(nextProps.adminFullname !== this.props.adminFullname) {
-    //         console.log("NAV Next props",nextProps)
-    //         this.setState({ 
-    //             adminFullname: nextProps.adminFullname,
-    //         })
-    //     }
-    // }
+    state = {
+        anchorEl: null,
+        open: false,
+      };
+    
+    handleClick = event => {
+        this.setState({ open: true, anchorEl: event.currentTarget});
+    };
+
+    handleHoverItem = event => {
+        this.setState({hover : true})
+    }
+
+    handleRequestClose = () => {
+        this.setState({ open: false });
+    };
 
 
     handleLogOut = () => {
@@ -61,7 +76,8 @@ export class Nav extends Component {
             authenticatedAdmin,
         } = this.props;
         console.log("NAvv", this.props);
-
+        const styledListItem = this.state.hover ? {backgroundColor: "black"} : "none";
+console.log("docc", document)
         return (
             <AppBar>
                 <Toolbar style={styles.navContainer}>
@@ -80,8 +96,46 @@ export class Nav extends Component {
                     ) : (
                         authenticatedAdmin ? (
                             <Fragment>
-                                
-                                <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {localStorage.fullname.replace(/_/g, " ")} </Button>
+                                {/* <Tooltip title={localStorage.fullname.replace(/_/g, " ").toUpperCase()} aria-label="add">
+                                </ Tooltip> */}
+
+                                <Button
+                                    aria-controls="customized-menu"
+                                    aria-haspopup="true"
+                                    // variant="contained"
+                                    // color="primary"
+                                    // onClick={handleClick}
+                                    // aria-owns={this.state.open ? 'simple-menu' : null}
+                                    // aria-haspopup="true"
+                                    style={styles.navButtons}
+                                    onClick={this.handleClick}
+                                    onMouseOver={this.handleClick}
+                                    >
+                                    <PersonIcon /> 
+                                </Button>
+                                <Menu
+                                    elevation={0}
+                                    getContentAnchorEl={null}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'center',
+                                    }}
+                                    id="simple-menu"
+                                    anchorEl={this.state.anchorEl}
+                                    open={this.state.open}
+                                    onClose={this.handleRequestClose}
+                                    >
+                                    <div style={{backgroundColor: "mediumturquoise"}}>
+                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>{localStorage.fullname.replace(/_/g, " ").toUpperCase()}</MenuItem>
+                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>USERS</MenuItem>
+                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>CLIENTS</MenuItem>
+                                        <MenuItem style={styles.menuItem} onClick={this.handleRequestClose}>ORGANIZATION</MenuItem>
+                                    </div>
+                                </Menu>
                                 {/* <div className="image-wrapper">
                                     <img src={imageUrl} alt="profile" className="profile-image"/>
                                     <input 
@@ -93,7 +147,6 @@ export class Nav extends Component {
                                 </div> */}
 
                                 <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
-                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/organization/id`} > ORGANIZATION </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > resources </Button>
 
