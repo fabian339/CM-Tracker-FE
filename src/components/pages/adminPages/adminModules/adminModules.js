@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 // import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-
+import axios from 'axios';
 // import Typography from '@material-ui/core/Typography';
 
 // MUI stuff
@@ -18,42 +18,49 @@ import PropTypes from 'prop-types';
 // import HomeIcon from '@material-ui/icons/Home'
 // import Notifications from '@material-ui/icons/Notifications'
 
+import { getAdminData } from '../../../../redux/actions/adminActions';
 
 
 // const Link = require("react-router-dom").Link
 
 
 
-export default class adminModule extends Component {
+export class adminModule extends Component {
+    constructor(){
+        super();
+        this.state = {
+            adminData: {},
+            errors: {}
+        }
+    }
 
-    // UNSAFE_componentWillReceiveProps(nextProps){
-    //     if(nextProps.UI.errors) {
-    //         // console.log("PROPSs", nextProps)
-    //         // nextProps.history.push("/UNAUTHORIZED")
-    //         // this.setState({ errors: nextProps.UI.errors })
-    //     }
-    // }
+    componentDidMount() {
+        const { match: { params } } = this.props;
+        this.props.getAdminData(params.fullname);
+        // console.log("Modules component",this.props)
+        // axios.get(`/admin/${params.fullname}`)
+        //   .then(res => {
+        //     console.log('Admin Data', res.data);
 
-    componentDidMount(){
-        console.log("moduless", this.props);
+        //     this.setState({adminData: res.data.information})
+      
+        //     // this.setState({ user });
+        //   })
+        //   .catch(err =>{
+        //     console.log(err);
+        //     this.setState({errors: err.response.data})
+        //   })
 
-        // console.log("DATAAAA PROPSSS", this.props);
-        // const handle = this.props.match.params.handle;
-        // const secretId = this.props.match.params.secretId;
-        // if(secretId) this.setState({ secretIdParam: secretId});
-
-        // this.props.getUserData(handle);
-        // axios.get(`/user/${handle}`)
-        // .then(res => {
-        //     this.setState({
-        //         profile: res.data.user
-        //     })
-        // })
-        // .catch(err => console.log(err));
+      }
+      UNSAFE_componentWillReceiveProps(nextProps){
+        if(nextProps.UI.errors) {
+            this.setState({ errors: nextProps.UI.errors })
+        }
     }
 
     render() {
-        // console.log("moduless", this.props);
+        console.log("moduless state", this.state);
+        console.log("Modules component",this.props)
 
         return (
             <p style={{fontSize:"100px"}}>Moduless</p>
@@ -61,17 +68,18 @@ export default class adminModule extends Component {
     }
 }
 
-// adminModule.propTypes = {
-//     admin: PropTypes.object.isRequired,
-//     UI: PropTypes.object.isRequired
-// }
+adminModule.propTypes = {
+    admin: PropTypes.object.isRequired,
+    getAdminData: PropTypes.func.isRequired,
+    UI: PropTypes.object.isRequired
+}
 
-// const mapStateToProps = (state) => ({
-//     admin: state.admin,
-//     UI: state.UI
-// });
+const mapStateToProps = (state) => ({
+    admin: state.admin,
+    UI: state.UI
+});
 
 
 
-// export default connect(mapStateToProps)(adminModule);
+export default connect(mapStateToProps, {getAdminData})(adminModule);
 // export default (adminModule);

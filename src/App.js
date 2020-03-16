@@ -51,7 +51,6 @@ if(token){
   }
 }
 
-            console.log("Called", "getAdminData")
 
 function App() {
   return (

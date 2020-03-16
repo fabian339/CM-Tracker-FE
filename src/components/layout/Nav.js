@@ -60,7 +60,7 @@ export class Nav extends Component {
             authenticatedUser, 
             authenticatedAdmin,
         } = this.props;
-        // console.log("NAvv", this.props);
+        console.log("NAvv", this.props);
 
         return (
             <AppBar>
@@ -82,6 +82,16 @@ export class Nav extends Component {
                             <Fragment>
                                 
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > {localStorage.fullname.replace(/_/g, " ")} </Button>
+                                {/* <div className="image-wrapper">
+                                    <img src={imageUrl} alt="profile" className="profile-image"/>
+                                    <input 
+                                    type="file" 
+                                    id="imageInput" 
+                                    onChange={this.handleImageChange} 
+                                    hidden="hidden"
+                                    />
+                                </div> */}
+
                                 <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/organization/id`} > ORGANIZATION </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
@@ -112,14 +122,14 @@ export class Nav extends Component {
 Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
     authenticatedAdmin: PropTypes.bool.isRequired,
-    // adminFullname: PropTypes.string.isRequired,
+    admin: PropTypes.object.isRequired,
     logoutAdmin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
     authenticatedUser: state.user.authenticated,
     authenticatedAdmin: state.admin.authenticated,
-    // adminFullname: state.admin.fullname
+    admin: state.admin
 })
 
 export default connect(mapStateToProps, {logoutAdmin})(Nav);
