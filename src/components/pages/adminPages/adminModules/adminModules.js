@@ -2,8 +2,9 @@ import React, { Component, Fragment } from 'react'
 // import Link from 'react-router-dom/Link'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import UNAUTHORIZEDPAGE from '../../public/UNAUTHORIZEDPAGE'
-import {Redirect} from 'react-router-dom'
+import UNAUTHORIZEDPAGE from '../../public/UNAUTHORIZEDPAGE';
+import {Redirect} from 'react-router-dom';
+import Modules from './Modules'
 
 // import axios from 'axios';
 // import Typography from '@material-ui/core/Typography';
@@ -58,7 +59,7 @@ export class adminModule extends Component {
                 {errors.error && (
                     <p style={{fontSize:"100px"}}>{errors.error}</p>
                 )}
-                <p style={{fontSize:"100px"}}>Moduless</p>
+                <Modules />
             </div>
         )
         

@@ -127,7 +127,7 @@ export class Nav extends Component {
 
                                 </Menu>
 
-                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
+                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button> */}
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > resources </Button>
 
