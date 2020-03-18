@@ -28,6 +28,62 @@ import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
 import MyButton from '../../util/MyButton';
 
 
+const styles = {
+    paper: {
+        padding: 20,
+        margin: "90px 10px"
+    },
+    profileImage: {
+        width: 200,
+        height: 200,
+        objectFit: 'cover',
+        maxWidth: '100%',
+        borderRadius: '50%'
+    },
+    profile: {
+    '& .image-wrapper': {
+        textAlign: 'center',
+        position: 'relative',
+        '& button': {
+        position: 'absolute',
+        top: '80%',
+        left: '70%'
+        }
+        },
+    '& .profile-image': {
+        width: 200,
+        height: 200,
+        objectFit: 'cover',
+        maxWidth: '100%',
+        borderRadius: '50%'
+        },
+    '& .profile-details': {
+        textAlign: 'center',
+        '& span, svg': {
+        verticalAlign: 'middle'
+        },
+        '& a': {
+        color: '#00bcd4'
+        }
+        },
+    '& hr': {
+        border: 'none',
+        margin: '0 0 10px 0'
+        },
+    '& svg.button': {
+        '&:hover': {
+        cursor: 'pointer'
+        }
+        }
+    },
+    buttons: {
+    textAlign: 'center',
+    '& a': {
+        margin: '20px 10px'
+        }
+    }
+}
+
 export class Profile extends Component {
 
     // handleImageChange = (event) => {
@@ -49,89 +105,58 @@ export class Profile extends Component {
     // }
 
     render() {
-        const { 
-            classes, 
-            user: { 
-                credentials: { handle, createdAt, imageUrl, bio, website, location }, 
-                loading,
-                authenticated
-                }
-            } = this.props;
-            // console.log(imageUrl);
+
+        const { admin : {loading, authenticated, information: {imageUrl, fullname, createdAt}} } = this.props;  
+        
+        // let adminInfo = information;  
+
+            console.log("propfile", this.props.admin);
         let profileMarkup = !loading ? (authenticated ? (
-            <Paper className={classes.paper}>
-                <div className={classes.profile}>
+            <Paper style={styles.paper}>
+                <div className={styles.profile}>
                     <div className="image-wrapper">
-                        <img src={imageUrl} alt="profile" className="profile-image"/>
-                        <input 
+                        <img src={imageUrl} alt="profile" style={styles.profileImage} />
+                        {/* <input 
                         type="file" 
                         id="imageInput" 
-                        onChange={this.handleImageChange} 
+                        // onChange={this.handleImageChange} 
                         hidden="hidden"
-                        />
+                        /> */}
 
-                        <MyButton tip="Edit profile Picture" onClick={this.handleEditPicture} btnClassName="button">
-                            <EditIcon color="primary" />
-                        </MyButton>
+                        <EditIcon color="primary" />
                     </div>
                     <hr/>
                     <div className="profile-details">
-                        <MuiLink component={Link} to={`/users/${handle}`} color="primary" variant="h5">
-                            @{handle}
+                        <MuiLink component={Link} to={`/admin/${fullname}`} color="primary" variant="h5">
+                            @{fullname}
                         </MuiLink>
                         <hr/>
 
-                        {bio && <Typography variant="body2">{bio}</Typography>}
-                        <hr/>
-
-                        {location && (
-                            <Fragment>
-                                <LocationOn color="primary" /> <span>{location}</span>
-                                <hr/>
-                            </Fragment>
-                        )}
-
-                        {website && (
-                            <Fragment>
-                                <LinkIcon color="primary" />
-                                    <a href={website} target="_blank" rel="noopener noreferrer">
-                                        {' '}{website}
-                                    </a>
-                                <hr/>
-                            </Fragment>
-                        )}
 
                         <CalendarToday color="primary"/>{' '}
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')} </span>
-                    </div>
+                     </div>
 
-                    <MyButton tip="Logout" onClick={this.handleLogout} >
-                            <KeyboardReturn color="primary" />
-                    </MyButton>
-                    <EditDetails />
-                </div>
-            </Paper>
-        ) : (
-            <Paper className={classes.paper}>
+                     {/* <MyButton tip="Logout" onClick={this.handleLogout} > */}
+                             <KeyboardReturn color="primary" />
+                     {/* </MyButton> */}
+                     {/* <EditDetails /> */}
+                 </div>
+             </Paper>
+             ) : (
+            <Paper className={styles.paper}>
                 <Typography variant="body2" align="center">
                     No profile found, please login
                 </Typography>
-                <div className={classes.buttons}>
-                    <Button variant="contained" color="primary" component={Link} to="/login">
-                        Login
-                    </Button>
-                    <Button variant="contained" color="secondary" component={Link} to="/signup">
-                        Signup
-                    </Button>
-                </div>
             </Paper>
         )) : <Fragment>
             <LinearProgress variant="query" color="secondary" />
             <LinearProgress variant="query" />
-            <ProfileSkeleton />
+            {/* <ProfileSkeleton /> */}
         </Fragment>
 
-        return profileMarkup;
+        return  profileMarkup;
+
     }
 }
 
@@ -142,7 +167,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {  };
 
 Profile.propTypes = {
-    // logoutUser: PropTypes.func.isRequired,
+    //  logoutUser: PropTypes.func.isRequired,
     // uploadImage: PropTypes.func.isRequired,
     admin: PropTypes.object.isRequired
 }

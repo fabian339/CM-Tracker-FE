@@ -9,7 +9,7 @@ const styles = {
     container: {
         border: "2px solid",
         // height: "500px",
-        margin: "75px 10px"
+        margin: "90px 10px"
     }
 }
 
@@ -17,22 +17,20 @@ export class Modules extends Component {
 
     render() {
         return (
-            <Grid>
-                <Grid style={styles.container}  container item sm={6} xs={12}>
-                    <Typography variant="h3" align="center">ORGANIZATION</Typography> 
-                    <div>
-                        <p> Organization Name: </p>
-                        <p> Users: </p>
-                        <p> Clients: </p>
-                    </div>
-                </Grid>
-                <Grid style={styles.container}  container item sm={6} xs={12}>
-                    <Typography variant="h3" align="center">MODULES</Typography> 
-                </Grid>
-                <Grid style={styles.container}  container item sm={6} xs={12}>
-                    <Typography variant="body2" align="center"></Typography> 
-                </Grid>
-            </Grid>
+            <div  style={styles.container} >
+                <div>
+                    <Typography variant="h4">RECENT ACTIVITIES</Typography> 
+                    <Typography variant="body2">User: </Typography> 
+                    <Typography variant="body2">Clients: </Typography> 
+
+                </div>
+                <div>
+                    <Typography variant="h4">MODULES</Typography> 
+                </div>
+                <div>
+                    <Typography variant="h4">ORGANIZATION</Typography> 
+                </div>
+            </div>
         )   
     }
 }

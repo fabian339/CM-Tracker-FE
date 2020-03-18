@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import UNAUTHORIZEDPAGE from '../../public/UNAUTHORIZEDPAGE';
 import {Redirect} from 'react-router-dom';
 import Modules from './Modules'
+import Grid from '@material-ui/core/Grid'
+import Profile from '../../../../components/profile/Profile'
 
 // import axios from 'axios';
 // import Typography from '@material-ui/core/Typography';
@@ -44,6 +46,7 @@ export class adminModule extends Component {
 
       
       UNSAFE_componentWillReceiveProps(nextProps){
+          console.log("it received props", nextProps)
         if(nextProps.UI.errors) {
             this.setState({ errors: nextProps.UI.errors })
         }
@@ -55,12 +58,17 @@ export class adminModule extends Component {
         const {errors} = this.state
 
         return (
-            <div>
-                {errors.error && (
-                    <p style={{fontSize:"100px"}}>{errors.error}</p>
-                )}
-                <Modules />
-            </div>
+            <Grid container>
+                <Grid item sm={8} xs={12}>
+                    <Modules />
+                </Grid>
+                <Grid item sm={4} xs={12}>
+                    <Profile />
+                </Grid>
+            </Grid>
+                // {errors.error && (
+                //     <p style={{fontSize:"100px"}}>{errors.error}</p>
+                // )}
         )
         
     }

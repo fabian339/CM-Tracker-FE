@@ -11,6 +11,7 @@ import {
 const initialState = {
     authenticated: false,
     loading: false,
+    information: {},
     organizations: [],
     organization: {},
 }
