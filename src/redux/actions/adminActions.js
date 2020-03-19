@@ -62,7 +62,13 @@ export const getAdminData = (fullname) => (dispatch) => {
             type: SET_ADMIN,
             payload: res.data
         })
-        // console.log("PayloadData-->", res.data)
+        // if(res.data.organization){
+        //     dispatch({
+        //         type: SET_ORGANIZATION,
+        //         payload: res.data
+        //     });
+        // }
+        // console.log("PayloadData-->", res.data.information.organization.orgName)
     })
     .catch(err => {
         console.log(err.response.data)
@@ -103,7 +109,7 @@ export const adminRegistration = (newAdminData, history, newPath) => (dispatch) 
 
 export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.post('/orgRegister', newOrgData)
+    axios.post(`/admin/${fullname}/orgRegister`, newOrgData)
     .then((res) => {
         console.log("CALLED")
         dispatch({
@@ -130,9 +136,9 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
 }
 
 //get organization with name
-export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
+export const getOrgToMerge = (orgName, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.get(`/organization/${orgName}`)
+    axios.get(`/admin/${fullname}/organization/${orgName}`)
     .then((res) => {
         console.log("CALLED")
         dispatch({
@@ -140,11 +146,6 @@ export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
             payload: res.data
         });
         dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
-        let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
-        // dispatch({
-        //     type: SET_AUTHENTICATED_PATHNAMES,
-        //     payload: pathName
-        // })
         history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
@@ -159,10 +160,10 @@ export const getOrgWithName = (orgName, history, fullname) => (dispatch) => {
 
 
 //get all organizations
-export const getOrganizations = () => (dispatch) => {
-        // console.log("BEIN CALLED");
+export const getOrganizations = (fullname) => (dispatch) => {
+        console.log("BEIN CALLED", fullname);
         dispatch( { type: LOADING_DATA });
-        axios.get('/organizations')
+        axios.get(`/admin/${fullname}/organizations`)
         .then((res) => {
             dispatch({
                 type: SET_ORGANIZATIONS,

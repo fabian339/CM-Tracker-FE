@@ -127,12 +127,12 @@ export class Nav extends Component {
 
                                 </Menu>
 
-                                {/* <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button> */}
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/admin/${localStorage.fullname}/modules`} > MODULES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/" > ACTIVITIES </Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/documentation" > resources </Button>
 
                                 <Tooltip title="Log Out" aria-label="add">
-                                    <Button color="inherit" onClick={this.handleLogOut} component={Link} to="/" >
+                                    <Button style={{color: "dimgray"}} onClick={this.handleLogOut} component={Link} to="/" >
                                         <KeyboardReturnIcon />
                                     </Button>
                                 </Tooltip>

@@ -127,129 +127,128 @@ class adminRegister extends Component {
             </header>
             <Grid container>
                 <Grid item sm />
-                <Grid item sm>
-                    <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
-                        
-                        <TextField
-                        id='First'
-                        name='firstN'
-                        type="firstN"
-                        label="First Name"
-                        style={{width: "37.5%", marginRight: "2.5%"}}
-                        required
-                        helperText={errors.firstN}
-                        error={errors.firstN ? true : false}
-                        value={this.state.firstN}
-                        onChange={this.handleChange}
-                        />
+                    <Grid item sm={8}>
+                        <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
+                            
+                            <TextField
+                            id='First'
+                            name='firstN'
+                            type="firstN"
+                            label="First Name"
+                            style={{width: "37.5%", marginRight: "2.5%"}}
+                            required
+                            helperText={errors.firstN}
+                            error={errors.firstN ? true : false}
+                            value={this.state.firstN}
+                            onChange={this.handleChange}
+                            />
 
-                        <TextField
-                        id='Last'
-                        name='lastN'
-                        type="lastN"
-                        label="Last Name"
-                        style={{width: "37.5%", marginLeft: "2.5%"}}
-                        required
-                        // variant="outlined"
-                        helperText={errors.lastN}
-                        error={errors.lastN ? true : false}
-                        value={this.state.lastN}
-                        onChange={this.handleChange}
-                        />
-                         
+                            <TextField
+                            id='Last'
+                            name='lastN'
+                            type="lastN"
+                            label="Last Name"
+                            style={{width: "37.5%", marginLeft: "2.5%"}}
+                            required
+                            // variant="outlined"
+                            helperText={errors.lastN}
+                            error={errors.lastN ? true : false}
+                            value={this.state.lastN}
+                            onChange={this.handleChange}
+                            />
+                            
 
 
-                        <TextField
-                        id='email'
-                        name='email'
-                        type="email"
-                        label="Email"
-                        style={styles.textField}
-                        required
-                        helperText={errors.email}
-                        error={errors.email ? true : false}
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        fullWidth />
+                            <TextField
+                            id='email'
+                            name='email'
+                            type="email"
+                            label="Email"
+                            style={styles.textField}
+                            required
+                            helperText={errors.email}
+                            error={errors.email ? true : false}
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            fullWidth />
 
-                        <TextField
-                        id='password'
-                        name='password'
-                        type="password"
-                        label="Password"
-                        required
-                        style={styles.textField}
-                        helperText={errors.password}
-                        error={errors.password ? true : false}
-                        value={this.state.password}
-                        onChange={this.handleChange}
-                        fullWidth />
+                            <TextField
+                            id='password'
+                            name='password'
+                            type="password"
+                            label="Password"
+                            required
+                            style={styles.textField}
+                            helperText={errors.password}
+                            error={errors.password ? true : false}
+                            value={this.state.password}
+                            onChange={this.handleChange}
+                            fullWidth />
 
-                        <TextField
-                        id='confirmPassword'
-                        name='confirmPassword'
-                        type="password"
-                        label="Confirm Password"
-                        required
-                        style={styles.textField}
-                        helperText={errors.confirmPassword}
-                        error={errors.confirmPassword ? true : false}
-                        value={this.state.confirmPassword}
-                        onChange={this.handleChange}
-                        fullWidth />
+                            <TextField
+                            id='confirmPassword'
+                            name='confirmPassword'
+                            type="password"
+                            label="Confirm Password"
+                            required
+                            style={styles.textField}
+                            helperText={errors.confirmPassword}
+                            error={errors.confirmPassword ? true : false}
+                            value={this.state.confirmPassword}
+                            onChange={this.handleChange}
+                            fullWidth />
 
-                        <TextField
-                        id="date"
-                        name="dob"
-                        label="Birthday"
-                        type="date"
-                        InputLabelProps={{ shrink: true }}
-                        style={{width: "37.5%", marginRight: "2.5%"}}
-                        helperText={errors.dob}
-                        error={errors.dob ? true : false}
-                        value={this.state.dob}
-                        onChange={this.handleChange}
-                         />
+                            <TextField
+                            id="date"
+                            name="dob"
+                            label="Birthday"
+                            type="date"
+                            InputLabelProps={{ shrink: true }}
+                            style={{width: "37.5%", marginRight: "2.5%"}}
+                            helperText={errors.dob}
+                            error={errors.dob ? true : false}
+                            value={this.state.dob}
+                            onChange={this.handleChange}
+                            />
 
-                        <MuiPhoneNumber
-                        name="phone"
-                        label="Active Phone#"
-                        data-cy="user-phone"
-                        defaultCountry={"us"}
-                        style={{width: "37.5%", marginLeft: "2.5%"}}
-                        helperText={errors.phone}
-                        error={errors.phone ? true : false}
-                        value={this.state.phone}
-                        onChange={this.handlePhoneChange}
-                         />
+                            <MuiPhoneNumber
+                            name="phone"
+                            label="Active Phone#"
+                            data-cy="user-phone"
+                            defaultCountry={"us"}
+                            style={{width: "37.5%", marginLeft: "2.5%"}}
+                            helperText={errors.phone}
+                            error={errors.phone ? true : false}
+                            value={this.state.phone}
+                            onChange={this.handlePhoneChange}
+                            />
 
-                        {errors.general && (
-                            <Typography variant="body2" style={styles.customError}>
-                                {errors.general}
-                            </Typography>
-                        )}
+                            {errors.general && (
+                                <Typography variant="body2" style={styles.customError}>
+                                    {errors.general}
+                                </Typography>
+                            )}
 
-                        <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        style={styles.button}
-                        disabled={false}
-                        > register
-                        {loading && (
-                            <CircularProgress size={30} style={styles.progress} />
-                        )}
-                        </Button>
-                        <br/>
-                        <footer style={{margin: "20px auto"}}>
-                            <small>
-                                Already have an account? Log In <Link to="/login">Here</Link>
-                            </small>
-                        </footer>
-                    </form>
-                </Grid>
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            style={styles.button}
+                            disabled={false}
+                            > register
+                            {loading && (
+                                <CircularProgress size={30} style={styles.progress} />
+                            )}
+                            </Button>
+                            <br/>
+                            <footer style={{margin: "20px auto"}}>
+                                <small>
+                                    Already have an account? Log In <Link to="/login">Here</Link>
+                                </small>
+                            </footer>
+                        </form>
+                    </Grid>
                 <Grid item sm/>
-
             </Grid>
         </Grid>
         </Flash>

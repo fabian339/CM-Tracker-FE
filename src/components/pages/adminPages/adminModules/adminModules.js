@@ -65,6 +65,8 @@ export class adminModule extends Component {
                 <Grid item sm={4} xs={12}>
                     <Profile />
                 </Grid>
+                {/* <p style={{fontSize:"100px"}}>MODULES</p> */}
+
             </Grid>
                 // {errors.error && (
                 //     <p style={{fontSize:"100px"}}>{errors.error}</p>
@@ -75,13 +77,11 @@ export class adminModule extends Component {
 }
 
 adminModule.propTypes = {
-    admin: PropTypes.object.isRequired,
     getAdminData: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
     UI: state.UI
 });
 

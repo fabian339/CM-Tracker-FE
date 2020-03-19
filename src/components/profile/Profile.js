@@ -3,7 +3,6 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
-import { logoutUser, uploadImage } from '../../redux/actions/userActions'
 // import { refreshSecrets } from '../../redux/actions/dataActions'
 
 import EditDetails from './EditDetails'
@@ -24,16 +23,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import CalendarToday from '@material-ui/icons/CalendarToday'
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import EditIcon from '@material-ui/icons/Edit'
 import KeyboardReturn from '@material-ui/icons/KeyboardReturn'
-import MyButton from '../../util/MyButton';
+// import MyButton from '../../util/MyButton';
 
 
 const styles = {
     paper: {
         padding: 20,
         margin: "90px 10px",
-        backgroundColor: "skyblue"
+        backgroundColor: "whitesmoke"
     },
     profileImage: {
         width: 100,
@@ -60,47 +60,11 @@ const styles = {
             color: '#00bcd4'
         }
     },
-    profile: {
-    '& .image-wrapper': {
-        textAlign: 'center',
-        position: 'relative',
-        '& button': {
-        position: 'absolute',
-        top: '80%',
-        left: '70%'
-        }
-        },
-    '& .profile-image': {
-        width: 200,
-        height: 200,
-        objectFit: 'cover',
-        maxWidth: '100%',
-        borderRadius: '50%'
-        },
-    '& .profile-details': {
-        textAlign: 'center',
-        '& span, svg': {
-        verticalAlign: 'middle'
-        },
-        '& a': {
-        color: '#00bcd4'
-        }
-        },
-    '& hr': {
-        border: 'none',
-        margin: '0 0 10px 0'
-        },
-    '& svg.button': {
-        '&:hover': {
-        cursor: 'pointer'
-        }
-        }
-    },
     buttons: {
-    textAlign: 'center',
-    '& a': {
-        margin: '20px 10px'
-        }
+        textAlign: 'center',
+        '& a': {
+            margin: '20px 10px'
+            }
     }
 }
 
@@ -126,20 +90,25 @@ export class Profile extends Component {
 
     render() {
 
-        const { admin : {
+        const { 
+            admin : {
             loading, 
             authenticated, 
-            information: {
+            adminInformation: {
                 imageUrl, 
                 fullname, 
                 createdAt,
-            },
-    
-        } } = this.props;  
-        
-        // let adminInfo = information;  
+                firstN,
+                lastN,
+                organization,
+                email,
+                orgVerified,
+                emailVerified
+            }
+        }
+    } = this.props;  
 
-            console.log("propfile", this.props.admin);
+        console.log("propfile", this.props);
         let profileMarkup = !loading ? (authenticated ? (
             <Paper style={styles.paper}>
                 <div className={styles.profile}>
@@ -156,21 +125,32 @@ export class Profile extends Component {
                         // onChange={this.handleImageChange} 
                         hidden="hidden"
                         /> */}
+                        <Tooltip title="Upload">
+                            <PhotoCameraIcon color="primary" />
+                        </Tooltip>
+
                     </div>
                     <hr/>
                     <div style={styles.profileDetails}>
-                    {/* <Typography variant="h6" align="center">
-                        organization: {orgName}
-                    </Typography> */}
+                        <p> Name: {firstN} {lastN} </p>
+                        <p> email: {email} </p>
+                        {!emailVerified && (
+                            <small style={{color:"red"}}>Please verify email*</small>
+                        )}
+                        <p> Administrator at: {organization} </p>
+                        {!orgVerified && (
+                            <small style={{color:"red"}}>Please verify organization*</small>
+                        )}
                         <hr/>
-
 
                         <CalendarToday color="primary"/>{' '}
                         <span>Joined {dayjs(createdAt).format('MMM YYYY')} </span>
+                        <CalendarToday color="primary"/>
+
                      </div>
 
                      {/* <MyButton tip="Logout" onClick={this.handleLogout} > */}
-                             <KeyboardReturn color="primary" />
+                             {/* <KeyboardReturn color="primary" /> */}
                      {/* </MyButton> */}
                      {/* <EditDetails /> */}
                  </div>
@@ -192,16 +172,13 @@ export class Profile extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    admin: state.admin
-});
-
-const mapActionsToProps = {  };
 
 Profile.propTypes = {
-    //  logoutUser: PropTypes.func.isRequired,
-    // uploadImage: PropTypes.func.isRequired,
-    admin: PropTypes.object.isRequired
+    admin: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps,mapActionsToProps)(Profile)
+const mapStateToProps = (state) => ({
+    admin: state.admin,
+});
+
+export default connect(mapStateToProps)(Profile)

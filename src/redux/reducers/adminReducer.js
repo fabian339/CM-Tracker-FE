@@ -11,7 +11,7 @@ import {
 const initialState = {
     authenticated: false,
     loading: false,
-    information: {},
+    adminInformation: {},
     organizations: [],
     organization: {},
 }
@@ -32,7 +32,7 @@ export default function(state = initialState, action){
             return {
                 authenticated: true,
                 loading: false,
-                ...action.payload,
+                adminInformation: action.payload
             }
         case SET_ORGANIZATION:
         case ADD_ORGANIZATION:

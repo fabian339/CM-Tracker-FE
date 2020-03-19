@@ -22,7 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { registerOrg, getOrgWithName, getOrganizations } from '../../../../../redux/actions/adminActions'
+import { registerOrg, getOrgToMerge, getOrganizations } from '../../../../../redux/actions/adminActions'
 
 const Link = require("react-router-dom").Link
 
@@ -47,7 +47,8 @@ class orgRegister extends Component {
     }
 
     componentDidMount(){
-        this.props.getOrganizations();
+        this.props.getOrganizations(this.props.match.params.fullname);
+        // console.log("ORG Register",this.props.match.params.fullname)
     }
 
     UNSAFE_componentWillReceiveProps(nextProps){
@@ -79,7 +80,7 @@ class orgRegister extends Component {
         //set timeout for emotion when finding organizations
         setTimeout(() => { 
         if(orgExist && orgName){
-                this.props.getOrgWithName(orgName ,this.props.history, localStorage.fullname);
+                this.props.getOrgToMerge(orgName ,this.props.history, localStorage.fullname);
             } else {
                 this.props.registerOrg(newOrgData ,this.props.history, localStorage.fullname);
             }
@@ -124,7 +125,7 @@ class orgRegister extends Component {
             { title: 'Apple', year: 1972 },
             { title: 'Monty Python and the Holy Grail', year: 1975 },
           ];
-        console.log(this.props);
+        // console.log(this.props);
         return (
         <Shake>
             <Grid >
@@ -138,7 +139,7 @@ class orgRegister extends Component {
             </header>
             <Grid container>
                 <Grid item sm />
-                <Grid item sm>
+                <Grid item sm={6}>
                     <form noValidate onSubmit={this.handleSubmit} style={styles.form} >
 
                         <Typography variant="h6" style={{margin: "20px auto 10px auto"}}>
@@ -335,7 +336,7 @@ orgRegister.propTypes = {
     admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     registerOrg: PropTypes.func.isRequired,
-    getOrgWithName: PropTypes.func.isRequired,
+    getOrgToMerge: PropTypes.func.isRequired,
     getOrganizations: PropTypes.func.isRequired
 }
 
@@ -346,7 +347,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = { 
     registerOrg, 
-    getOrgWithName,
+    getOrgToMerge,
     getOrganizations
 };
 
