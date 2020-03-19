@@ -17,6 +17,7 @@ import MuiLink from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 //Icons
@@ -31,14 +32,33 @@ import MyButton from '../../util/MyButton';
 const styles = {
     paper: {
         padding: 20,
-        margin: "90px 10px"
+        margin: "90px 10px",
+        backgroundColor: "skyblue"
     },
     profileImage: {
-        width: 200,
-        height: 200,
+        width: 100,
+        // height: 200,
         objectFit: 'cover',
-        maxWidth: '100%',
+        // maxWidth: '100%',
         borderRadius: '50%'
+    },
+    imageWrapper: {
+        textAlign: 'center',
+        position: 'relative',
+        '& button': {
+        position: 'absolute',
+        top: '80%',
+        left: '70%'
+        }
+    },
+    profileDetails: {
+        textAlign: 'center',
+        '& span, svg': {
+            verticalAlign: 'middle'
+        },
+        '& a': {
+            color: '#00bcd4'
+        }
     },
     profile: {
     '& .image-wrapper': {
@@ -106,7 +126,16 @@ export class Profile extends Component {
 
     render() {
 
-        const { admin : {loading, authenticated, information: {imageUrl, fullname, createdAt}} } = this.props;  
+        const { admin : {
+            loading, 
+            authenticated, 
+            information: {
+                imageUrl, 
+                fullname, 
+                createdAt,
+            },
+    
+        } } = this.props;  
         
         // let adminInfo = information;  
 
@@ -114,7 +143,12 @@ export class Profile extends Component {
         let profileMarkup = !loading ? (authenticated ? (
             <Paper style={styles.paper}>
                 <div className={styles.profile}>
-                    <div className="image-wrapper">
+                    <div style={styles.imageWrapper}>
+                        <div>
+                            <MuiLink component={Link} to={`/admin/${fullname}`} color="primary" variant="h6">
+                                @{localStorage.fullname.replace(/_/g, " ").toUpperCase()}
+                            </MuiLink>
+                        </div>
                         <img src={imageUrl} alt="profile" style={styles.profileImage} />
                         {/* <input 
                         type="file" 
@@ -122,14 +156,12 @@ export class Profile extends Component {
                         // onChange={this.handleImageChange} 
                         hidden="hidden"
                         /> */}
-
-                        <EditIcon color="primary" />
                     </div>
                     <hr/>
-                    <div className="profile-details">
-                        <MuiLink component={Link} to={`/admin/${fullname}`} color="primary" variant="h5">
-                            @{fullname}
-                        </MuiLink>
+                    <div style={styles.profileDetails}>
+                    {/* <Typography variant="h6" align="center">
+                        organization: {orgName}
+                    </Typography> */}
                         <hr/>
 
 
