@@ -62,13 +62,30 @@ export const getAdminData = (fullname) => (dispatch) => {
             type: SET_ADMIN,
             payload: res.data
         })
-        // if(res.data.organization){
-        //     dispatch({
-        //         type: SET_ORGANIZATION,
-        //         payload: res.data
-        //     });
-        // }
+        if(res.data.organization){
+            dispatch(getOrganization(res.data.fullname, res.data.organization));
+        }
         // console.log("PayloadData-->", res.data.information.organization.orgName)
+    })
+    .catch(err => {
+        console.log(err.response.data)
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        })
+    })
+}
+
+export const getOrganization = (fullname, orgName) => (dispatch) => {
+    dispatch( { type: LOADING_DATA });
+
+    axios.get(`/admin/${fullname}/organization/${orgName}`)
+    .then((res) => {
+        console.log("getting Organization data", res.data)
+        dispatch({
+            type: SET_ORGANIZATION,
+            payload: res.data
+        })
     })
     .catch(err => {
         console.log(err.response.data)

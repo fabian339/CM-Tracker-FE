@@ -17,15 +17,15 @@ const styles = {
 
 export class Modules extends Component {
 
-    componentDidMount() {
-        console.log("Modulesss", this.props)
+    // componentDidMount() {
+    //     console.log("Modulesss only", this.props)
         // const { match: { params } } = this.props;
         // this.props.getAdminData(params.fullname);
-      }
+    //   }
 
 
     render() {
-        // console.log("Modulesss", this.props)
+        console.log("Modulesss only", this.props)
         return (
             <div  style={styles.container} >
                 <div>
@@ -45,13 +45,13 @@ export class Modules extends Component {
     }
 }
 
-Modules.propTypes = {
-    admin: PropTypes.object.isRequired,
-}
+// Modules.propTypes = {
+//     admin: PropTypes.object.isRequired,
+// }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
-    // organization: state.admin.organization
+    // admin: state.admin,
+    organization: state.admin.organization
 });
 
 

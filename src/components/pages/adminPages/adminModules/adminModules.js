@@ -42,19 +42,21 @@ export class adminModule extends Component {
     componentDidMount() {
         const { match: { params } } = this.props;
         this.props.getAdminData(params.fullname);
+        console.log("Modules component",this.props)
+
       }
 
       
       UNSAFE_componentWillReceiveProps(nextProps){
-          console.log("it received props", nextProps)
+        //   console.log("it received props", nextProps)
         if(nextProps.UI.errors) {
             this.setState({ errors: nextProps.UI.errors })
         }
     }
 
     render() {
-        console.log("moduless state", this.state);
-        console.log("Modules component",this.props)
+        // console.log("moduless state", this.state);
+        // console.log("Modules component",this.props)
         const {errors} = this.state
 
         return (
