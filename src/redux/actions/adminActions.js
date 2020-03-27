@@ -15,8 +15,6 @@ import {
     LOADING_DATA,    
     } from '../types';
 
-    import {getUserData, logoutUser} from './userActions'
-
 import axios from 'axios';
 
 export const loginFunc = (data, history) => (dispatch) => {
@@ -24,8 +22,8 @@ export const loginFunc = (data, history) => (dispatch) => {
     axios.post('/login', data)
     .then((res) => {
         // console.log(res.data)
-        setAuthorizationHeader(res.data.token, res.data.accountType, res.data.fullname);
-        if(res.data.accountType === "admin"){
+        setAuthorizationHeader(res.data.token, res.data.fullname);
+        if(res.data.role === "admin"){
             dispatch(getAdminData(res.data.fullname));
             dispatch({type: SET_AUTHENTICATED_ADMIN});
             dispatch({ type: CLEAR_ERRORS});
@@ -49,12 +47,8 @@ export const loginFunc = (data, history) => (dispatch) => {
     });
 }
 
-
 export const getAdminData = (fullname) => (dispatch) => {
     dispatch({ type: LOADING_ADMIN });
-    //HEREEE
-    // console.log("this call", fullname);
-
     axios.get(`/admin/${fullname}`)
     .then((res) => {
         console.log("getting data", res.data)
@@ -229,16 +223,11 @@ export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
 
 
 
-export const logoutAdmin = () => (dispatch) => {
-    if (localStorage.accType === "admin"){
-        localStorage.removeItem('FBIdToken');
-        delete axios.defaults.headers.common['Authorization'];
-        dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
-    } else {
-        dispatch(logoutUser());
-    }
-    localStorage.removeItem('accType');
+export const logoutUser = () => (dispatch) => {
+    localStorage.removeItem('FBIdToken');
     localStorage.removeItem('fullname');
+    delete axios.defaults.headers.common['Authorization'];
+    dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
 }
 
 
@@ -280,7 +269,6 @@ export const logoutAdmin = () => (dispatch) => {
 const setAuthorizationHeader = (token, accType, fullname) => {
     const FBIdToken = `Bearer ${token}`;
     localStorage.setItem('FBIdToken', FBIdToken);
-    localStorage.setItem('accType', accType);
     localStorage.setItem('fullname', fullname);
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 }

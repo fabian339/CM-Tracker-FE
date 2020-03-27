@@ -21,7 +21,7 @@ import registration from './components/pages/registrations/registerOptions/regis
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN, SET_ERRORS } from './redux/types';
-import { getAdminData, logoutAdmin } from './redux/actions/adminActions';
+import { getAdminData, logoutUser } from './redux/actions/adminActions';
 import { getUserData } from './redux/actions/userActions';
 
 import axios from 'axios';
@@ -35,7 +35,7 @@ if(token){
   const decodedtoken = jwtDecode(token);
   // console.log(decodedtoken.exp);
   if(decodedtoken.exp * 1000 < Date.now()){
-    store.dispatch(logoutAdmin());
+    store.dispatch(logoutUser());
     window.location.href = '/login';
   } else {
       if(localStorage.accType === "admin") {

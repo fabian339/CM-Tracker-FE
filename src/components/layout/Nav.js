@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { logoutAdmin } from '../../redux/actions/adminActions'
+import { logoutUser } from '../../redux/actions/adminActions'
 
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
@@ -64,7 +64,7 @@ export class Nav extends Component {
 
     handleLogOut = () => {
         console.log("logout called")
-        this.props.logoutAdmin();
+        this.props.logoutUser();
     }
 
 
@@ -157,7 +157,7 @@ Nav.propTypes = {
     authenticatedUser: PropTypes.bool.isRequired,
     authenticatedAdmin: PropTypes.bool.isRequired,
     admin: PropTypes.object.isRequired,
-    logoutAdmin: PropTypes.func.isRequired
+    logoutUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -166,4 +166,4 @@ const mapStateToProps = (state) => ({
     admin: state.admin
 })
 
-export default connect(mapStateToProps, {logoutAdmin})(Nav);
+export default connect(mapStateToProps, {logoutUser})(Nav);
