@@ -15,7 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { loginFunc } from '../../../redux/actions/adminActions'
+import { loginFunc } from '../../../redux/actions/userActions'
 
 
 

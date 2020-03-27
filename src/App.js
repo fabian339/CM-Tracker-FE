@@ -21,7 +21,7 @@ import registration from './components/pages/registrations/registerOptions/regis
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { SET_AUTHENTICATED_USER, SET_AUTHENTICATED_ADMIN, SET_ERRORS } from './redux/types';
-import { getAdminData, logoutUser } from './redux/actions/adminActions';
+import { getAdminData, logoutUser } from './redux/actions/userActions';
 import { getUserData } from './redux/actions/userActions';
 
 import axios from 'axios';
@@ -38,16 +38,16 @@ if(token){
     store.dispatch(logoutUser());
     window.location.href = '/login';
   } else {
-      if(localStorage.accType === "admin") {
+      // if(localStorage.accType === "admin") {
         // console.log("settiong headers", window);
         store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
         axios.defaults.headers.common['Authorization'] = token;
         // store.dispatch(getAdminData(localStorage.fullname));
-      } else if(localStorage.accType === "user") {
-      store.dispatch({ type: SET_AUTHENTICATED_USER });
-      axios.defaults.headers.common['Authorization'] = token;
-      store.dispatch(getUserData());
-    }
+      // } else if(localStorage.accType === "user") {
+      // store.dispatch({ type: SET_AUTHENTICATED_USER });
+      // axios.defaults.headers.common['Authorization'] = token;
+      // store.dispatch(getUserData());
+    // }
   }
 }
 

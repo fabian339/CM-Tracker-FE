@@ -22,7 +22,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { registerOrg, getOrgToMerge, getOrganizations } from '../../../../../redux/actions/adminActions'
+import { registerOrg, getOrgToMerge, getOrganizations } from '../../../../../redux/actions/userActions'
 
 const Link = require("react-router-dom").Link
 

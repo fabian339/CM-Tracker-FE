@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { logoutUser } from '../../redux/actions/adminActions'
+import { logoutUser } from '../../redux/actions/userActions'
 
 // MUI stuff
 import AppBar from '@material-ui/core/AppBar';
@@ -154,16 +154,16 @@ export class Nav extends Component {
 
 
 Nav.propTypes = {
-    authenticatedUser: PropTypes.bool.isRequired,
-    authenticatedAdmin: PropTypes.bool.isRequired,
-    admin: PropTypes.object.isRequired,
+    authenticatedUser: PropTypes.bool,
+    authenticatedAdmin: PropTypes.bool,
+    user: PropTypes.object,
     logoutUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
-    authenticatedUser: state.user.authenticated,
-    authenticatedAdmin: state.admin.authenticated,
-    admin: state.admin
+    authenticatedUser: state.user.authenticatedUser,
+    authenticatedAdmin: state.user.authenticatedAdmin,
+    user: state.user
 })
 
 export default connect(mapStateToProps, {logoutUser})(Nav);

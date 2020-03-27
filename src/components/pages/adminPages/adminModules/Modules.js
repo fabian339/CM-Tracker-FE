@@ -51,7 +51,7 @@ export class Modules extends Component {
 
 const mapStateToProps = (state) => ({
     // admin: state.admin,
-    organization: state.admin.organization
+    organization: state.user.organization
 });
 
 

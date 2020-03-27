@@ -91,9 +91,9 @@ export class Profile extends Component {
     render() {
 
         const { 
-            admin : {
+            user : {
             loading, 
-            authenticated, 
+            authenticatedAdmin, 
             adminInformation: {
                 imageUrl, 
                 fullname, 
@@ -107,15 +107,18 @@ export class Profile extends Component {
             }
         }
     } = this.props;  
+    var name = firstN + ' ' + lastN;
+
 
         console.log("propfile", this.props);
-        let profileMarkup = !loading ? (authenticated ? (
+        let profileMarkup = !loading ? (authenticatedAdmin ? (
             <Paper style={styles.paper}>
                 <div className={styles.profile}>
                     <div style={styles.imageWrapper}>
                         <div>
                             <MuiLink component={Link} to={`/admin/${fullname}`} color="primary" variant="h6">
-                                @{localStorage.fullname.replace(/_/g, " ").toUpperCase()}
+                                {/* @{fullname.replace(/_/g, " ").toUpperCase()} */}
+                                @{name.toUpperCase()}
                             </MuiLink>
                         </div>
                         <img src={imageUrl} alt="profile" style={styles.profileImage} />
@@ -132,7 +135,7 @@ export class Profile extends Component {
                     </div>
                     <hr/>
                     <div style={styles.profileDetails}>
-                        <p> Name: {firstN} {lastN} </p>
+                        <p> Name: {name.toUpperCase()} </p>
                         <p> email: {email} </p>
                         {!emailVerified && (
                             <small style={{color:"red"}}>Please verify email*</small>
@@ -174,11 +177,11 @@ export class Profile extends Component {
 
 
 Profile.propTypes = {
-    admin: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
+    user: state.user,
 });
 
 export default connect(mapStateToProps)(Profile)

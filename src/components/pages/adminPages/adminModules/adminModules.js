@@ -24,7 +24,7 @@ import Profile from '../../../../components/profile/Profile'
 // import HomeIcon from '@material-ui/icons/Home'
 // import Notifications from '@material-ui/icons/Notifications'
 
-import { getAdminData } from '../../../../redux/actions/adminActions';
+import { getAdminData } from '../../../../redux/actions/userActions';
 
 
 // const Link = require("react-router-dom").Link
@@ -60,16 +60,22 @@ export class adminModule extends Component {
         const {errors} = this.state
 
         return (
-            <Grid container>
-                <Grid item sm={8} xs={12}>
-                    <Modules />
+            <Grid>
+                {errors ? (
+                    <p style={{fontSize:"100px"}}>{errors.error}</p>
+                ) : (
+                <Grid container>
+                    <Grid item sm={8} xs={12}>
+                        <Modules />
+                    </Grid>
+                    <Grid item sm={4} xs={12}>
+                        <Profile />
+                    </Grid>
                 </Grid>
-                <Grid item sm={4} xs={12}>
-                    <Profile />
-                </Grid>
-                {/* <p style={{fontSize:"100px"}}>MODULES</p> */}
-
+                )}
             </Grid>
+
+
                 // {errors.error && (
                 //     <p style={{fontSize:"100px"}}>{errors.error}</p>
                 // )}

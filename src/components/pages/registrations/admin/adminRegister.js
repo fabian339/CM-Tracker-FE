@@ -29,7 +29,7 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 //redux stuff
 //Redux stuf
 import { connect } from 'react-redux';
-import { adminRegistration } from '../../../../redux/actions/adminActions'
+import { adminRegistration } from '../../../../redux/actions/userActions'
 
 const Link = require("react-router-dom").Link
 

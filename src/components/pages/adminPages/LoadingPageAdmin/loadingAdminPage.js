@@ -27,7 +27,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { mergeAdminWithOrg } from '../../../../redux/actions/adminActions'
+import { mergeAdminWithOrg } from '../../../../redux/actions/userActions'
 
 const Link = require("react-router-dom").Link
 
