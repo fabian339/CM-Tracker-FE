@@ -29,7 +29,7 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 //redux stuff
 //Redux stuf
 import { connect } from 'react-redux';
-import { adminRegistration } from '../../../../redux/actions/userActions'
+import { userRegistration } from '../../../../redux/actions/userActions'
 
 const Link = require("react-router-dom").Link
 
@@ -61,26 +61,29 @@ class UserRegister extends Component {
 
         event.preventDefault();
 
-        this.setState({
-            loading: true
-        });
+        // this.setState({
+        //     loading: true
+        // });
 
-        const newAdminData = {
+        const newUserData = {
             firstN: this.state.firstN,
             lastN: this.state.lastN,
             email: this.state.email,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
+            role: this.props.role,
             dob: this.state.dob,
             phone: this.state.phone
         }
 
-        let fullname = newAdminData.firstN+"_"+newAdminData.lastN;
+        // console.log("trying the submit", this.props.role)
+
+        let fullname = newUserData.firstN+"_"+newUserData.lastN;
 
         const newPath = `/admin/${fullname}/org-register`;
 
         //call to add the new admin and redirect to new path
-       this.props.adminRegistration(newAdminData, this.props.history, newPath);
+       this.props.userRegistration(newUserData, this.props.history, newPath);
     }
 
     handleChange = (event) => {
@@ -107,7 +110,7 @@ class UserRegister extends Component {
 
         const {  UI: { loading }, role } = this.props;
         const { errors } = this.state;
-        console.log("admin0-register",this.props);
+        // console.log("admin0-register",this.props);
         let requiredField = (role === "admin" || role === "regular-user");
         let clientsField = true;
         // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
@@ -281,7 +284,7 @@ class UserRegister extends Component {
 UserRegister.propTypes = {
     // admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
-    adminRegistration: PropTypes.func.isRequired
+    userRegistration: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -289,4 +292,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { adminRegistration })(UserRegister);
+export default connect(mapStateToProps, { userRegistration })(UserRegister);

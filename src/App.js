@@ -38,16 +38,16 @@ if(token){
     store.dispatch(logoutUser());
     window.location.href = '/login';
   } else {
-      // if(localStorage.accType === "admin") {
+      if(localStorage.role === "admin") {
         // console.log("settiong headers", window);
         store.dispatch({ type: SET_AUTHENTICATED_ADMIN });
         axios.defaults.headers.common['Authorization'] = token;
         // store.dispatch(getAdminData(localStorage.fullname));
-      // } else if(localStorage.accType === "user") {
-      // store.dispatch({ type: SET_AUTHENTICATED_USER });
-      // axios.defaults.headers.common['Authorization'] = token;
+      } else if(localStorage.accType === "regular-user") {
+      store.dispatch({ type: SET_AUTHENTICATED_USER });
+      axios.defaults.headers.common['Authorization'] = token;
       // store.dispatch(getUserData());
-    // }
+    }
   }
 }
 

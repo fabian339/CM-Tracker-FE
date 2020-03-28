@@ -1,12 +1,15 @@
 import { 
     SET_ADMIN, 
+    SET_USER,
     SET_ERRORS, 
     CLEAR_ERRORS, 
     LOADING_UI, 
     SET_AUTHENTICATED_ADMIN,
     SET_UNAUTHENTICATED_ADMIN, 
     SET_AUTHENTICATED_USER,
+    SET_UNAUTHENTICATED_USER, 
     LOADING_ADMIN,
+    LOADING_USER,
     STOP_LOADING_UI,
     SET_ORGANIZATION, 
     MARCK_NOTIFICATIONS_READ,
@@ -22,22 +25,19 @@ export const loginFunc = (data, history) => (dispatch) => {
     axios.post('/login', data)
     .then((res) => {
         // console.log(res.data)
-        setAuthorizationHeader(res.data.token, res.data.fullname);
+        setAuthorizationHeader(res.data.token, res.data.role, res.data.fullname);
         if(res.data.role === "admin"){
             dispatch(getAdminData(res.data.fullname));
             dispatch({type: SET_AUTHENTICATED_ADMIN});
             dispatch({ type: CLEAR_ERRORS});
             history.push(`/admin/${res.data.fullname}/modules`);
         }
-        // } else {
-        //     dispatch(getUserData());
-        //     dispatch({
-        //         type: SET_AUTHENTICATED_ADMIN,
-        //         payload: res.data.fullame
-        //     });
-        //     dispatch({ type: CLEAR_ERRORS});
-        //     history.push(`/user/${res.data.fullname}/page`);
-        // }
+        else if(res.data.role === "regular-user"){
+            dispatch(getUserData(res.data.fullname));
+            dispatch({type: SET_AUTHENTICATED_USER});
+            dispatch({ type: CLEAR_ERRORS});
+            history.push(`/user/${res.data.fullname}/profile`);
+        }
     })
     .catch(err => {
       dispatch({
@@ -70,6 +70,29 @@ export const getAdminData = (fullname) => (dispatch) => {
     })
 }
 
+export const getUserData = (fullname) => (dispatch) => {
+    dispatch({ type: LOADING_USER });
+    axios.get(`/user/${fullname}`)
+    .then((res) => {
+        console.log("getting data", res.data)
+        dispatch({
+            type: SET_USER,
+            payload: res.data
+        })
+        // if(res.data.organization){
+        //     dispatch(getOrganization(res.data.fullname, res.data.organization));
+        // }
+        // // console.log("PayloadData-->", res.data.information.organization.orgName)
+    })
+    .catch(err => {
+        console.log(err.response.data)
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data
+        })
+    })
+}
+
 export const getOrganization = (fullname, orgName) => (dispatch) => {
     dispatch( { type: LOADING_DATA });
 
@@ -90,13 +113,12 @@ export const getOrganization = (fullname, orgName) => (dispatch) => {
     })
 }
 
-
-export const adminRegistration = (newAdminData, history, newPath) => (dispatch) => {
+export const userRegistration = (newUserData, history, newPath) => (dispatch) => {
 
     dispatch({ type: LOADING_UI });
-    axios.post('/registerAdmin', newAdminData)
+    axios.post('/registerUser', newUserData)
     .then((res) => {
-        setAuthorizationHeader(res.data.token, res.data.accountType, res.data.fullname);
+        setAuthorizationHeader(res.data.token, res.data.role, res.data.fullname);
         console.log("Calleddddd", res.data)
 
         dispatch(getAdminData(res.data.fullname));
@@ -169,7 +191,6 @@ export const getOrgToMerge = (orgName, history, fullname) => (dispatch) => {
     });
 }
 
-
 //get all organizations
 export const getOrganizations = (fullname) => (dispatch) => {
         console.log("BEIN CALLED", fullname);
@@ -187,8 +208,7 @@ export const getOrganizations = (fullname) => (dispatch) => {
                 payload: []
             });
         });
-    }
-
+}
 
 export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
     dispatch({ type: LOADING_UI });
@@ -221,17 +241,17 @@ export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
 //     .catch(err =>  console.log(err) );
 // }
 
-
-
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     localStorage.removeItem('fullname');
+    if(localStorage.role === "admin"){
+        dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
+    } else if (localStorage.role === "regular-user"){
+        dispatch({ type: SET_UNAUTHENTICATED_USER });
+    }
     delete axios.defaults.headers.common['Authorization'];
-    dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
+    localStorage.removeItem('role');
 }
-
-
-
 
 // export const uploadImage = (formData) => (dispatch) => {
 //     // dispatch( { type: ON_IMAGE_CHANGE });
@@ -266,9 +286,10 @@ export const logoutUser = () => (dispatch) => {
 // }
 
 
-const setAuthorizationHeader = (token, fullname) => {
+const setAuthorizationHeader = (token, role, fullname) => {
     const FBIdToken = `Bearer ${token}`;
     localStorage.setItem('FBIdToken', FBIdToken);
+    localStorage.setItem('role', role);
     localStorage.setItem('fullname', fullname);
     axios.defaults.headers.common['Authorization'] = FBIdToken;
 }
