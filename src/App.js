@@ -4,7 +4,7 @@ import logo from './logo.svg';
 //componets
 import Navbar from './components/layout/Nav';
 import login from './components/pages/public/login';
-import adminRegister from './components/pages/registrations/admin/adminRegister';
+import UserRegister from './components/pages/registrations/admin/UserRegister';
 import orgRegister from './components/pages/registrations/admin/organization/orgRegister';
 import loadingAdminPage from './components/pages/adminPages/LoadingPageAdmin/loadingAdminPage';
 import adminModules from './components/pages/adminPages/adminModules/adminModules';
@@ -58,18 +58,26 @@ function App() {
     <Provider store={store}>
       <Router>
         <Navbar />
-          <div className="container">
+          {/* <div className="container"> */}
             <Switch>
               <PrivateAdminRoute exact path="/merge/admin/:fullname/organization/:orgId" component={loadingAdminPage} /> 
               <PrivateAdminRoute exact path="/admin/:fullname/modules" component={adminModules} />
               {/* <PrivateUserRoute exact path="/user/:fullname/page" component={adminModules} /> */}
               <PrivateAdminRoute exact path="/admin/:fullname/org-register" component={orgRegister} />
-              <Route exact path="/admin-register" component={adminRegister} />
+              <Route
+                exact path="/admin-register"
+                render={(props) => <UserRegister {...props} role={"admin"} />} />
+              <Route
+                exact path="/user-register"
+                render={(props) => <UserRegister {...props} role={"regular-user"} />} />
+              <Route
+                exact path="/client-register"
+                render={(props) => <UserRegister {...props} role={"external-user"} />} />
               <Route exact path="/registration" component={registration} />
               <Route exact path="/login" component={login} />
               <Route exact path="/UNAUTHORIZED" component={UNAUTHORIZEDPAGE} />
             </Switch>
-          </div>
+          {/* </div> */}
       </Router>
     </Provider>
   );

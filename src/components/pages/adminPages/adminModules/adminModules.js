@@ -61,7 +61,7 @@ export class adminModule extends Component {
 
         return (
             <Grid>
-                {errors ? (
+                {errors.error ? (
                     <p style={{fontSize:"100px"}}>{errors.error}</p>
                 ) : (
                 <Grid container>

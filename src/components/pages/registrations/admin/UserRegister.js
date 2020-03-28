@@ -34,7 +34,7 @@ import { adminRegistration } from '../../../../redux/actions/userActions'
 const Link = require("react-router-dom").Link
 
 
-class adminRegister extends Component {
+class UserRegister extends Component {
 
     constructor(){
         super();
@@ -105,38 +105,57 @@ class adminRegister extends Component {
 
     render() {
 
-        const {  UI: { loading } } = this.props;
+        const {  UI: { loading }, role } = this.props;
         const { errors } = this.state;
-        // console.log(this.props);
-
+        console.log("admin0-register",this.props);
+        let requiredField = (role === "admin" || role === "regular-user");
+        let clientsField = true;
         // const errors = this.state.errors.errors ? this.state.errors.errors : this.state.errors;
         return (
         <Flash>
             <Grid >
-            <header>
-                <div style={styles.logoContainer}>
-                    <img src={appLogo} alt="icon" style={{width: 250}}/>
-                </div>                    
-                <Typography variant="h4" style={styles.pageTitle} >
-                    Flexibility at your 
-                    <PanToolIcon style={{ color: "lightsteelblue"}}/>
-                    hands
-                    <PanToolIcon style={{ color: "lightsteelblue"}}/>
-                    when becoming an Admin
-                </Typography>
-            </header>
+                <header>
+                    <div style={styles.logoContainer}>
+                        <img src={appLogo} alt="icon" style={{width: 250}}/>
+                    </div>   
+                    {role === "admin" ? (           
+                        <Typography variant="h4" style={styles.pageTitle} >
+                            Flexibility at your 
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            hands
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            when becoming an Admin
+                        </Typography>
+                    ) : role === "regular-user" ? (
+                        <Typography variant="h4" style={styles.pageTitle} >
+                            Flexibility at your 
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            hands
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            when becoming an USER
+                        </Typography>
+                    ) : (
+                        <Typography variant="h4" style={styles.pageTitle} >
+                            Flexibility at your 
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            hands
+                            <PanToolIcon style={{ color: "lightsteelblue"}}/>
+                            when becoming an Client
+                        </Typography>
+                    )}
+                </header>
             <Grid container>
                 <Grid item sm />
                     <Grid item sm={8}>
                         <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
                             
                             <TextField
+                            required={requiredField || clientsField}
                             id='First'
                             name='firstN'
                             type="firstN"
                             label="First Name"
                             style={{width: "37.5%", marginRight: "2.5%"}}
-                            required
                             helperText={errors.firstN}
                             error={errors.firstN ? true : false}
                             value={this.state.firstN}
@@ -144,40 +163,41 @@ class adminRegister extends Component {
                             />
 
                             <TextField
+                            required={requiredField || clientsField}
                             id='Last'
                             name='lastN'
                             type="lastN"
                             label="Last Name"
                             style={{width: "37.5%", marginLeft: "2.5%"}}
-                            required
-                            // variant="outlined"
                             helperText={errors.lastN}
                             error={errors.lastN ? true : false}
                             value={this.state.lastN}
                             onChange={this.handleChange}
                             />
-                            
-
 
                             <TextField
+                            required={requiredField || clientsField}
                             id='email'
                             name='email'
                             type="email"
                             label="Email"
                             style={styles.textField}
-                            required
                             helperText={errors.email}
                             error={errors.email ? true : false}
                             value={this.state.email}
                             onChange={this.handleChange}
                             fullWidth />
 
+                            {!requiredField && (
+                                <p>Optionals</p>
+                            )}
+
                             <TextField
+                            required={requiredField}
                             id='password'
                             name='password'
                             type="password"
                             label="Password"
-                            required
                             style={styles.textField}
                             helperText={errors.password}
                             error={errors.password ? true : false}
@@ -186,11 +206,11 @@ class adminRegister extends Component {
                             fullWidth />
 
                             <TextField
+                            required={requiredField}
                             id='confirmPassword'
                             name='confirmPassword'
                             type="password"
                             label="Confirm Password"
-                            required
                             style={styles.textField}
                             helperText={errors.confirmPassword}
                             error={errors.confirmPassword ? true : false}
@@ -199,6 +219,7 @@ class adminRegister extends Component {
                             fullWidth />
 
                             <TextField
+                            required={requiredField}
                             id="date"
                             name="dob"
                             label="Birthday"
@@ -212,6 +233,7 @@ class adminRegister extends Component {
                             />
 
                             <MuiPhoneNumber
+                            required={requiredField}
                             name="phone"
                             label="Active Phone#"
                             data-cy="user-phone"
@@ -256,7 +278,7 @@ class adminRegister extends Component {
     }
 }
 
-adminRegister.propTypes = {
+UserRegister.propTypes = {
     // admin: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     adminRegistration: PropTypes.func.isRequired
@@ -267,4 +289,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 });
 
-export default connect(mapStateToProps, { adminRegistration })(adminRegister);
+export default connect(mapStateToProps, { adminRegistration })(UserRegister);

@@ -103,7 +103,8 @@ export class Profile extends Component {
                 organization,
                 email,
                 orgVerified,
-                emailVerified
+                emailVerified,
+                role
             }
         }
     } = this.props;  
@@ -140,7 +141,11 @@ export class Profile extends Component {
                         {!emailVerified && (
                             <small style={{color:"red"}}>Please verify email*</small>
                         )}
-                        <p> Administrator at: {organization} </p>
+                        {role === "admin" ? (
+                            <p> Administrator at: {organization} </p>
+                        ) : (
+                            <p> Works at: {organization} </p>
+                        )}
                         {!orgVerified && (
                             <small style={{color:"red"}}>Please verify organization*</small>
                         )}

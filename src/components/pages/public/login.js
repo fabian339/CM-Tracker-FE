@@ -74,6 +74,7 @@ class login extends Component {
                 <Grid item sm>
                     <form noValidate onSubmit={this.handleSubmit} style={styles.form} >
                         <TextField
+                        required
                         id='email'
                         name='email'
                         type="email"
@@ -86,6 +87,7 @@ class login extends Component {
                         fullWidth />
 
                         <TextField
+                        required
                         id='password'
                         name='password'
                         type="password"
