@@ -76,14 +76,8 @@ class UserRegister extends Component {
             phone: this.state.phone
         }
 
-        // console.log("trying the submit", this.props.role)
-
-        let fullname = newUserData.firstN+"_"+newUserData.lastN;
-
-        const newPath = `/admin/${fullname}/org-register`;
-
         //call to add the new admin and redirect to new path
-       this.props.userRegistration(newUserData, this.props.history, newPath);
+       this.props.userRegistration(newUserData, this.props.history);
     }
 
     handleChange = (event) => {

@@ -95,7 +95,7 @@ class orgRegister extends Component {
             console.log("HERREE")
             this.setState({
                 orgExist: !this.state.orgExist,
-                organizations: this.props.admin.organizations
+                organizations: this.props.user.organizations
             });
         } else {
             this.setState({
@@ -333,7 +333,7 @@ class orgRegister extends Component {
 }
 
 orgRegister.propTypes = {
-    admin: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     UI: PropTypes.object.isRequired,
     registerOrg: PropTypes.func.isRequired,
     getOrgToMerge: PropTypes.func.isRequired,
@@ -341,7 +341,7 @@ orgRegister.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
+    user: state.user,
     UI: state.UI
 });
 

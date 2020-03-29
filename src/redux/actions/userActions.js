@@ -113,22 +113,34 @@ export const getOrganization = (fullname, orgName) => (dispatch) => {
     })
 }
 
-export const userRegistration = (newUserData, history, newPath) => (dispatch) => {
+export const userRegistration = (newUserData, history) => (dispatch) => {
 
     dispatch({ type: LOADING_UI });
     axios.post('/registerUser', newUserData)
     .then((res) => {
         setAuthorizationHeader(res.data.token, res.data.role, res.data.fullname);
-        console.log("Calleddddd", res.data)
+        // console.log("Calleddddd", res.data)
 
-        dispatch(getAdminData(res.data.fullname));
-        dispatch({type: SET_AUTHENTICATED_ADMIN});
-        dispatch({ type: CLEAR_ERRORS});
+        // dispatch(getAdminData(res.data.fullname));
+        // dispatch({type: SET_AUTHENTICATED_ADMIN});
+        // dispatch({ type: CLEAR_ERRORS});
+        if(res.data.role === "admin"){
+            dispatch(getAdminData(res.data.fullname));
+            dispatch({type: SET_AUTHENTICATED_ADMIN});
+            dispatch({ type: CLEAR_ERRORS});
+            history.push(`/admin/${res.data.fullname}/org-register`);
+        }
+        else if(res.data.role === "regular-user"){
+            dispatch(getUserData(res.data.fullname));
+            dispatch({type: SET_AUTHENTICATED_USER});
+            dispatch({ type: CLEAR_ERRORS});
+            history.push(`/user/${res.data.fullname}/profile`);
+        }
         // dispatch({
         //     type: SET_AUTHENTICATED_PATHNAMES,
         //     payload: newPath
         // })
-        history.push(newPath);
+        // history.push(newPath);
     })
     .catch(err => {
         console.log(err)
