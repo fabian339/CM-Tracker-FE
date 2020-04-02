@@ -228,11 +228,10 @@ export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
 
     axios.put(`/merge/admin/${fullname}/organization/${orgId}`)
     .then(res => {
-        console.log(res)
-        dispatch(getAdminData(fullname));
-        // dispatch({ type: CLEAR_ERRORS});
-    })
-    .catch(err => {
+        // console.log(res)
+        // dispatch(getAdminData(fullname));
+        dispatch({ type: CLEAR_ERRORS});
+    }).catch(err => {
         console.log(err)
       dispatch({
           type: SET_ERRORS,
