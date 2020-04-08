@@ -104,7 +104,11 @@ class login extends Component {
                                 {errors.general}
                             </Typography>
                         )}
-
+                        <footer style={{margin: "20px auto", color: "gray"}}>
+                            <small>
+                                Forgot your password? Not a problem, Recover <Link to="/account-recover">Here</Link>
+                            </small>
+                        </footer>
                         <Button
                         type="submit"
                         variant="contained"
@@ -119,7 +123,7 @@ class login extends Component {
                         <br/>
                         <footer style={{margin: "20px auto"}}>
                             <small>
-                                Already have an account? Log In <Link to="/login">Here</Link>
+                                Do not have an account? Register Now <Link to="/registration">Here</Link>
                             </small>
                         </footer>
                     </form>

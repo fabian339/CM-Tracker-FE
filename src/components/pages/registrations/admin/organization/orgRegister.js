@@ -68,8 +68,9 @@ class orgRegister extends Component {
         const { orgName, orgPhone, orgAddress, orgType, orgExist, organizations } = this.state;
         let delay = 0;
         if(organizations) {
-            const org = organizations.find(org => org.orgName === orgName);
-            const orgFound = (org ? org.orgName === orgName : false)
+            let org = organizations.find(org => org === orgName);
+            console.log("THIS ORGGGG", org === undefined)
+            const orgFound = !(org === undefined)
             this.setState({orgFound});
             delay = orgFound ? 4000 : 0;
         }
@@ -183,7 +184,8 @@ class orgRegister extends Component {
                                         // freeSolo
                                         id="free-solo-2-demo"
                                         // disableClearable
-                                        options={ organizations ? organizations.map(org => org.orgName) : ["Amazon"] }
+                                        // options={ organizations ? organizations.map(org => org.orgName) : ["Amazon"] }
+                                        options={organizations}
                                         value={this.state.orgName}
                                         onInputChange={this.handleOrganizationChangeOnSearchBar}
                                         name='orgName'
@@ -194,6 +196,8 @@ class orgRegister extends Component {
                                             margin="normal"
                                             variant="outlined"
                                             style={styles.textField}
+                                            helperText={errors.orgName}
+                                            error={errors.orgName ? true : false}
                                             // helperText={errors.orgName}
                                             error={errors.orgName ? true : false}
                                             InputProps={{ ...params.InputProps, type: 'search' }}

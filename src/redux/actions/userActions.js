@@ -154,7 +154,7 @@ export const userRegistration = (newUserData, history) => (dispatch) => {
 
 export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.post(`/admin/${fullname}/orgRegister`, newOrgData)
+    axios.post(`/admin/${fullname}/orgRegisterAndMerge`, newOrgData)
     .then((res) => {
         console.log("CALLED")
         dispatch({
@@ -162,13 +162,7 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
             payload: res.data
         });
         dispatch({ type: CLEAR_ERRORS});
-        dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
-        let pathName = `/merge/admin/${fullname}/organization/${res.data.orgId}`;
-        // dispatch({
-        //     type: SET_AUTHENTICATED_PATHNAMES,
-        //     payload: pathName
-        // })
-        history.push(pathName);
+        history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
         console.log(err)
@@ -183,14 +177,14 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
 //get organization with name
 export const getOrgToMerge = (orgName, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.get(`/admin/${fullname}/organization/${orgName}`)
+    axios.put(`/merge/admin/${fullname}/organization/${orgName}`)
     .then((res) => {
         console.log("CALLED")
         dispatch({
             type: SET_ORGANIZATION,
             payload: res.data
         });
-        dispatch(mergeAdminWithOrg(fullname, res.data.orgId));
+        dispatch({ type: CLEAR_ERRORS});
         history.push(`/merge/admin/${fullname}/organization/${res.data.orgId}`);
     })
     .catch(err => {
@@ -222,23 +216,23 @@ export const getOrganizations = (fullname) => (dispatch) => {
         });
 }
 
-export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
-    dispatch({ type: LOADING_UI });
-    console.log("Called", "getAdminData")
+// export const mergeAdminWithOrg = (fullname, orgId) => dispatch => {
+//     dispatch({ type: LOADING_UI });
+//     console.log("Called", "getAdminData")
 
-    axios.put(`/merge/admin/${fullname}/organization/${orgId}`)
-    .then(res => {
-        // console.log(res)
-        // dispatch(getAdminData(fullname));
-        dispatch({ type: CLEAR_ERRORS});
-    }).catch(err => {
-        console.log(err)
-      dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-      })
-    })
-}
+//     axios.put(`/merge/admin/${fullname}/organization/${orgId}`)
+//     .then(res => {
+//         // console.log(res)
+//         // dispatch(getAdminData(fullname));
+//         dispatch({ type: CLEAR_ERRORS});
+//     }).catch(err => {
+//         console.log(err)
+//       dispatch({
+//           type: SET_ERRORS,
+//           payload: err.response.data
+//       })
+//     })
+// }
 // export const getOrgData = (orgId) => (dispatch) => {
 //     dispatch({ type: LOADING_UI });
 //     axios.get(`/organization/${orgId}`)
