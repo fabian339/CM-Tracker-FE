@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import appLogo from '../../../../../images/ori_logo.png';
 import styles from '../styles';
 import { Bounce, Shake, FadeIn, FadeOut, Flash } from 'react-motions' //https://github.com/raphamorim/react-motions
+import MyAutocomplete from '../../../../../util/MyAutocomplete'
+import axios from 'axios';
 
 
 //mui studd
@@ -22,7 +24,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 //Redux stuf
 import { connect } from 'react-redux';
-import { registerOrg, getOrgToMerge, getOrganizations } from '../../../../../redux/actions/userActions'
+import { 
+    registerOrg,
+    getOrgToMerge, 
+    getOrganizations, 
+     } from '../../../../../redux/actions/userActions'
 
 const Link = require("react-router-dom").Link
 
@@ -39,15 +45,19 @@ class orgRegister extends Component {
             orgType: '',
             orgExist: false,
             orgFound: false,
+            loadingAdmins: false,
             //organizations
             organizations: [],
+            //orgAdministrators
+            orgAdministrators: [],
             //errors
             errors: {}
         }
     }
 
     componentDidMount(){
-        this.props.getOrganizations(this.props.match.params.fullname);
+        const {match : { params : { fullname } }} = this.props;
+        this.props.getOrganizations(fullname);
         // console.log("ORG Register",this.props.match.params.fullname)
     }
 
@@ -89,23 +99,51 @@ class orgRegister extends Component {
 
     }
 
+    handleSarchOrganizationBarChange = (event) => {
+        // console.log(event.target.name, event.target.value)
+
+        const { user : { organizations } } = this.props;
+        this.setState({ orgExist: !this.state.orgExist });
+
+        if(organizations === undefined){
+            const errors = {};
+            errors.orgName = "Organizations not fetched, please reload and try again!"
+            this.setState({ errors })
+        } else if(!this.state.organizations.lenght){
+            this.setState({ organizations });
+        }   
+     }
+
 
     handleChange = (event) => {
-        console.log(event.target.name)
-        if (event.target.name === "orgExist"){
-            console.log("HERREE")
-            this.setState({
-                orgExist: !this.state.orgExist,
-                organizations: this.props.user.organizations
-            });
-        } else {
+        // console.log(event.target.name, event.target.value)
             this.setState({
                 [event.target.name]: event.target.value
             })
-        }
     }
 
     handleOrganizationChangeOnSearchBar = (event, value) => {
+        const {match : { params : { fullname } }} = this.props;
+        if(!(value.trim() === '')){
+            console.log("IM HEREE")
+            this.setState({loadingAdmins: !this.state.loadingAdmins})
+                // dispatch( { type: LOADING_DATA });
+            axios.get(`/admin/${fullname}/${value}/admins`)
+            .then((res) => {
+                this.setState({
+                    orgAdministrators: res.data,
+                    loadingAdmins: !this.state.loadingAdmins 
+                })
+            })
+            .catch(err => {
+                this.setState({
+                    orgAdministrators: [],
+                    loadingAdmins: !this.state.loadingAdmins 
+                })
+            });
+        // }
+            // this.props.getAdminsFromOrganization(value);
+        }
         this.setState({orgName: value})
     }
 
@@ -117,16 +155,11 @@ class orgRegister extends Component {
       }
 
     render() {
+        // const { user : { organizations } } = this.props;
 
         const { UI: { loading } } = this.props;
-        const { organizations, errors } = this.state;
-        const top100Films = [
-            { title: 'The Shawshank Redemption', year: 1994 },
-            { title: 'The Godfather', year: 1972 },
-            { title: 'Apple', year: 1972 },
-            { title: 'Monty Python and the Holy Grail', year: 1975 },
-          ];
-        // console.log(this.props);
+        const { organizations, errors, loadingAdmins, orgAdministrators } = this.state;
+        console.log("orgREgister", orgAdministrators);
         return (
         <Shake>
             <Grid >
@@ -149,7 +182,7 @@ class orgRegister extends Component {
 
                         <div>
                             <Typography variant="subtitle1">
-                                Is your organization register with us?
+                                Is your organization already registered with us?
                             </Typography>
                             <div >
                                 <Grid 
@@ -163,7 +196,7 @@ class orgRegister extends Component {
                                             <Switch
                                                 name="orgExist"
                                                 checked={this.state.orgExist}
-                                                onChange={this.handleChange}
+                                                onChange={this.handleSarchOrganizationBarChange}
                                                 value={this.state.orgExist}
                                                 color="primary"
                                             />
@@ -180,36 +213,23 @@ class orgRegister extends Component {
                         {this.state.orgExist ? (
                             <Grid>
 
-                                    <Autocomplete
-                                        // freeSolo
-                                        id="free-solo-2-demo"
-                                        // disableClearable
-                                        // options={ organizations ? organizations.map(org => org.orgName) : ["Amazon"] }
-                                        options={organizations}
-                                        value={this.state.orgName}
-                                        onInputChange={this.handleOrganizationChangeOnSearchBar}
-                                        name='orgName'
-                                        renderInput={params => (
-                                        <TextField
-                                            {...params}
-                                            label="Search for an organization"
-                                            margin="normal"
-                                            variant="outlined"
-                                            style={styles.textField}
-                                            helperText={errors.orgName}
-                                            error={errors.orgName ? true : false}
-                                            // helperText={errors.orgName}
-                                            error={errors.orgName ? true : false}
-                                            InputProps={{ ...params.InputProps, type: 'search' }}
-                                        />
-                                        )}
-                                    />
+                                <MyAutocomplete
+                                    options={organizations}
+                                    value={this.state.orgName}
+                                    onInputChange={this.handleOrganizationChangeOnSearchBar}
+                                    name='orgName'
+                                    label="Search for an organizations"
+                                    style={styles.textField}
+                                    helperText={errors.orgName}
+                                    error={errors.orgName ? true : false}
+                                >
+                                </MyAutocomplete>
                                 
                                 {(this.state.orgExist && this.state.orgFound) && (
-                                    <Bounce duration={3}> 
+                                    <Bounce duration={2.5}> 
                                         <Grid>
                                             <Typography variant="body2" style={styles.orgFound}>
-                                                Organization found! 
+                                                Organization and Administrator found! 
                                             </Typography>
                                             <Typography variant="body2">
                                                 <EmojiEmotionsIcon style={{color: "royalblue"}} /> 
@@ -305,6 +325,31 @@ class orgRegister extends Component {
                                 {errors.general}
                             </Typography>
                         )}
+                        
+                        {loadingAdmins && (
+                            <Grid item>
+                                <CircularProgress size={50} 
+                                    style={{      
+                                    position: 'relative',
+                                    color: "brown",
+                                    width: "40px",
+                                    height: "40px"
+                                }} />
+                            </Grid>
+                        )}
+
+                        {/* //HEREEEEEEEEEEEEEEEEEEE */}
+                        <MyAutocomplete
+                            options={orgAdministrators}
+                            value={this.state.orgAdmin}
+                            // onInputChange={this.handleOrganizationChangeOnSearchBar}
+                            name='orgAdmin'
+                            label="Search for an administrator"
+                            style={styles.textField}
+                            // helperText={errors.orgName}
+                            // error={errors.orgName ? true : false}
+                        >
+                        </MyAutocomplete>
 
                         <Button
                         type="submit"
@@ -313,7 +358,6 @@ class orgRegister extends Component {
                         style={styles.button}
                         disabled={false}
                         > 
-                        {}
                         register organization
                         {loading && (
                             <CircularProgress size={30} style={styles.progress} />
@@ -341,7 +385,7 @@ orgRegister.propTypes = {
     UI: PropTypes.object.isRequired,
     registerOrg: PropTypes.func.isRequired,
     getOrgToMerge: PropTypes.func.isRequired,
-    getOrganizations: PropTypes.func.isRequired
+    getOrganizations: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
