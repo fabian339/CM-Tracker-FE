@@ -175,9 +175,9 @@ export const registerOrg = (newOrgData, history, fullname) => (dispatch) => {
 }
 
 //get organization with name
-export const getOrgToMerge = (orgName, history, fullname) => (dispatch) => {
+export const getOrgToMerge = (mergeOrgData, history, fullname) => (dispatch) => {
     dispatch({ type: LOADING_UI });
-    axios.put(`/merge/admin/${fullname}/organization/${orgName}`)
+    axios.put(`/merge/admin/${fullname}/organization/${mergeOrgData.orgName}/${mergeOrgData.orgAdmin}`)
     .then((res) => {
         console.log("CALLED")
         dispatch({

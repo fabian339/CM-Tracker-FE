@@ -21,6 +21,7 @@ export default ({options, name, value, onInputChange, label, style, helperText, 
         renderInput={params => (
         <TextField
             {...params}
+            required
             label={label}
             margin="normal"
             variant="outlined"

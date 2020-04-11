@@ -46,8 +46,10 @@ class orgRegister extends Component {
             orgExist: false,
             orgFound: false,
             loadingAdmins: false,
+            adminsLoaded: false,
             //organizations
             organizations: [],
+            orgAdmin: '',
             //orgAdministrators
             orgAdministrators: [],
             //errors
@@ -75,7 +77,7 @@ class orgRegister extends Component {
             loading: true
         });
         
-        const { orgName, orgPhone, orgAddress, orgType, orgExist, organizations } = this.state;
+        const { orgName, orgPhone, orgAddress, orgType,orgAdmin, orgExist, organizations } = this.state;
         let delay = 0;
         if(organizations) {
             let org = organizations.find(org => org === orgName);
@@ -86,12 +88,13 @@ class orgRegister extends Component {
         }
 
         const newOrgData = { orgName, orgPhone, orgAddress, orgType };
+        const mergeOrgData = {orgName, orgAdmin}
         
         //call to add the new organization and redirect to new path
         //set timeout for emotion when finding organizations
         setTimeout(() => { 
         if(orgExist && orgName){
-                this.props.getOrgToMerge(orgName ,this.props.history, localStorage.fullname);
+                this.props.getOrgToMerge(mergeOrgData ,this.props.history, localStorage.fullname);
             } else {
                 this.props.registerOrg(newOrgData ,this.props.history, localStorage.fullname);
             }
@@ -132,7 +135,8 @@ class orgRegister extends Component {
             .then((res) => {
                 this.setState({
                     orgAdministrators: res.data,
-                    loadingAdmins: !this.state.loadingAdmins 
+                    loadingAdmins: !this.state.loadingAdmins,
+                    adminsLoaded: res.data ? true:false
                 })
             })
             .catch(err => {
@@ -147,6 +151,10 @@ class orgRegister extends Component {
         this.setState({orgName: value})
     }
 
+    handleAdminChangeOnSearchBar = (event, value) => {
+        this.setState({orgAdmin: value})
+    }
+
 
     handleOrganizationPhoneChange = (value) => {
         if (value) {
@@ -158,7 +166,7 @@ class orgRegister extends Component {
         // const { user : { organizations } } = this.props;
 
         const { UI: { loading } } = this.props;
-        const { organizations, errors, loadingAdmins, orgAdministrators } = this.state;
+        const { organizations, errors, loadingAdmins, orgAdministrators, adminsLoaded } = this.state;
         console.log("orgREgister", orgAdministrators);
         return (
         <Shake>
@@ -339,17 +347,19 @@ class orgRegister extends Component {
                         )}
 
                         {/* //HEREEEEEEEEEEEEEEEEEEE */}
-                        <MyAutocomplete
-                            options={orgAdministrators}
-                            value={this.state.orgAdmin}
-                            // onInputChange={this.handleOrganizationChangeOnSearchBar}
-                            name='orgAdmin'
-                            label="Search for an administrator"
-                            style={styles.textField}
-                            // helperText={errors.orgName}
-                            // error={errors.orgName ? true : false}
-                        >
-                        </MyAutocomplete>
+                        {adminsLoaded && (
+                            <MyAutocomplete
+                                options={orgAdministrators}
+                                value={this.state.orgAdmin}
+                                onInputChange={this.handleAdminChangeOnSearchBar}
+                                name='orgAdmin'
+                                label="Search for an administrator"
+                                style={styles.textField}
+                                helperText={"Please select an administrator"}
+                                error={errors.orgAdmin ? true : false}
+                            >
+                            </MyAutocomplete>
+                        )}
 
                         <Button
                         type="submit"
