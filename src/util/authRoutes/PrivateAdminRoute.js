@@ -6,6 +6,8 @@ const PrivateAdminRoute = ({component : Component, authenticatedAdmin, ...rest})
     <Route
     {...rest}
     render={(props) => 
+        // authenticatedAdmin === true ? <Component {...props} /> : <Component {...props} />
+
         authenticatedAdmin === true ? <Component {...props} /> : <Redirect to='/UNAUTHORIZED' />
         // authenticated === true ? <Component {...props} /> : <unauthPage />
     }

@@ -1,13 +1,12 @@
 import { 
-    SET_CLIENTS, 
+    SET_ACTIVITIES_DATA, 
     LOADING_DATA, 
-    ADD_CLIENT,
-    SET_CLIENT
+    SET_MESSAGE
  } from '../types';
 
 const initialState = {
-    clients: [],
-    clients: {},
+    activities: {},
+    message: {},
     loading: false,
 }
 
@@ -21,25 +20,18 @@ export default function(state = initialState, action){
                 ...state,
                 loading: true
             };
-        case SET_CLIENTS:
+        case SET_ACTIVITIES_DATA:
             return {
                 ...state,
-                clients: action.payload,
-                loading: false,
-            };
-        case SET_CLIENT:
-                return {
-                    ...state,
-                    secret: action.payload,
-                };                 
-        case ADD_CLIENT: 
-            return {
-                ...state,
-                clients: [
-                    action.payload,
-                    ...state.secrets
-                ]
+                activities: action.payload,
+                loading: false
             }
+        case SET_MESSAGE:
+            // console.log("NAMEE", action.payload)
+            return {
+                loading: false,
+                message: action.payload
+            }  
         default:
             return state;
     }

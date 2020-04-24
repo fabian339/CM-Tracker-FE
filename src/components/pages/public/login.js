@@ -19,7 +19,7 @@ import { loginFunc } from '../../../redux/actions/userActions'
 
 
 
-const Link = require("react-router-dom").Link
+// const Link = require("react-router-dom").Link
 
 
 class login extends Component {
@@ -104,11 +104,11 @@ class login extends Component {
                                 {errors.general}
                             </Typography>
                         )}
-                        <footer style={{margin: "20px auto", color: "gray"}}>
+                        {/* <footer style={{margin: "20px auto", color: "gray"}}>
                             <small>
                                 Forgot your password? Not a problem, Recover <Link to="/account-recover">Here</Link>
                             </small>
-                        </footer>
+                        </footer> */}
                         <Button
                         type="submit"
                         variant="contained"
@@ -120,12 +120,12 @@ class login extends Component {
                             <CircularProgress size={30} style={styles.progress} />
                         )}
                         </Button>
-                        <br/>
+                        {/* <br/>
                         <footer style={{margin: "20px auto"}}>
                             <small>
                                 Do not have an account? Register Now <Link to="/registration">Here</Link>
                             </small>
-                        </footer>
+                        </footer> */}
                     </form>
                 </Grid>
                 <Grid item sm/>

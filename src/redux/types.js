@@ -16,21 +16,11 @@ export const SET_AUTHENTICATED_PATHNAMES = 'SET_AUTHENTICATED_PATHNAMES';
 export const SET_ERRORS = 'SET_ERRORS';
 export const LOADING_UI = 'LOADING_UI';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
-export const LOADING_DATA = "LOADING_DATA";
 export const STOP_LOADING_UI = "STOP_LOADING_UI";
 
 
 //Data reducer types
-export const SET_CLIENTS = "SET_CLIENTS";
-export const SET_CLIENT = "SET_CLIENT";
-// export const LIKE_SECRET = "LIKE_SECRET";
-// export const DELETE_SECRET = "DELETE_SECRET";
-export const ADD_CLIENT = "ADD_CLIENT";
-
-
-//organization reducer types
-export const SET_ORGANIZATION = "SET_ORGANIZATION";
-export const ADD_ORGANIZATION = "ADD_ORGANIZATION";
-export const SET_ORGANIZATIONS = "SET_ORGANIZATIONS";
-
+export const LOADING_DATA = "LOADING_DATA";
+export const SET_MESSAGE = "SET_MESSAGE";
+export const SET_ACTIVITIES_DATA = "SET_ACTIVITIES_DATA";
 // export const ON_IMAGE_UPDATED = "ON_IMAGE_UPDATED";
