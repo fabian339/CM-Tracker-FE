@@ -8,7 +8,6 @@ import { Shake } from 'react-motions' //https://github.com/raphamorim/react-moti
 // import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 import axios from 'axios';
-
 //mui studd
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -83,8 +82,8 @@ class timesheetForm extends Component {
         if(filter){
           filteredData = completed.filter(word => word.name === filter);          
         }
-
-        // console.log(filter)
+        
+        
         return (
             <TableContainer component={Paper} style={{margin: "4.5% auto", width: 1100, display: "table"}}>
               <Typography variant="h4" style={styles.pageTitle} >

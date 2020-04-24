@@ -13,11 +13,13 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import MyAutocomplete from '../../util/MyAutocomplete'
 
+import paticipantList from './participantList';
 
 //redux stuff
 //Redux stuf
 import { connect } from 'react-redux';
 import { checkInOut } from '../../redux/actions/userActions'
+import participantList from './participantList';
 
 // const Link = require("react-router-dom").Link
 
@@ -46,6 +48,15 @@ class timesheetForm extends Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
+        //check if the input exist on the
+        let found = paticipantList.find(name => name === this.state.name);
+
+        if (found == null) {
+            const errors = {};
+            errors.name = "Please select your name from the list.";
+            this.setState({errors});
+            return ;
+        }
 
         const newActivity = {
             name: this.state.name,
@@ -67,13 +78,18 @@ class timesheetForm extends Component {
         this.setState({actType: value})
     }
 
+    handleSelectName = (event, value) => {
+    
+        this.setState({name: value})
+    }
+
 
 
     render() {
         const {errors} = this.state;
         const { data : { loading, message }  } = this.props;
 
-        // console.log(this.props);
+        // console.log(this.state.name);
         return (
         <Flash>     
             <Grid container>
@@ -85,31 +101,28 @@ class timesheetForm extends Component {
 
                         <form noValidate onSubmit={this.handleSubmit} style={styles.form}>
                             
-                            <TextField
-                                required={true}
-                                id='name'
+            
+                            <MyAutocomplete
+                                options={participantList}
+                                onInputChange={this.handleSelectName}
                                 name='name'
-                                type="name"
-                                variant="outlined"
-                                label="First and last name"
+                                label="Select participant name."
                                 style={{width: "40%", margin: "20px 30%"}}
-                                onChange={this.handleChange}
                                 helperText={errors.name}
                                 error={errors.name ? true : false}
                                 value={this.state.name}
-
-                            />
-
+                            >
+                            </MyAutocomplete>
+  
                             <MyAutocomplete
                                 options={["Clock-in", "Clock-out"]}
                                 onInputChange={this.handleActivityType}
                                 name='actType'
-                                label="Are you clocking in or out?"
+                                label="Select to clock-in or clock-out?"
                                 style={{width: "40%", margin: "20px 30%"}}
                                 helperText={errors.actType}
                                 error={errors.actType ? true : false}
                                 value={this.state.actType}
-
                             >
                             </MyAutocomplete>
 
