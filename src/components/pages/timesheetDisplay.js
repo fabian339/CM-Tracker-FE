@@ -18,6 +18,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
 import {CSVLink} from 'react-csv';
 import { getActivities } from '../../redux/actions/userActions'
 // var moment = require('moment-timezone');
@@ -84,7 +86,7 @@ class timesheetForm extends Component {
 
         // console.log(filter)
         return (
-            <TableContainer>
+            <TableContainer component={Paper} style={{margin: "4.5% auto", width: 1100, display: "table"}}>
               <Typography variant="h4" style={styles.pageTitle} >
                 NDA REPORT TIMESHEET ({moment().tz('America/New_York').format('L')})
               </Typography>
@@ -92,27 +94,27 @@ class timesheetForm extends Component {
               {loading ? (
                   <CircularProgress size={100}  style={{margin: "auto 50%"}} />
                 ) : ( 
-                <Shake duration={2.5}>     
+                // <Shake duration={2.5}>     
                   <Fragment >
                   <CSVLink
                     data={completed}
                     filename={`timesheet-${moment().tz('America/New_York').format('L')}.csv`}
-                    style={{margin: "auto 50%"}}
                     target="_blank"
                     onClick={this.onDownloadClick}
                     >
-                    Download
+                    <p style={{textAlign: "center"}}>Download</p>
                   </CSVLink>
                   <TextField
                     id='filter'
                     name='filter'
                     type="name"
+                    inputProps={{min: 0, style: { textAlign: 'center' }}} // the change is here
                     variant="outlined"
                     label="Search by name"
-                    style={{margin: "auto 45%", width: "15%"}}
+                    style={{margin: "10px 37.5%", width: "25%"}}
                     onChange={this.handleChange}
                     />
-                  <Table aria-label="simple table" style={{margin: "2.5% auto", width: 1000, backgroundColor: "darkseagreen"}}>
+                  <Table aria-label="simple table" style={{backgroundColor: "darkseagreen"}}>
                     <TableHead>
                       <TableRow>
                         <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
@@ -141,7 +143,8 @@ class timesheetForm extends Component {
                     <Typography variant="h4" style={styles.pageTitle} >
                       TIMESHEET LOGS
                   </Typography>
-                  <Table aria-label="simple table" style={{margin: "2.5% auto", width: 1000}}>
+                  {/* style={{margin: "2.5% auto", width: 1000}} */}
+                  <Table aria-label="simple table" >
                     <TableHead>
                       <TableRow>
                         <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
@@ -166,7 +169,7 @@ class timesheetForm extends Component {
                     </TableBody>
                   </Table>
                 </Fragment>
-                </Shake>
+                // </Shake>
 
               )}
           </TableContainer>

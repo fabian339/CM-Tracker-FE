@@ -14,6 +14,7 @@ import './App.css';
 // import registration from './components/pages/registrations/registerOptions/registration';
 import timesheetForm from './components/pages/timesheetForm';
 import timesheetDisplay from './components/pages/timesheetDisplay';
+import UNAUTHORIZED from './components/pages/public/UNAUTHORIZEDPAGE';
 
 //REDUX
 import { Provider } from 'react-redux';
@@ -59,6 +60,8 @@ function App() {
               <Route exact path="/" component={timesheetForm} />
               <Route exact path="/login" component={login} />
               <PrivateAdminRoute exact path="/timesheet/:fullname" component={timesheetDisplay} />
+              <Route exact path="/UNAUTHORIZED" component={UNAUTHORIZED} />
+
             </Switch>
       </Router>
     </Provider>

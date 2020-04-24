@@ -15,11 +15,6 @@ export default {
     container: {
         marginTop: "-10px",
     },
-    personIcon: {
-        height: "100%",
-        width: "100%",
-        color: "lightseagreen",
-    },
     adminBtn: {
         ...buttonStyles,
         backgroundColor: "darkblue",
