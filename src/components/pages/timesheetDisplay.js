@@ -121,6 +121,7 @@ class timesheetForm extends Component {
                         <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
                         <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
                         <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
                         <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
                       </TableRow>
                     </TableHead>
@@ -134,6 +135,7 @@ class timesheetForm extends Component {
                           <TableCell align="right">{row.timeIn}</TableCell>
                           <TableCell align="right">{row.timeOut}</TableCell>
                           <TableCell align="right">{row.duration}</TableCell>
+                          <TableCell align="right">{row.numberofCalls}</TableCell>
                           <TableCell align="right">{row.status}</TableCell>
                         </TableRow>
                       ))}
