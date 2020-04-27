@@ -2,10 +2,6 @@
 
 
 export default [
-    "Lola Martinez",
-    "Vincent Smith",
-    "Jose Rosa",
-    "Maria Lopez",
     "Bernardez, Leandra",
     "Camara, Fatoumata",
     "Colson, Sheryll",
