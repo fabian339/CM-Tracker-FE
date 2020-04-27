@@ -22,7 +22,7 @@ export default function(state = initialState, action){
         case SET_UNAUTHENTICATED_ADMIN:
             return initialState;        
         case SET_ADMIN:
-            console.log("NAMEE", action.payload)
+            // console.log("NAMEE", action.payload)
             return {
                 authenticatedAdmin: true,
                 loading: false,
