@@ -81,11 +81,7 @@ export const getAdminData = (fullname) => (dispatch) => {
         })
     })
     .catch(err => {
-        console.log(err.response.data)
-        dispatch({
-            type: SET_ERRORS,
-            payload: err.response.data
-        })
+        dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
     })
 }
 
@@ -94,16 +90,12 @@ export const getActivities = (fullname) => (dispatch) => {
 
     axios.get(`/dataFromTimesheets`)
     .then(res => {
+        dispatch(getAdminData(fullname));
         // console.log("Getting data",res.data)
         dispatch({
             type: SET_ACTIVITIES_DATA,
             payload: res.data
         });
-        
-        // setInterval(() => {
-        //     window.location.reload()
-
-        // }, 3000)
     })
     .catch(err => {
         dispatch({
@@ -118,7 +110,7 @@ export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     localStorage.removeItem('fullname');
     // if(localStorage.role === "admin"){
-        dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
+    dispatch({ type: SET_UNAUTHENTICATED_ADMIN });
     // } else if (localStorage.role === "regular-user"){
     //     dispatch({ type: SET_UNAUTHENTICATED_USER });
     // }

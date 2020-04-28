@@ -42,12 +42,14 @@ class timesheetForm extends Component {
             completed: [],
             pending: [],
             filtered: [],
-            filterName: ''
+            filterName: '',
           }
     }
 
     componentDidMount(){
-      this.props.getActivities();
+      const { history, match : { params : { fullname }}} = this.props;
+      // console.log(this.props)
+      this.props.getActivities(fullname, history);
     }
     
     UNSAFE_componentWillReceiveProps(nextProps){
@@ -78,15 +80,18 @@ class timesheetForm extends Component {
     onReportClick = (e) => {
       let hourCounted = 0;
 
-      this.state.completed.forEach(record => {
-        if(record.name === this.state.filterName){
-          // console.log(record.duration)
-          hourCounted = hourCounted + parseFloat(record.duration);
-        }
-      });
-
-      alert(`${this.state.filterName}  have worked ${hourCounted} hours.`)
-
+      if(this.state.filterName) {
+        this.state.completed.forEach(record => {
+          if(record.name === this.state.filterName){
+            // console.log(record.duration)
+            hourCounted = hourCounted + parseFloat(record.duration);
+          }
+        });
+    
+        alert(`${this.state.filterName}  have worked ${hourCounted} hours.`)
+      } else {
+        alert("Please select a name!")
+      }
     }
 
 
@@ -100,124 +105,122 @@ class timesheetForm extends Component {
         const {  data : { loading } } = this.props;
         const { completed, pending } = this.state;
         
-        console.log(completed.length)
+        // console.log(completed.length)
         
         return (
             <TableContainer component={Paper} style={{margin: "4.5% auto", width: 1100, display: "table"}}>
               {loading ? (
                   <CircularProgress size={100}  style={{margin: "auto 50%"}} />
                 ) : ( 
-                // <Shake duration={2.5}>     
                   <Fragment >
 
-                  <CSVLink
-                    data={completed}
-                    filename={`timesheet-${moment().tz('America/New_York').format('L')}.csv`}
-                    target="_blank"
-                    onClick={this.onDownloadClick}
+                    <CSVLink
+                      data={completed}
+                      filename={`timesheet-${moment().tz('America/New_York').format('L')}.csv`}
+                      target="_blank"
+                      onClick={this.onDownloadClick}
+                      >
+                      <p style={{textAlign: "center"}}>Download</p>
+                    </CSVLink>
+
+                    <MyAutocomplete
+                        options={participantList}
+                        onInputChange={this.handleSelectName}
+                        name='filterName'
+                        label="Select participant name."
+                        style={{width: "40%", margin: "20px 30%"}}
+                        value={this.state.name}
                     >
-                    <p style={{textAlign: "center"}}>Download</p>
-                  </CSVLink>
+                    </MyAutocomplete>
 
-                  <MyAutocomplete
-                      options={participantList}
-                      onInputChange={this.handleSelectName}
-                      name='filterName'
-                      label="Select participant name."
-                      style={{width: "40%", margin: "20px 30%"}}
-                      value={this.state.name}
-                  >
-                  </MyAutocomplete>
+                    <Button 
+                      variant="outlined"
+                      color="primary"
+                      onClick={this.onReportClick}  
+                      style={{width: "15%", margin: "10px 42.5%"}} >
+                          Report
+                    </Button>
 
-                  <Button 
-                    variant="outlined"
-                    color="primary"
-                    onClick={this.onReportClick}  
-                    style={{width: "15%", margin: "10px 42.5%"}} >
-                        Report
-                  </Button>
-
-                  <Typography 
-                  variant="h4" 
-                  style={{
-                  marginTop: "40px",
-                  marginBottom: "40px",
-                  textAlign: "center"
-                  }} >
-                      FILTERED TIMESHEET ({moment().tz('America/New_York').format('L')})
-                  </Typography>
-                  <Table aria-label="simple table" style={{backgroundColor: "lightsteelblue"}}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Date</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {completed.filter(word => (word.name === this.state.filterName)).map(row => 
-                        <TableRow key={row.name}>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
-                          <TableCell align="right">{row.date}</TableCell>
-                          <TableCell align="right">{row.timeIn}</TableCell>
-                          <TableCell align="right">{row.timeOut}</TableCell>
-                          <TableCell align="right">{row.duration}</TableCell>
-                          <TableCell align="right">{row.numberofCalls}</TableCell>
-                          <TableCell align="right">{row.status}</TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                  
-                  <Typography 
+                    <Typography 
                     variant="h4" 
                     style={{
                     marginTop: "40px",
                     marginBottom: "40px",
                     textAlign: "center"
                     }} >
-                    NDA REPORT TIMESHEET ({moment().tz('America/New_York').format('L')})
-                  </Typography>
-
-                  <Table aria-label="simple table" style={{backgroundColor: "darkseagreen"}}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Date</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
-                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {completed.map(row => 
-                        <TableRow key={row.name}>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
-                          <TableCell align="right">{row.date}</TableCell>
-                          <TableCell align="right">{row.timeIn}</TableCell>
-                          <TableCell align="right">{row.timeOut}</TableCell>
-                          <TableCell align="right">{row.duration}</TableCell>
-                          <TableCell align="right">{row.numberofCalls}</TableCell>
-                          <TableCell align="right">{row.status}</TableCell>
+                        FILTERED TIMESHEET ({moment().tz('America/New_York').format('L')})
+                    </Typography>
+                    <Table aria-label="simple table" style={{backgroundColor: "lightsteelblue"}}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Date</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
                         </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                    <Typography variant="h4" style={styles.pageTitle} >
-                      TIMESHEET LOGS
-                  </Typography>
-                  {/* style={{margin: "2.5% auto", width: 1000}} */}
-                  <Table aria-label="simple table" >
+                      </TableHead>
+                      <TableBody>
+                        {completed.filter(word => (word.name === this.state.filterName)).map(row => 
+                          <TableRow key={row.name}>
+                            <TableCell component="th" scope="row">
+                              {row.name}
+                            </TableCell>
+                            <TableCell align="right">{row.date}</TableCell>
+                            <TableCell align="right">{row.timeIn}</TableCell>
+                            <TableCell align="right">{row.timeOut}</TableCell>
+                            <TableCell align="right">{row.duration}</TableCell>
+                            <TableCell align="right">{row.numberofCalls}</TableCell>
+                            <TableCell align="right">{row.status}</TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                    
+                    <Typography 
+                      variant="h4" 
+                      style={{
+                      marginTop: "40px",
+                      marginBottom: "40px",
+                      textAlign: "center"
+                      }} >
+                      NDA REPORT TIMESHEET ({moment().tz('America/New_York').format('L')})
+                    </Typography>
+
+                    <Table aria-label="simple table" style={{backgroundColor: "darkseagreen"}}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Date</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
+                          <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {completed.map(row => 
+                          <TableRow key={row.name}>
+                            <TableCell component="th" scope="row">
+                              {row.name}
+                            </TableCell>
+                            <TableCell align="right">{row.date}</TableCell>
+                            <TableCell align="right">{row.timeIn}</TableCell>
+                            <TableCell align="right">{row.timeOut}</TableCell>
+                            <TableCell align="right">{row.duration}</TableCell>
+                            <TableCell align="right">{row.numberofCalls}</TableCell>
+                            <TableCell align="right">{row.status}</TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                      <Typography variant="h4" style={styles.pageTitle} >
+                        TIMESHEET LOGS
+                    </Typography>
+                    <Table aria-label="simple table" >
                     <TableHead>
                       <TableRow>
                         <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
@@ -242,8 +245,6 @@ class timesheetForm extends Component {
                     </TableBody>
                   </Table>
                 </Fragment>
-                // </Shake>
-
               )}
           </TableContainer>
         )
@@ -256,7 +257,9 @@ timesheetForm.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  data: state.data
+  data: state.data,
+  UI: PropTypes.object.isRequired,
+  UI: state.UI
 });
 
 
