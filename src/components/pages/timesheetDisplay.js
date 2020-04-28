@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import styles from './styles';
 import { Shake } from 'react-motions' //https://github.com/raphamorim/react-motions
 // import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+import Button from '@material-ui/core/Button';
 
 import axios from 'axios';
 //mui studd
@@ -18,11 +19,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import participantList from './participantList';
 
 import {CSVLink} from 'react-csv';
 import { getActivities } from '../../redux/actions/userActions'
 // var moment = require('moment-timezone');
 import moment from 'moment-timezone';
+import MyAutocomplete from '../../util/MyAutocomplete'
 
 //redux stuff
 //Redux stuf
@@ -38,8 +41,9 @@ class timesheetForm extends Component {
         this.state = {
             completed: [],
             pending: [],
-            filter: ''
-        }
+            filtered: [],
+            filterName: ''
+          }
     }
 
     componentDidMount(){
@@ -47,13 +51,13 @@ class timesheetForm extends Component {
     }
     
     UNSAFE_componentWillReceiveProps(nextProps){
-      const { data: {activities : { completed, pending }}} = nextProps;
+      const { data: {activities : { completed, pending, loading }}} = nextProps;
       if(completed && pending) {
           this.setState({ completed, pending })
       }
   }
 
-    onDownloadClick() {
+    onDownloadClick = () => {
       let deleteDb = window.confirm("Are you sure you want to delete this database?");
       if(deleteDb){
           axios.delete(`/cleanDatabase`)
@@ -69,32 +73,43 @@ class timesheetForm extends Component {
       }
     }
 
-    handleChange = event => {
-      this.setState({ filter: event.target.value });
-    };
-  
+
+
+    onReportClick = (e) => {
+      let hourCounted = 0;
+
+      this.state.completed.forEach(record => {
+        if(record.name === this.state.filterName){
+          // console.log(record.duration)
+          hourCounted = hourCounted + parseFloat(record.duration);
+        }
+      });
+
+      alert(`${this.state.filterName}  have worked ${hourCounted} hours.`)
+
+    }
+
+
+
+    handleSelectName = (event, value) => {
+      this.setState({filterName: value})
+    }
+
 
     render() {
         const {  data : { loading } } = this.props;
-        const { completed, pending, filter } = this.state;
-
-        let filteredData = completed;
-        if(filter){
-          filteredData = completed.filter(word => word.name === filter);          
-        }
+        const { completed, pending } = this.state;
         
+        console.log(completed.length)
         
         return (
             <TableContainer component={Paper} style={{margin: "4.5% auto", width: 1100, display: "table"}}>
-              <Typography variant="h4" style={styles.pageTitle} >
-                NDA REPORT TIMESHEET ({moment().tz('America/New_York').format('L')})
-              </Typography>
-              
               {loading ? (
                   <CircularProgress size={100}  style={{margin: "auto 50%"}} />
                 ) : ( 
                 // <Shake duration={2.5}>     
                   <Fragment >
+
                   <CSVLink
                     data={completed}
                     filename={`timesheet-${moment().tz('America/New_York').format('L')}.csv`}
@@ -103,16 +118,73 @@ class timesheetForm extends Component {
                     >
                     <p style={{textAlign: "center"}}>Download</p>
                   </CSVLink>
-                  <TextField
-                    id='filter'
-                    name='filter'
-                    type="name"
-                    inputProps={{min: 0, style: { textAlign: 'center' }}} // the change is here
+
+                  <MyAutocomplete
+                      options={participantList}
+                      onInputChange={this.handleSelectName}
+                      name='filterName'
+                      label="Select participant name."
+                      style={{width: "40%", margin: "20px 30%"}}
+                      value={this.state.name}
+                  >
+                  </MyAutocomplete>
+
+                  <Button 
                     variant="outlined"
-                    label="Search by name"
-                    style={{margin: "10px 37.5%", width: "25%"}}
-                    onChange={this.handleChange}
-                    />
+                    color="primary"
+                    onClick={this.onReportClick}  
+                    style={{width: "15%", margin: "10px 42.5%"}} >
+                        Report
+                  </Button>
+
+                  <Typography 
+                  variant="h4" 
+                  style={{
+                  marginTop: "40px",
+                  marginBottom: "40px",
+                  textAlign: "center"
+                  }} >
+                      FILTERED TIMESHEET ({moment().tz('America/New_York').format('L')})
+                  </Typography>
+                  <Table aria-label="simple table" style={{backgroundColor: "lightsteelblue"}}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{fontWeight: "bolder", fontSize: "20px"}}>Name</TableCell>
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Date</TableCell>
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-in</TableCell>
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Time-out</TableCell>
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Duration</TableCell>  
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>#Calls</TableCell>  
+                        <TableCell align="right"  style={{fontWeight: "bolder", fontSize: "20px"}}>Status</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {completed.filter(word => (word.name === this.state.filterName)).map(row => 
+                        <TableRow key={row.name}>
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell align="right">{row.date}</TableCell>
+                          <TableCell align="right">{row.timeIn}</TableCell>
+                          <TableCell align="right">{row.timeOut}</TableCell>
+                          <TableCell align="right">{row.duration}</TableCell>
+                          <TableCell align="right">{row.numberofCalls}</TableCell>
+                          <TableCell align="right">{row.status}</TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                  
+                  <Typography 
+                    variant="h4" 
+                    style={{
+                    marginTop: "40px",
+                    marginBottom: "40px",
+                    textAlign: "center"
+                    }} >
+                    NDA REPORT TIMESHEET ({moment().tz('America/New_York').format('L')})
+                  </Typography>
+
                   <Table aria-label="simple table" style={{backgroundColor: "darkseagreen"}}>
                     <TableHead>
                       <TableRow>
@@ -126,7 +198,7 @@ class timesheetForm extends Component {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {filteredData.map((row) => (
+                      {completed.map(row => 
                         <TableRow key={row.name}>
                           <TableCell component="th" scope="row">
                             {row.name}
@@ -138,7 +210,7 @@ class timesheetForm extends Component {
                           <TableCell align="right">{row.numberofCalls}</TableCell>
                           <TableCell align="right">{row.status}</TableCell>
                         </TableRow>
-                      ))}
+                      )}
                     </TableBody>
                   </Table>
                     <Typography variant="h4" style={styles.pageTitle} >
@@ -189,4 +261,3 @@ const mapStateToProps = (state) => ({
 
 
 export default connect(mapStateToProps, {getActivities})(timesheetForm);
-// export default (timesheetForm);
