@@ -91,7 +91,7 @@ class timesheetForm extends Component {
           }
         });
     
-        alert(`${this.state.filterName}  have worked ${hourCounted} hours.`)
+        alert(`${this.state.filterName}  have worked ${hourCounted.toFixed(1)} hours.`)
       } else {
         alert("Please select a name!")
       }
