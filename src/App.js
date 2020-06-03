@@ -14,6 +14,9 @@ import './App.css';
 // import registration from './components/pages/registrations/registerOptions/registration';
 import timesheetForm from './components/pages/timesheetForm';
 import timesheetDisplay from './components/pages/timesheetDisplay';
+import signatures from './components/pages/signatures';
+import signaturesDisplay from './components/pages/signatureDisplay';
+
 import UNAUTHORIZED from './components/pages/public/UNAUTHORIZEDPAGE';
 
 //REDUX
@@ -58,8 +61,11 @@ function App() {
         <Navbar />
             <Switch>
               <Route exact path="/" component={timesheetForm} />
+              <Route exact path="/signatures" component={signatures} />
               <Route exact path="/login" component={login} />
-              <PrivateAdminRoute exact path="/timesheet/:fullname" component={timesheetDisplay} />
+              <PrivateAdminRoute exact path="/timesheets/:fullname" component={timesheetDisplay} />
+              <PrivateAdminRoute exact path="/signatures/:fullname" component={signaturesDisplay} />
+
               <Route exact path="/UNAUTHORIZED" component={UNAUTHORIZED} />
 
             </Switch>

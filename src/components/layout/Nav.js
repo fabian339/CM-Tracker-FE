@@ -75,6 +75,7 @@ export class Nav extends Component {
 
                         { authenticatedAdmin ? (
                             <Fragment>
+                                <Button style={styles.navButtons} color="inherit" component={Link} to={`/signatures/${localStorage.fullname}`} >View Signatures</Button>
                                 <Tooltip title="Log Out" aria-label="add">
                                     <Button style={{color: "dimgray"}} onClick={this.handleLogOut} component={Link} to="/" >
                                         <KeyboardReturnIcon />
@@ -83,6 +84,7 @@ export class Nav extends Component {
                             </Fragment>
                         ) : (
                             <Fragment >
+                                <Button style={styles.navButtons} color="inherit" component={Link} to="/signatures" >Signatures</Button>
                                 <Button style={styles.navButtons} color="inherit" component={Link} to="/login" >Login</Button>
                             </Fragment>
                         )

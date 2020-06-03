@@ -7,8 +7,10 @@ import {
     SET_UNAUTHENTICATED_ADMIN, 
     LOADING_ADMIN,
     SET_MESSAGE,
+    SET_SIGNATURE_DATA,
     LOADING_DATA,
-    SET_ACTIVITIES_DATA    
+    SET_ACTIVITIES_DATA,
+    SET_SIGNATURE  
     } from '../types';
 
 import axios from 'axios';
@@ -23,7 +25,7 @@ export const loginFunc = (data, history) => (dispatch) => {
             dispatch(getAdminData(res.data.fullname));
             dispatch({type: SET_AUTHENTICATED_ADMIN});
             dispatch({ type: CLEAR_ERRORS});
-            history.push(`timesheet/${res.data.fullname}`);
+            history.push(`timesheets/${res.data.fullname}`);
         }
     //     else if(res.data.role === "regular-user"){
     //         dispatch(getUserData(res.data.fullname));
@@ -70,6 +72,35 @@ export const checkInOut = (data, history) => (dispatch) => {
 }
 
 
+export const submitSignature = (data, history) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+    
+    axios.post(`/signature`, data)
+    .then((res) => {
+        dispatch({
+            type: SET_SIGNATURE,
+            payload: res.data
+        })
+        
+        setInterval(() => {
+            window.location.reload()
+        }, 3000)
+
+    })
+    .catch(err => {
+        // console.log("ERROR BACK",err)
+      dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+      })
+      dispatch({
+        type: SET_SIGNATURE,
+        payload: []
+    })
+    });
+}
+
+
 export const getAdminData = (fullname) => (dispatch) => {
     dispatch({ type: LOADING_ADMIN });
     axios.get(`/admin/${fullname}`)
@@ -106,6 +137,26 @@ export const getActivities = (fullname) => (dispatch) => {
 }
 
 
+
+export const getSignatures = (fullname) => (dispatch) => {
+    dispatch({ type: LOADING_DATA });
+
+    axios.get(`/dataFromSignatures`)
+    .then(res => {
+        dispatch(getAdminData(fullname));
+        // console.log("Getting data",res.data)
+        dispatch({
+            type: SET_SIGNATURE_DATA,
+            payload: res.data
+        });
+    })
+    .catch(err => {
+        dispatch({
+            type: SET_SIGNATURE_DATA,
+            payload: []
+        });
+    });
+}
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('FBIdToken');
     localStorage.removeItem('fullname');
