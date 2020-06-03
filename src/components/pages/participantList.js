@@ -16,5 +16,7 @@ export default [
     "Robinson, Tytana ",
     "Robinson, Kaeem",
     "Rosario, Bryanna",
-    "Wally, Amie"
+    "Wally, Amie",
+    "Calderon, Gabriel",
+    "Trawally, Mahmodou"
 ]
