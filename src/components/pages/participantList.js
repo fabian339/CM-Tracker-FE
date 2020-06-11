@@ -14,6 +14,7 @@ export default [
     "Mullings, Raeheem",
     "Pichardo, Marco",
     "Robinson, Tytana ",
+    "Lindidra Rice",
     "Robinson, Kaeem",
     "Rosario, Bryanna",
     "Wally, Amie",
